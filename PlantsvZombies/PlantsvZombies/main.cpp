@@ -9,5 +9,5 @@ using std::string;
 
 void main()
 {
-	system("pause");
+
 }
