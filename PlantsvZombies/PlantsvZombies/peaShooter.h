@@ -1,5 +1,7 @@
 #pragma once
-class peaShooter 
+#include "plant.h"
+
+class peaShooter : public plant
 {
 public:
 	peaShooter();

@@ -1,5 +1,7 @@
 #pragma once
-class sun
+#include "Object.h"
+
+class sun : public Object
 {
 public:
 	sun();
