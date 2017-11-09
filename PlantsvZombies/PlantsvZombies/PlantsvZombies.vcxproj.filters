@@ -24,12 +24,30 @@
     <ClCompile Include="plant.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="projectile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sun.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="peaShooter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="plant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="peaShooter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
