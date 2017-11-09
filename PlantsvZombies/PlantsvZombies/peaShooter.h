@@ -1,5 +1,5 @@
 #pragma once
-class peaShooter
+class peaShooter 
 {
 public:
 	peaShooter();
