@@ -112,6 +112,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="plant.cpp" />
+    <ClCompile Include="zombie.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="plant.h" />
+    <ClInclude Include="zombie.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
