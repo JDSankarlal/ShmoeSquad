@@ -112,15 +112,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="peaShooter.cpp" />
     <ClCompile Include="plant.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="projectile.cpp" />
     <ClCompile Include="sun.cpp" />
     <ClCompile Include="zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Object.h" />
     <ClInclude Include="peaShooter.h" />
     <ClInclude Include="plant.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="sun.h" />
     <ClInclude Include="zombie.h" />
