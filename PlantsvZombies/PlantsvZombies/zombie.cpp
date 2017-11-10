@@ -12,14 +12,14 @@ zombie::~zombie()
 {
 }
 
-int spawnRow()
+int zombie::spawnRow()
 {
 	int spawnTime = rand() % 5 + 1;
 
 	return spawnTime;
 }
 
-int spawnTime()
+int zombie::spawnTime()
 {
 	float currentTime = getClock();
 	float lastSpawnTime = currentTime;
