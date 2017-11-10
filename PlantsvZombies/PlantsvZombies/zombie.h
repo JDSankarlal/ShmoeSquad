@@ -11,4 +11,5 @@ public:
 
 	int spawnRow();
 	int spawnTime();
+	int movement();
 };
