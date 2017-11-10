@@ -7,6 +7,6 @@ public:
 	plant();
 	~plant();
 
-	int sunFall();
+
 		
 };
