@@ -15,6 +15,8 @@ zombie::~zombie()
 int spawnRow()
 {
 	int spawnTime = rand() % 5 + 1;
+
+	return spawnTime;
 }
 
 int spawnTime()
