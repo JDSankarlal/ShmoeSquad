@@ -1,16 +1,15 @@
 #include<iostream>
 #include <string>
 #include <ctime>
-#include <windows.h>
 
 using std::endl;
 using std::cout;
 using std::cin;
 using std::string;
 
-void updateGame();//runs next frame of the game
-
 int frameCount = 0;//number or frames that have elapsed
+
+int getClock();
 
 void main()
 {
