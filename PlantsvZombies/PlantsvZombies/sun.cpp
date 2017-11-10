@@ -14,9 +14,9 @@ sun::~sun()
 
 int sunFall()
 {
-
 	int sun = 0;
 	float framesSinceLastSunFall;
+	return sun;
 
 
 }
