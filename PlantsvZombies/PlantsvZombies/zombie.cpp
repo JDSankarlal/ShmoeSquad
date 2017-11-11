@@ -27,7 +27,7 @@ int zombie::spawnTime()
 	{
 		spawnRow();
 	}
-
+	return currentTime;
 }
 
 //Responsible for the movespeed of the zombies
@@ -35,4 +35,5 @@ int zombie::spawnTime()
 int zombie::movement()
 {
 	int zombieMoveSpeed = 5;
+	return zombieMoveSpeed;
 }

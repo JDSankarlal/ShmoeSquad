@@ -11,10 +11,13 @@ int frameCount = 0;//number or frames that have elapsed
 
 int getClock();
 
-const int SIZE; //6 in your case
-int myArray[5][9]; //the array
-int k, j; //int k and j because why tf not
-
+//const int SIZE; //6 in your case
+char grid[5][5] = { { '1','2','3','4','5' },
+					{ '1','2','3','4','5' },
+					{ '1','2','3','4','5' },
+					{ '1','2','3','4','5' },
+					{ '1','2','3','4','5' } };
+int position[2] = { 2, 2 };
 
 void main()
 {
@@ -24,8 +27,17 @@ void main()
 	clock_t currentTime;//keeps track of the current time
 	clock_t previousTime;//keeps track of the time that the last frame ran at
 
-	for (int i = 0; i<SIZE; i++) //go through all elements
-		cout << i << '\t' << myArray[i] << endl; //print indexnumber and value 
+	char plant = '*';
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			if (i == position[0] && j == position[1])
+				cout << plant;
+			else
+				cout << grid[i][j];
+			cout << " ";
+		}
+		cout << endl;
+	}
 
 	currentTime = getClock();
 	previousTime = currentTime;
