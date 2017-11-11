@@ -1,6 +1,7 @@
 #include<iostream>
 #include <string>
 #include <ctime>
+#include <stdlib.h>
 
 using std::endl;
 using std::cout;
@@ -21,6 +22,8 @@ int position[2] = { 2, 2 };
 
 void main()
 {
+	system("Color 02");
+
 	const int FRAME_RATE = 1;//number of frames per second
 	const int FRAME_TIME = 1000 / FRAME_RATE;//minimum time between each frame in milliseconds
 
