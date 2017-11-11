@@ -11,6 +11,11 @@ int frameCount = 0;//number or frames that have elapsed
 
 int getClock();
 
+const int SIZE; //6 in your case
+int myArray[5][9]; //the array
+int k, j; //int k and j because why tf not
+
+
 void main()
 {
 	const int FRAME_RATE = 1;//number of frames per second
@@ -19,6 +24,8 @@ void main()
 	clock_t currentTime;//keeps track of the current time
 	clock_t previousTime;//keeps track of the time that the last frame ran at
 
+	for (int i = 0; i<SIZE; i++) //go through all elements
+		cout << i << '\t' << myArray[i] << endl; //print indexnumber and value 
 
 	currentTime = getClock();
 	previousTime = currentTime;

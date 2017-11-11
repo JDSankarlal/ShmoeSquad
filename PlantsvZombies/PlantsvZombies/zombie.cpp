@@ -1,12 +1,10 @@
 #include "zombie.h"
 
-
 int getClock();
 
 zombie::zombie()
 {
 }
-
 
 zombie::~zombie()
 {

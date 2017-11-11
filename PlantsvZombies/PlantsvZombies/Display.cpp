@@ -10,5 +10,3 @@ Display::Display()
 Display::~Display()
 {
 }
-
-
