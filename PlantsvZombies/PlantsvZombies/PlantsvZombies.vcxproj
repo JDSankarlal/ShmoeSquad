@@ -111,29 +111,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Gaem.cpp" />
+    <ClCompile Include="GameHandler.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="peaShooter.cpp" />
-    <ClCompile Include="plant.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="projectile.cpp" />
-    <ClCompile Include="Grid.cpp" />
-    <ClCompile Include="sun.cpp" />
-    <ClCompile Include="sunflower.cpp" />
-    <ClCompile Include="zombie.cpp" />
+    <ClCompile Include="Peashooter.cpp" />
+    <ClCompile Include="Plant.cpp" />
+    <ClCompile Include="Sunflower.cpp" />
+    <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Gaem.h" />
-    <ClInclude Include="Grid.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="peaShooter.h" />
-    <ClInclude Include="plant.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="projectile.h" />
-    <ClInclude Include="sun.h" />
-    <ClInclude Include="sunflower.h" />
-    <ClInclude Include="zombie.h" />
+    <ClInclude Include="GameHandler.h" />
+    <ClInclude Include="Peashooter.h" />
+    <ClInclude Include="Plant.h" />
+    <ClInclude Include="Sunflower.h" />
+    <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

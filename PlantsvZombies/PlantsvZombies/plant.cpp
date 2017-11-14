@@ -1,13 +1,12 @@
-#include "plant.h"
+#include "Plant.h"
 
 
 
-plant::plant()
+Plant::Plant()
 {
-
 }
 
 
-plant::~plant()
+Plant::~Plant()
 {
 }

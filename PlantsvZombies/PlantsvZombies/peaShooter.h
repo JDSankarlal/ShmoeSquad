@@ -1,10 +1,10 @@
 #pragma once
-#include "plant.h"
-
-class peaShooter : public plant
+#include "Plant.h"
+class Peashooter :
+	public Plant
 {
 public:
-	peaShooter();
-	~peaShooter();
+	Peashooter();
+	~Peashooter();
 };
 

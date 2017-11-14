@@ -1,12 +1,8 @@
 #pragma once
-#include "Object.h"
-
-class plant : public Object
+class Plant
 {
 public:
-	plant();
-	~plant();
-
-
-		
+	Plant();
+	~Plant();
 };
+

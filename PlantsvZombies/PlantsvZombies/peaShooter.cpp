@@ -1,12 +1,12 @@
-#include "peaShooter.h"
+#include "Peashooter.h"
 
 
 
-peaShooter::peaShooter()
+Peashooter::Peashooter()
 {
 }
 
 
-peaShooter::~peaShooter()
+Peashooter::~Peashooter()
 {
 }

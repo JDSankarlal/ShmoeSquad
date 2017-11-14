@@ -1,12 +1,12 @@
-#include "sunflower.h"
+#include "Sunflower.h"
 
 
 
-sunflower::sunflower()
+Sunflower::Sunflower()
 {
 }
 
 
-sunflower::~sunflower()
+Sunflower::~Sunflower()
 {
 }

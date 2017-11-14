@@ -1,14 +1,8 @@
 #pragma once
-#include <ctime>
-#include <stdlib.h>
-
-class zombie
+class Zombie
 {
 public:
-	zombie();
-	~zombie();
-
-	int spawnRow();
-	int spawnTime();
-	int movement();
+	Zombie();
+	~Zombie();
 };
+

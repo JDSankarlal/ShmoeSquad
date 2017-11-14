@@ -1,11 +1,10 @@
 #pragma once
-#include "plant.h"
-class sunflower :
-	public plant
+#include "Plant.h"
+class Sunflower :
+	public Plant
 {
 public:
-	sunflower();
-	~sunflower();
-	int sunFall();
+	Sunflower();
+	~Sunflower();
 };
 
