@@ -5,5 +5,5 @@ public:
 	Grid();
 	~Grid();
 
-	//variables
+	drawGrid();
 };

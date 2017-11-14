@@ -22,6 +22,7 @@ int position[2] = { 2, 2 };
 
 void main()
 {
+
 	system("Color 02");
 
 	const int FRAME_RATE = 1;//number of frames per second
