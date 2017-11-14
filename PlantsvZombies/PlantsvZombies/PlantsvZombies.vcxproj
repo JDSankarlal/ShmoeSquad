@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Display.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="peaShooter.h" />
     <ClInclude Include="plant.h" />
