@@ -1,4 +1,3 @@
-#include "console.h"
 #include "GameHandler.h"
 #include <iostream>
 #include <ctime>
@@ -12,7 +11,8 @@ using std::endl;
 
 
 static GameHandler game;
-static Console gameconsole;
+
+
 void main()
 
 {
