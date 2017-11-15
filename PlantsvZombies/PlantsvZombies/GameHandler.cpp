@@ -1,9 +1,13 @@
 #include "GameHandler.h"
 #include <iostream>
+#include <ctime>
+#include <Windows.h>
 
 
+clock_t GAME_TIME;
 GameHandler::GameHandler()
 {
+	sunCount = 50;
 }
 
 
@@ -56,5 +60,19 @@ void GameHandler::printDisplay()
 		}
 		std::cout << std::endl;
 	}
-	system("pause");
+
+}
+
+
+void GameHandler::checkPlantBuy() {
+
+
+
+}
+
+void GameHandler::createSun() {
+	//Every x seconds we want to create sun and add it to the player's sun counter.
+	sunCount += 25;
+	std::cout << sunCount << std::endl;
+
 }
