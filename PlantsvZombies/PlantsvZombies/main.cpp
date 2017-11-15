@@ -16,19 +16,26 @@ void main()
 
 {
 	game.printDisplay();
-	clock_t GAME_TIME; 
-	GAME_TIME = clock(); 
+	clock_t SUN_TIME; 
+	SUN_TIME = clock(); 
+	clock_t ZOMBIE_TIME;
+	ZOMBIE_TIME = clock();
 	while (true) {
 	 //Program run time at this point saved in variable GAME_TIME
 	//gameconsole.Initialize(vec2(120, 200), "Plants vs Zombies");
 	//cout << GAME_TIME << endl;
-	if (((clock() - GAME_TIME) / CLOCKS_PER_SEC) >= 5.0f)
+
+	if (((clock() - SUN_TIME) / CLOCKS_PER_SEC) >= 10.0f)
 	{
 		game.createSun();
-		GAME_TIME = clock();
-
+		SUN_TIME = clock();
 	}
-
+	
+	if (((clock() - ZOMBIE_TIME) / CLOCKS_PER_SEC) >= 15.0f)
+	{
+		game.spawnZombie();
+		ZOMBIE_TIME = clock();
+	}
 	}
 	
 }

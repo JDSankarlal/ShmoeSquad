@@ -1,4 +1,5 @@
 #include "GameHandler.h"
+#include "Zombie.h"
 #include <iostream>
 #include <ctime>
 #include <Windows.h>
@@ -74,5 +75,9 @@ void GameHandler::createSun() {
 	//Every x seconds we want to create sun and add it to the player's sun counter.
 	sunCount += 25;
 	std::cout << sunCount << std::endl;
+}
+
+void GameHandler::spawnZombie(){
+	Zombie zombie;
 
 }
