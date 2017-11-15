@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="console.cpp" />
     <ClCompile Include="GameHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Peashooter.cpp" />
@@ -119,6 +120,7 @@
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="console.h" />
     <ClInclude Include="GameHandler.h" />
     <ClInclude Include="Peashooter.h" />
     <ClInclude Include="Plant.h" />
