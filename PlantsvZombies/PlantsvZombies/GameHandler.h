@@ -2,7 +2,9 @@
 class GameHandler
 {
 public:
+	void printDisplay();
 	GameHandler();
+
 	~GameHandler();
 };
 
