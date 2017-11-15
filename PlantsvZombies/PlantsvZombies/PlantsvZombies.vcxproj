@@ -112,6 +112,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="console.cpp" />
+    <ClCompile Include="Events.cpp" />
     <ClCompile Include="GameHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Peashooter.cpp" />
@@ -121,9 +122,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console.h" />
+    <ClInclude Include="Events.h" />
     <ClInclude Include="GameHandler.h" />
     <ClInclude Include="Peashooter.h" />
     <ClInclude Include="Plant.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Sunflower.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>

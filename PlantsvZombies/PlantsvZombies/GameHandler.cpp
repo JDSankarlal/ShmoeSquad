@@ -1,6 +1,7 @@
 #include "GameHandler.h"
 #include "Zombie.h"
-#include <iostream>
+//#include <iostream>
+#include <cstdio>
 #include <ctime>
 #include <Windows.h>
 
@@ -53,13 +54,16 @@ void GameHandler::printDisplay()
 		{ '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#' },
 		{ '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' },
 	};
+	COORD pos{ 0, 0 };
 	for (int i = 0; i < 32; ++i)
 	{
 		for (int j = 0; j < 55; ++j)
 		{
-			std::cout << displayBoard[i][j] << ' ';
+			printf("%c ", displayBoard[i][j]);//std::cout << displayBoard[i][j] << ' ';
 		}
-		std::cout << std::endl;
+		printf("\n");//std::cout << std::endl;
+		//pos.Y--;
+		//SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 	}
 
 }
@@ -74,7 +78,7 @@ void GameHandler::checkPlantBuy() {
 void GameHandler::createSun() {
 	//Every x seconds we want to create sun and add it to the player's sun counter.
 	sunCount += 25;
-	std::cout << sunCount << std::endl;
+	printf("%i\n", sunCount);//std::cout << sunCount << std::endl;
 }
 
 void GameHandler::spawnZombie(){
