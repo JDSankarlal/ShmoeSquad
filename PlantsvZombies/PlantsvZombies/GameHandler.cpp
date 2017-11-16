@@ -97,10 +97,10 @@ void GameHandler::countSun()
 	/*GetPhysicalCursorPos(&p);
 	int x = p.x;
 	int y = p.y;
-	*/ 
+	*/
 	printf("Sun: %i \r", sunCount);
 	
-	cout << "The current cursor position is: " << x << "," << y << endl;
+	//cout << "The current cursor position is: " << x << "," << y << endl;
 }
 
 
