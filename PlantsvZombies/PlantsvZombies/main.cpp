@@ -20,13 +20,12 @@ static GameHandler game;
 void main()
 
 {
-	mciSendString("open \"*.mp3\" 04-grasswalk", NULL, 0, NULL);
-	mciSendString("play mp3 repeat", NULL, 0, NULL);
 	game.printDisplay();
 	clock_t SUN_TIME,ZOMBIE_TIME,WORLD_CLOCK;  //Saves two seperate time variables at runtime, modifies each individually below
 	SUN_TIME = clock(); 
 	ZOMBIE_TIME = clock();
 	WORLD_CLOCK = clock();
+	PlaySound("C:\\Users\\100658473\\Documents\\ShmoeSquad\\PlantsvZombies\\PlantsvZombies\\04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);
 
 	while (true) {
 
