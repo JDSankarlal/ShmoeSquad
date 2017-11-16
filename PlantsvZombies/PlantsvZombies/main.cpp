@@ -23,7 +23,6 @@ void main()
 	mciSendString("open \"*.mp3\" 04-grasswalk", NULL, 0, NULL);
 	mciSendString("play mp3 repeat", NULL, 0, NULL);
 	game.printDisplay();
-	game.countSun();
 	clock_t SUN_TIME,ZOMBIE_TIME,WORLD_CLOCK;  //Saves two seperate time variables at runtime, modifies each individually below
 	SUN_TIME = clock(); 
 	ZOMBIE_TIME = clock();
@@ -39,7 +38,6 @@ void main()
 	{
 		
 		game.createSun();
-		game.countSun();
 		SUN_TIME = clock();
 	}
 	
