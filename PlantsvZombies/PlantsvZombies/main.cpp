@@ -3,6 +3,10 @@
 #include <ctime>
 #include "Events.h"
 #include "Sprite.h"
+#include "Windows.h"
+#include "plant.h"
+
+#pragma comment(lib, "Winmm.lib")
 
 using std::cout;
 using std::cin;
@@ -24,10 +28,11 @@ void main()
 	WORLD_CLOCK = clock();
 
 	while (true) {
-	
+
 	 //Program run time at this point saved in variable GAME_TIME
 	//gameconsole.Initialize(vec2(120, 200), "Plants vs Zombies");
 	//cout << GAME_TIME << endl;
+
 	if (((clock() - SUN_TIME) / CLOCKS_PER_SEC) >= 1.0f)  //Spawns a sun from SKY every 10 seconds. Will have to figure out how to spawn it every 10 local seconds relative to individual sunflowers spawn time
 	{
 		
