@@ -4,6 +4,10 @@
 #include <cstdio>
 #include <ctime>
 #include <Windows.h>
+#include <iostream>
+
+using std::endl;
+using std::cout;
 
 
 clock_t GAME_TIME;
@@ -78,10 +82,30 @@ void GameHandler::checkPlantBuy() {
 void GameHandler::createSun() {
 	//Every x seconds we want to create sun and add it to the player's sun counter.
 	sunCount += 25;
-	printf("%i\n", sunCount);//std::cout << sunCount << std::endl;
+	//printf("%i\n", sunCount);
+	//std::cout << sunCount << std::endl;
 }
 
 void GameHandler::spawnZombie(){
 	Zombie zombie;
 
+}
+
+void GameHandler::countSun()
+{
+	POINT p;
+	/*GetPhysicalCursorPos(&p);
+	int x = p.x;
+	int y = p.y;
+	*/ 
+	printf("Sun: %i \r", sunCount);
+	
+	cout << "The current cursor position is: " << x << "," << y << endl;
+}
+
+
+void GameHandler::erase(int y, int x, int w)
+{
+	DWORD l;
+	FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), ' ', w, {(SHORT)x,(SHORT)y},&l);
 }
