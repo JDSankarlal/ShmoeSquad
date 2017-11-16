@@ -5,7 +5,6 @@ public:
 	void printDisplay();
 	void checkPlantBuy();
 	void createSun();
-	void countSun();
 	void spawnZombie();
 	void erase(int x, int y, int w);
 

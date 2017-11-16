@@ -82,6 +82,7 @@ void GameHandler::checkPlantBuy() {
 void GameHandler::createSun() {
 	//Every x seconds we want to create sun and add it to the player's sun counter.
 	sunCount += 25;
+	printf("Sun: %i \r", sunCount);
 	//printf("%i\n", sunCount);
 	//std::cout << sunCount << std::endl;
 }
@@ -90,19 +91,6 @@ void GameHandler::spawnZombie(){
 	Zombie zombie;
 
 }
-
-void GameHandler::countSun()
-{
-	POINT p;
-	/*GetPhysicalCursorPos(&p);
-	int x = p.x;
-	int y = p.y;
-	*/
-	printf("Sun: %i \r", sunCount);
-	
-	//cout << "The current cursor position is: " << x << "," << y << endl;
-}
-
 
 void GameHandler::erase(int y, int x, int w)
 {
