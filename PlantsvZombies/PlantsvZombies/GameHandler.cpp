@@ -1,13 +1,8 @@
 #include "GameHandler.h"
-#include "Zombie.h"
-//#include <iostream>
-#include <cstdio>
-#include <ctime>
-#include <Windows.h>
-#include <iostream>
 
 using std::endl;
 using std::cout;
+using std::vector;
 
 
 clock_t GAME_TIME;
@@ -19,6 +14,10 @@ GameHandler::GameHandler()
 
 GameHandler::~GameHandler()
 {
+}
+
+void GameHandler::initGame() {
+
 }
 
 
@@ -66,10 +65,22 @@ void GameHandler::printDisplay()
 			printf("%c ", displayBoard[i][j]);//std::cout << displayBoard[i][j] << ' ';
 		}
 		printf("\n");//std::cout << std::endl;
-		//pos.Y--;
-		//SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+					 //pos.Y--;
+					 //SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 	}
 
+}
+
+void GameHandler::printPlants() {
+
+}
+
+void GameHandler::printZombies() {//prints all zombies to the screen
+	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
+		it->movePosition = { 10, 10 };
+		it->updatePosition();
+		it->draw();
+	}
 }
 
 
@@ -87,13 +98,17 @@ void GameHandler::createSun() {
 	//std::cout << sunCount << std::endl;
 }
 
-void GameHandler::spawnZombie(){
-	Zombie zombie;
+void GameHandler::spawnZombie() {
 
+	Zombie zombie;//creates a new zombie
+	//zombie.getData("assets/zombie.txt");//gives it ASCII data
+	zombie.init(zombie.spriteData);
+
+	zombies.push_back(zombie);//adds newly created zombie to the list
 }
 
 void GameHandler::erase(int y, int x, int w)
 {
 	DWORD l;
-	FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), ' ', w, {(SHORT)x,(SHORT)y},&l);
+	FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), ' ', w, { (SHORT)x,(SHORT)y }, &l);
 }

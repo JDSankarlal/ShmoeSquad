@@ -21,13 +21,15 @@ void main()
 
 {
 	game.printDisplay();
+	game.spawnZombie();
+	game.printZombies();
 	clock_t SUN_TIME,ZOMBIE_TIME,WORLD_CLOCK;  //Saves two seperate time variables at runtime, modifies each individually below
 	SUN_TIME = clock(); 
 	ZOMBIE_TIME = clock();
 	WORLD_CLOCK = clock();
 	PlaySound("C:\\Users\\100658473\\Documents\\ShmoeSquad\\PlantsvZombies\\PlantsvZombies\\04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);
 
-	while (true) {
+	/*while (true) {
 
 	 //Program run time at this point saved in variable GAME_TIME
 	//gameconsole.Initialize(vec2(120, 200), "Plants vs Zombies");
@@ -40,13 +42,15 @@ void main()
 		SUN_TIME = clock();
 	}
 	
-	/*if (((clock() - ZOMBIE_TIME) / CLOCKS_PER_SEC) >= 2.0f) //World spawns a zombie every 15 seconds, will have to adjust time as the world clock increases.
+	if (((clock() - ZOMBIE_TIME) / CLOCKS_PER_SEC) >= 2.0f) //World spawns a zombie every 15 seconds, will have to adjust time as the world clock increases.
 	{
 		game.spawnZombie();
 		ZOMBIE_TIME = clock();
 	}
-	*/
+	
 
-	}
+	}*/
+
+	system("pause");
 	
 }
