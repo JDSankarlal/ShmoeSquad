@@ -5,7 +5,7 @@
 #include <fstream>
 #include <string>
 #define numColumns 7//height of Sprites
-#define numRows 5//width of Sprites, all sprites are the same size
+#define numRows 6//width of Sprites, all sprites are the same size
 using std::ifstream;
 using std::string;
 
@@ -25,10 +25,10 @@ public:
 		ifstream file;
 		file.open(fileName);
 		file >> std::noskipws;//tells it not to skip white space while scanning file
+		int charNum = 0;
+		int line = 1;
 		char c;
 		while (file >> c){
-			int charNum = 0;
-			int line = 0;
 			ascii[line][charNum] = c;
 			charNum++;
 			if (c == '\n') {
@@ -36,6 +36,7 @@ public:
 				line++;
 			}
 		}
+		file.close();
 		COORD startPos{ 0,0 };
 		setPosition(startPos);
 	}

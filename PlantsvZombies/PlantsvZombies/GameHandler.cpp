@@ -101,8 +101,7 @@ void GameHandler::createSun() {
 void GameHandler::spawnZombie() {
 
 	Zombie zombie;//creates a new zombie
-	//zombie.getData("assets/zombie.txt");//gives it ASCII data
-	zombie.init(zombie.spriteData);
+	zombie.getData("assets/zombie.txt");//gives it ASCII data
 
 	zombies.push_back(zombie);//adds newly created zombie to the list
 }
