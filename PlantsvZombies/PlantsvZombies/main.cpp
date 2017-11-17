@@ -86,7 +86,7 @@ void main()
 			previousTime = currentTime;//set previousTime to the time the previous frame ran
 			frameCount++;
 
-			system("cls");
+			game.cls();
 			game.printDisplay();
 			game.printZombies();
 		}

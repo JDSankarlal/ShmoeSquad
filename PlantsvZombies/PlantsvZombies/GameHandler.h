@@ -20,6 +20,7 @@ public:
 	void createSun();
 	void spawnZombie();
 	void erase(int x, int y, int w);
+	void cls();
 	int randNum(int min, int max);
 
 	vector<Zombie> zombies;//list of all current zombies
