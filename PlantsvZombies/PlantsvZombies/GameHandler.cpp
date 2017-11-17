@@ -57,16 +57,16 @@ void GameHandler::printDisplay()
 		{ '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#' },
 		{ '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' },
 	};
-	COORD pos{ 0, 0 };
+	COORD pos{ 0, 6 };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 	for (int i = 0; i < 32; ++i)
 	{
 		for (int j = 0; j < 55; ++j)
 		{
-			printf("%c ", displayBoard[i][j]);//std::cout << displayBoard[i][j] << ' ';
+			printf("%c ", displayBoard[i][j]);
 		}
-		printf("\n");//std::cout << std::endl;
-					 //pos.Y--;
-					 //SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+		pos.Y++;
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 	}
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0, 40 });//displays sun
 	printf("Sun: %i \r", sunCount);
@@ -106,7 +106,7 @@ void GameHandler::createSun() {
 void GameHandler::spawnZombie() {
 	COORD spawnPos;
 	spawnPos.X = 110;
-	spawnPos.Y = 1 + randNum(0, 4) * 6;
+	spawnPos.Y = 7 + randNum(0, 4) * 6;
 
 	Zombie zombie;//creates a new zombie
 	zombie.getData("assets/zombie.txt");//gives it ASCII data
