@@ -68,6 +68,8 @@ void GameHandler::printDisplay()
 					 //pos.Y--;
 					 //SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 	}
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0, 40 });//displays sun
+	printf("Sun: %i \r", sunCount);
 
 }
 
@@ -97,8 +99,6 @@ void GameHandler::placePlant() {
 void GameHandler::createSun() {
 	//Every x seconds we want to create sun and add it to the player's sun counter.
 	sunCount += 25;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 40, 0 });
-	printf("Sun: %i \r", sunCount);
 	//printf("%i\n", sunCount);
 	//std::cout << sunCount << std::endl;
 }
