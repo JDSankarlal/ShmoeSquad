@@ -55,7 +55,7 @@ void main()
 		
 	}*/
 
-	const int FRAME_RATE = 10;//number of frames per second for display
+	const int FRAME_RATE = 2;//number of frames per second for display
 	const int FRAME_TIME = 1000 / FRAME_RATE;//minimum time between each frame in milliseconds
 
 	clock_t currentTime;//keeps track of the current time

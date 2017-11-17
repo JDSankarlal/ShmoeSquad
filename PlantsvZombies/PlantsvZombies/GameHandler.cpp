@@ -106,7 +106,7 @@ void GameHandler::createSun() {
 void GameHandler::spawnZombie() {
 	COORD spawnPos;
 	spawnPos.X = 110;
-	spawnPos.Y = 7 + randNum(0, 4) * 6;
+	spawnPos.Y = 1 + randNum(0, 5) * 6;
 
 	Zombie zombie;//creates a new zombie
 	zombie.getData("assets/zombie.txt");//gives it ASCII data
