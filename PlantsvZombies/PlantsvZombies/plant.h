@@ -7,6 +7,6 @@ public:
 	Plant();
 	~Plant();
 	int plantHealth();
-	void fireRate();
+	bool shoot(int time);
 };
 

@@ -16,9 +16,16 @@ int Plant::plantHealth()
 	return health;
 }
 
-void Plant::fireRate()
+bool Plant::shoot(int time)
 {
-	clock_t SHOTS_FIRED;
+	if (time % 10 == 0) {
+		return true;
+	}
+	else {
+		return false;
+	}
+
+	/*clock_t SHOTS_FIRED;
 	SHOTS_FIRED = clock();
 
 	//cout << GAME_TIME << endl;
@@ -26,6 +33,5 @@ void Plant::fireRate()
 	{
 		printf("O");
 		SHOTS_FIRED = clock();
-	}
-
+	}*/
 }

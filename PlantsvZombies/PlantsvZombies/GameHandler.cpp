@@ -74,16 +74,37 @@ void GameHandler::printDisplay()
 }
 
 void GameHandler::printPlants() {
-
-}
-
-void GameHandler::printZombies() {//prints all zombies to the screen
-	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
-		it->updatePosition();
+	for (std::vector<Plant>::iterator it = plants.begin(); it != plants.end(); ++it) {
+		//it->updatePosition();
 		it->draw();
 	}
 }
 
+void GameHandler::printBullets() {
+	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
+		it->draw();
+	}
+}
+
+void GameHandler::printZombies() {//prints all zombies to the screen
+	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
+		it->draw();
+	}
+}
+
+void GameHandler::update(int time) {
+	for (std::vector<Plant>::iterator it = plants.begin(); it != plants.end(); ++it) {
+		if (it->shoot(time) == true) {
+			spawnBullet(*it);
+		}
+	}
+	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
+		it->updatePosition();
+	}
+	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
+		it->updatePosition();
+	}
+}
 
 void GameHandler::checkPlantBuy() {
 
@@ -91,8 +112,36 @@ void GameHandler::checkPlantBuy() {
 
 }
 
+void GameHandler::placePlant(COORD pos) {
+	Plant* plant = new Plant;//creates a new plant
+	plant->getData("assets/peashooter.txt");//gives it ASCII data
+	plant->setPosition(pos);
 
-void GameHandler::placePlant() {
+	plants.push_back(*plant);//adds newly created plant to the list
+}
+
+void GameHandler::spawnBullet(Plant shooter) {
+	COORD spawnPos = shooter.getPosition();
+	spawnPos.X += 7;
+	spawnPos.Y += 1;
+
+	Bullet* bullet = new Bullet;//creates a new bullet
+	bullet->getData("assets/bullet.txt");//gives it ASCII data
+	bullet->setPosition(spawnPos);
+
+	bullets.push_back(*bullet);//adds newly created bullet to the list
+}
+
+void GameHandler::spawnZombie() {
+	COORD spawnPos;
+	spawnPos.X = 110;
+	spawnPos.Y = 7 + randNum(0, 5) * 6;
+
+	Zombie* zombie = new Zombie;//creates a new zombie
+	zombie->getData("assets/zombie.txt");//gives it ASCII data
+	zombie->setPosition(spawnPos);
+
+	zombies.push_back(*zombie);//adds newly created zombie to the list
 
 }
 
@@ -101,18 +150,6 @@ void GameHandler::createSun() {
 	sunCount += 25;
 	//printf("%i\n", sunCount);
 	//std::cout << sunCount << std::endl;
-}
-
-void GameHandler::spawnZombie() {
-	COORD spawnPos;
-	spawnPos.X = 110;
-	spawnPos.Y = 1 + randNum(0, 5) * 6;
-
-	Zombie zombie;//creates a new zombie
-	zombie.getData("assets/zombie.txt");//gives it ASCII data
-	zombie.setPosition(spawnPos);
-
-	zombies.push_back(zombie);//adds newly created zombie to the list
 }
 
 void GameHandler::erase(int y, int x, int w)
@@ -175,6 +212,6 @@ void GameHandler::cls()
 }
 
 int GameHandler::randNum(int min, int max) {
-	int num = min + (rand() % max - min + 1);
+	int num = min + (rand() % max - min);
 	return num;
 }

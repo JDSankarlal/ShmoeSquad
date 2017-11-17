@@ -16,9 +16,8 @@ public:
 
 	COORD movePosition{ 0,0 };//Amount the sprite will move
 
-	Sprite* setPosition(const COORD &pos) {//sets position to draw the sprite at
+	void setPosition(const COORD &pos) {//sets position to draw the sprite at
 		position = pos;
-		return this;
 	}
 
 	void getData(string fileName) {//gets the ascii data from a text file
@@ -41,7 +40,7 @@ public:
 		setPosition(startPos);
 	}
 
-	Sprite* init(const char data[numRows][numColumns]) {//set what the sprite looks like
+	void init(const char data[numRows][numColumns]) {//set what the sprite looks like
 		for (unsigned int i = 0; i < numRows; i++) {
 			for (unsigned int j = 0; j < numColumns; j++) {
 				ascii[i][j] = data[i][j];
@@ -49,30 +48,18 @@ public:
 		}
 		COORD startPos{ 0,0 };
 		setPosition(startPos);
-		return this;
 	}
-	//I'm not sure why we need this function
-	/*Sprite* init(char data) {
-		for (unsigned int i = 0; i < numRows; i++) {
-			for (unsigned int j = 0; j < numColumns; j++) {
-				ascii[i][j] = data;
-			}
-		}
-		return this;
-	}*/
 
-
-	Sprite* updatePosition() {//updates position to draw the sprite at
+	void updatePosition() {//updates position to draw the sprite at
 		position.X = position.X + movePosition.X;
 		position.Y = position.Y + movePosition.Y;
-		return this;
 	}
 
 	const COORD& getPosition() {
 		return position;
 	}
 
-	Sprite* draw() {//draw sprite to screen
+	void draw() {//draw sprite to screen
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), position);
 		for (SHORT i = 0; i < numRows; i++) {
 			for (SHORT j = 0; j < numColumns; j++) {
@@ -80,7 +67,6 @@ public:
 			}
 			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ position.X, position.Y + i });
 		}
-		return this;
 	}
 
 private:
