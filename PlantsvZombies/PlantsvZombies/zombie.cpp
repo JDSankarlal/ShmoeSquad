@@ -2,6 +2,7 @@
 
 Zombie::Zombie()
 {
+	movePosition = { -1, 0 };
 }
 
 

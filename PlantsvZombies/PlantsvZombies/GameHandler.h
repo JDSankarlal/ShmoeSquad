@@ -16,9 +16,11 @@ public:
 	void printPlants();//prints all plants
 	void printZombies();//prints all zombies
 	void checkPlantBuy();
+	void placePlant();
 	void createSun();
 	void spawnZombie();
 	void erase(int x, int y, int w);
+	int randNum(int min, int max);
 
 	vector<Zombie> zombies;//list of all current zombies
 	vector<Plant> plants;//list of all current sprites

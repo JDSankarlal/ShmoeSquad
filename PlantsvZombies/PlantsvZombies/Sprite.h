@@ -14,7 +14,7 @@ public:
 	Sprite() {}
 	~Sprite() {}
 
-	COORD movePosition;//Amount the sprite will move
+	COORD movePosition{ 0,0 };//Amount the sprite will move
 
 	Sprite* setPosition(const COORD &pos) {//sets position to draw the sprite at
 		position = pos;

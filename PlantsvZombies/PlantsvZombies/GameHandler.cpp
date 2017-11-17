@@ -77,7 +77,6 @@ void GameHandler::printPlants() {
 
 void GameHandler::printZombies() {//prints all zombies to the screen
 	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
-		it->movePosition = { 10, 10 };
 		it->updatePosition();
 		it->draw();
 	}
@@ -90,18 +89,28 @@ void GameHandler::checkPlantBuy() {
 
 }
 
+
+void GameHandler::placePlant() {
+
+}
+
 void GameHandler::createSun() {
 	//Every x seconds we want to create sun and add it to the player's sun counter.
 	sunCount += 25;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 40, 0 });
 	printf("Sun: %i \r", sunCount);
 	//printf("%i\n", sunCount);
 	//std::cout << sunCount << std::endl;
 }
 
 void GameHandler::spawnZombie() {
+	COORD spawnPos;
+	spawnPos.X = 110;
+	spawnPos.Y = 1 + randNum(0, 4) * 6;
 
 	Zombie zombie;//creates a new zombie
 	zombie.getData("assets/zombie.txt");//gives it ASCII data
+	zombie.setPosition(spawnPos);
 
 	zombies.push_back(zombie);//adds newly created zombie to the list
 }
@@ -109,5 +118,12 @@ void GameHandler::spawnZombie() {
 void GameHandler::erase(int y, int x, int w)
 {
 	DWORD l;
-	FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), ' ', w, { (SHORT)x,(SHORT)y }, &l);
+	for (SHORT i = 0; i < 40; i++) {
+		FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), ' ', w, { (SHORT)x,(SHORT)y + i }, &l);
+	}
+}
+
+int GameHandler::randNum(int min, int max) {
+	int num = min + (rand() % max - min + 1);
+	return num;
 }
