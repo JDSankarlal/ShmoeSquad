@@ -13,6 +13,7 @@ class GameHandler
 {
 public:
 	void initialize();//initializes game state
+	void printBar(Plant chosenPlants[]);//prints the plant buy bar
 	void printDisplay();//prints the UI and Grid
 	void printPlants();//prints all plants
 	void printBullets();//prints all bullets

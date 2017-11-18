@@ -24,9 +24,14 @@ void GameHandler::initialize() {
 }
 
 
+void GameHandler::printBar(Plant chosenPlants[]) {//will take in a list of Plants, draw one of each in each square
+	bar.draw();
+
+}
+
 void GameHandler::printDisplay()
 {
-	bar.draw();
+	printBar();
 	grid.draw();
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0, 40 });//displays sun
 	printf("Sun: %i \r", sunCount);
