@@ -25,7 +25,7 @@ void main()
 {
 	srand(time(NULL));
 
-	game.printDisplay();
+	game.initialize();
 
 	clock_t SUN_TIME,ZOMBIE_TIME,WORLD_CLOCK;  //Saves two seperate time variables at runtime, modifies each individually below
 	SUN_TIME = clock(); 
