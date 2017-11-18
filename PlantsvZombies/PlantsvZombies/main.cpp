@@ -31,7 +31,7 @@ void main()
 	SUN_TIME = clock(); 
 	ZOMBIE_TIME = clock();
 	WORLD_CLOCK = clock();
-	PlaySound("C:\\Users\\100658473\\Documents\\ShmoeSquad\\PlantsvZombies\\PlantsvZombies\\04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);
+	PlaySound("assets/04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);
 
 		//Program run time at this point saved in variable GAME_TIME
 		//gameconsole.Initialize(vec2(120, 200), "Plants vs Zombies");
