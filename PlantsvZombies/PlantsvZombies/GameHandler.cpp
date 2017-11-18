@@ -23,9 +23,9 @@ void GameHandler::initialize() {
 	bar.setPosition({ 0,0 });
 
 	//initializing the chosenPlants array with the default set of plants you can buy
-	for (SHORT i = 0; i < 9; i++) {//drawing plants inside of the bar
-		chosenPlants[i] = new Sunflower;
-	}
+	chosenPlants[0] = new Sunflower;
+	chosenPlants[1] = new Peashooter;
+	chosenPlants[2] = new Wallnut;
 }
 
 
@@ -34,7 +34,7 @@ void GameHandler::printBar() {//will take in a list of Plants, draw one of each 
 	COORD pos = bar.getPosition();
 	pos.X += 3;
 	pos.Y += 1;
-	for (SHORT i = 0; i < 9; i++) {//drawing plants inside of the bar
+	for (SHORT i = 0; i < 3; i++) {//drawing plants inside of the bar
 		chosenPlants[i]->setPosition({pos.X + i * 12, pos.Y});
 		chosenPlants[i]->draw();
 	}

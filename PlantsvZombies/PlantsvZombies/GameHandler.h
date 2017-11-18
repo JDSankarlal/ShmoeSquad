@@ -5,8 +5,9 @@
 #include <Windows.h>
 #include <iostream>
 #include "Zombie.h"
-#include "Peashooter.h"
 #include "Sunflower.h"
+#include "Peashooter.h"
+#include "Wallnut.h"
 #include "Bullet.h"
 using std::vector;
 
@@ -29,7 +30,7 @@ public:
 	void cls();
 	int randNum(int min, int max);
 
-	Plant* chosenPlants[9];//the list of plants that the player can buy
+	Plant* chosenPlants[3];//the list of plants that the player can buy
 
 	vector<Zombie> zombies;//list of all current zombies
 	vector<Plant> plants;//list of all current sprites
