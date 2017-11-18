@@ -21,12 +21,23 @@ void GameHandler::initialize() {
 	grid.setPosition({ 0,9 });
 	bar.getData("assets/bar.txt");
 	bar.setPosition({ 0,0 });
+
+	//initializing the chosenPlants array with the default set of plants you can buy
+	for (SHORT i = 0; i < 9; i++) {//drawing plants inside of the bar
+		chosenPlants[i] = new Sunflower;
+	}
 }
 
 
-void GameHandler::printBar(Plant chosenPlants[]) {//will take in a list of Plants, draw one of each in each square
-	bar.draw();
-
+void GameHandler::printBar() {//will take in a list of Plants, draw one of each in each square
+	bar.draw();//draw the actual bar
+	COORD pos = bar.getPosition();
+	pos.X += 3;
+	pos.Y += 1;
+	for (SHORT i = 0; i < 9; i++) {//drawing plants inside of the bar
+		chosenPlants[i]->setPosition({pos.X + i * 12, pos.Y});
+		chosenPlants[i]->draw();
+	}
 }
 
 void GameHandler::printDisplay()
@@ -77,8 +88,7 @@ void GameHandler::checkPlantBuy() {
 }
 
 void GameHandler::placePlant(COORD pos) {
-	Plant* plant = new Plant;//creates a new plant
-	plant->getData("assets/peashooter.txt");//gives it ASCII data
+	Plant* plant = new Peashooter;//creates a new plant
 	plant->setPosition(pos);
 
 	plants.push_back(*plant);//adds newly created plant to the list
@@ -90,7 +100,6 @@ void GameHandler::spawnBullet(Plant shooter) {
 	spawnPos.Y += 1;
 
 	Bullet* bullet = new Bullet;//creates a new bullet
-	bullet->getData("assets/bullet.txt");//gives it ASCII data
 	bullet->setPosition(spawnPos);
 
 	bullets.push_back(*bullet);//adds newly created bullet to the list
@@ -102,7 +111,6 @@ void GameHandler::spawnZombie() {
 	spawnPos.Y = 10 + randNum(0, 5) * 6;
 
 	Zombie* zombie = new Zombie;//creates a new zombie
-	zombie->getData("assets/zombie.txt");//gives it ASCII data
 	zombie->setPosition(spawnPos);
 
 	zombies.push_back(*zombie);//adds newly created zombie to the list

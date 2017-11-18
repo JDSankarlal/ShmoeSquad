@@ -3,7 +3,7 @@
 
 Plant::Plant()
 {
-
+	getData("assets/peashooter.txt");//gives it ASCII data, default plant is peashooter
 }
 
 Plant::~Plant()

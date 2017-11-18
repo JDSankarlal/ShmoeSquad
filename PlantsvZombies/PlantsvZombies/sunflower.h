@@ -1,7 +1,6 @@
 #pragma once
 #include "Plant.h"
-class Sunflower :
-	public Plant
+class Sunflower : public Plant
 {
 public:
 	Sunflower();
