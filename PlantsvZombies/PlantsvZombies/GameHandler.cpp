@@ -24,7 +24,6 @@ void GameHandler::initGame() {
 void GameHandler::printDisplay()
 {
 	char displayBoard[32][55] = {
-
 		{ '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' },
 		{ '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#' },
 		{ '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#' },
@@ -57,7 +56,7 @@ void GameHandler::printDisplay()
 		{ '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#' },
 		{ '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' },
 	};
-	COORD pos{ 0, 6 };
+	COORD pos{ 0, 9 };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 	for (int i = 0; i < 32; ++i)
 	{
@@ -122,7 +121,7 @@ void GameHandler::placePlant(COORD pos) {
 
 void GameHandler::spawnBullet(Plant shooter) {
 	COORD spawnPos = shooter.getPosition();
-	spawnPos.X += 7;
+	spawnPos.X += 10;
 	spawnPos.Y += 1;
 
 	Bullet* bullet = new Bullet;//creates a new bullet
@@ -135,7 +134,7 @@ void GameHandler::spawnBullet(Plant shooter) {
 void GameHandler::spawnZombie() {
 	COORD spawnPos;
 	spawnPos.X = 110;
-	spawnPos.Y = 7 + randNum(0, 5) * 6;
+	spawnPos.Y = 10 + randNum(0, 5) * 6;
 
 	Zombie* zombie = new Zombie;//creates a new zombie
 	zombie->getData("assets/zombie.txt");//gives it ASCII data

@@ -46,7 +46,7 @@ void main()
 	currentTime = getClock();
 	previousTime = currentTime;
 
-	game.placePlant({ 3,7 });
+	game.placePlant({ 4,10 });
 
 	while (true) {//main loop
 
