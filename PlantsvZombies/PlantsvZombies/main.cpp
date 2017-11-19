@@ -46,13 +46,13 @@ void main()
 	currentTime = getClock();
 	previousTime = currentTime;
 
-	game.placePlant({ 4,10 });
+	//game.placePlant({ 5,11 });
 
 	while (true) {//main loop
 
 		currentTime = getClock();//set currentTime to the currently elasped time
 
-		if (((clock() - SUN_TIME) / CLOCKS_PER_SEC) >= 1.0f)  //Spawns a sun from SKY every 10 seconds. Will have to figure out how to spawn it every 10 local seconds relative to individual sunflowers spawn time
+		if (((clock() - SUN_TIME) / CLOCKS_PER_SEC) >= 3.0f)  //Spawns a sun from SKY every 30 seconds. Will have to figure out how to spawn it every 10 local seconds relative to individual sunflowers spawn time
 		{
 
 			game.createSun();
@@ -76,6 +76,7 @@ void main()
 			game.printPlants();
 			game.printZombies();
 			game.printBullets();
+			//game.printSuns();
 		}
 	}
 	

@@ -1,4 +1,5 @@
 Each grid square is 6 tall.
 Each grid square is 12 wide.
 
-Moving a sprite 1 grid square moves them 11 spaces horizontally.
+Moving a sprite 1 grid square moves them 12 spaces horizontally.
+Moving a sprite 1 grid aquare moves the 6 spaces vertically.

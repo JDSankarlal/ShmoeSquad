@@ -11,8 +11,13 @@ using std::string;
 
 class Sprite {
 public:
-	Sprite() {}
+	Sprite() {
+		getData("assets/default.txt");
+	}
 	~Sprite() {}
+
+	int numRows = 0;//width of sprite
+	int numCols = 0;//height of sprite
 
 	COORD movePosition{ 0,0 };//Amount the sprite will move
 
@@ -92,6 +97,4 @@ public:
 private:
 	COORD position;//Sprites current position
 	char** ascii;
-	int numRows = 0;
-	int numCols = 0;
 };
