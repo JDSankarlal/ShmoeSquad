@@ -4,19 +4,23 @@ using std::endl;
 using std::cout;
 using std::vector;
 
-
 clock_t GAME_TIME;
 GameHandler::GameHandler()
 {
-	sunCount = 50;
+	initialize(0);
 }
-
 
 GameHandler::~GameHandler()
 {
 }
 
-void GameHandler::initialize() {
+void GameHandler::initialize(int time) {
+	sunCount = 50;
+	zombieInterval = 8000;//spawn a zombie every 8s
+	sunInterval = 30000;//spawn a sun every 30s
+	previousZombieTime = time;
+	previousSunTime = time;
+
 	bar.getData("assets/bar.txt");
 	bar.setPosition({ 13,0 });
 	grid.getData("assets/grid2.txt");
@@ -36,6 +40,14 @@ void GameHandler::initialize() {
 	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::WALLNUT);
 }
 
+void GameHandler::render() {
+	cls();
+	printDisplay();
+	printPlants();
+	printZombies();
+	printBullets();
+	//printSuns();
+}
 
 void GameHandler::printBar() {//will take in a list of Plants, draw one of each in each square
 	bar.draw();//draw the actual bar
@@ -52,15 +64,15 @@ void GameHandler::printDisplay()
 {
 	printBar();
 	grid.draw();
+	//displays the player's sun count
 	COORD pos = grid.getPosition();
 	pos.Y -= 2;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);//displays sun
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 	printf("Sun: %i \r", sunCount);
 }
 
 void GameHandler::printPlants() {
 	for (std::vector<Plant>::iterator it = plants.begin(); it != plants.end(); ++it) {
-		//it->updatePosition();
 		it->draw();
 	}
 }
@@ -77,13 +89,16 @@ void GameHandler::printSuns() {
 	}
 }
 
-void GameHandler::printZombies() {//prints all zombies to the screen
+void GameHandler::printZombies() {
 	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
 		it->draw();
 	}
 }
 
 void GameHandler::update(int time) {
+	checkZombieSpawn(time);
+	checkSunSpawn(time);
+
 	for (std::vector<Plant>::iterator it = plants.begin(); it != plants.end(); ++it) {//update plants
 		if (it->shoot(time) == true) {//check if each plant is shooting on the current frame
 			if (it->getType() == Plant::PEASHOOTER) {//peashooters will shoot bullets
@@ -95,7 +110,7 @@ void GameHandler::update(int time) {
 		}
 	}
 	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it) {//update bullets
-		it->updatePosition();//bullets move a certain distance each frame
+		it->move(time);//bullets move a certain distance each frame
 	}
 	for (std::vector<Sun>::iterator it = suns.begin(); it != suns.end(); it++) {//update suns
 		if (it->updateLife() == false) {//if the sun's lifeTime is 0
@@ -106,14 +121,25 @@ void GameHandler::update(int time) {
 		}
 	}
 	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {//update zombies
-		it->updatePosition();//zombies move a certain distance each frame
+		it->move(time);//zombies move a certain distance each frame
+	}
+}
+
+void GameHandler::checkZombieSpawn(int time) {
+	if (time - previousZombieTime >= zombieInterval) {
+		spawnZombie();
+		previousZombieTime = time;
+	}
+}
+
+void GameHandler::checkSunSpawn(int time) {
+	if (time - previousSunTime >= sunInterval) {
+		createSun();
+		previousSunTime = time;
 	}
 }
 
 void GameHandler::checkPlantBuy() {
-
-
-
 }
 
 void GameHandler::placePlant(COORD pos, Plant::plantType type) {
@@ -152,6 +178,7 @@ void GameHandler::spawnSun(Plant flower) {
 	sun->setPosition(spawnPos);
 
 	suns.push_back(*sun);//adds newly created bullet to the list
+	createSun();
 }
 
 void GameHandler::spawnZombie() {
@@ -172,15 +199,7 @@ void GameHandler::createSun() {//Every x seconds we want to create sun and add i
 	sunCount += 50;
 }
 
-/*void GameHandler::erase(int y, int x, int w)//this seems unneccesary
-{
-	DWORD l;
-	for (SHORT i = 0; i < 40; i++) {
-		FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), ' ', w, { (SHORT)x,(SHORT)y + i }, &l);
-	}
-}*/
-
-void GameHandler::cls()
+void GameHandler::cls()//This is used insted of system("cls")
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD coordScreen = { 0, 0 };    // home for the cursor 
@@ -231,7 +250,7 @@ void GameHandler::cls()
 	SetConsoleCursorPosition(hConsole, coordScreen);
 }
 
-int GameHandler::randNum(int min, int max) {
+int GameHandler::randNum(int min, int max) {//takes in the minimum value and maximum value for random number to be generated
 	int num = min + (rand() % max - min);
 	return num;
 }

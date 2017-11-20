@@ -4,26 +4,24 @@
 #include <cstdio>
 #include <fstream>
 #include <string>
-//#define numColumns 7//height of Sprites
-//#define numRows 6//width of Sprites, all sprites are the same size
 using std::ifstream;
 using std::string;
 
 class Sprite {
 public:
 	Sprite() {
-		getData("assets/default.txt");
+		getData("assets/default.txt");//set sprite data to a default just incase one gets created without being given ascii data
+		previousMoveTime = 0;
+		moveInterval = 1000;//move every 1s
 	}
 	~Sprite() {}
 
 	int numRows = 0;//width of sprite
 	int numCols = 0;//height of sprite
 
-	COORD movePosition{ 0,0 };//Amount the sprite will move
-
-	void setPosition(const COORD &pos) {//sets position to draw the sprite at
-		position = pos;
-	}
+	int moveInterval;//number of ms before sprite moves
+	int previousMoveTime;//the last time the sprite moved
+	COORD moveVector{ 0,0 };//Amount the sprite will move each time it moves
 
 	void getData(string fileName) {//gets the ascii data from a text file
 		ifstream file;
@@ -65,6 +63,7 @@ public:
 		setPosition(startPos);
 	}
 
+	//the below function is now obselete, probably won't use it ever again
 	/*void init(const char data[numRows][numColumns]) {//set what the sprite looks like
 		for (unsigned int i = 0; i < numRows; i++) {
 			for (unsigned int j = 0; j < numColumns; j++) {
@@ -75,16 +74,27 @@ public:
 		setPosition(startPos);
 	}*/
 
-	void updatePosition() {//updates position to draw the sprite at
-		position.X = position.X + movePosition.X;
-		position.Y = position.Y + movePosition.Y;
+	void move(int time) {
+		if (time - previousMoveTime >= moveInterval) {//shoot at set interval
+			previousMoveTime = time;
+			updatePosition();
+		}
 	}
 
-	const COORD& getPosition() {
+	void setPosition(const COORD &pos) {//sets position to draw the sprite at
+		position = pos;
+	}
+
+	void updatePosition() {//updates position to draw the sprite at
+		position.X = position.X + moveVector.X;
+		position.Y = position.Y + moveVector.Y;
+	}
+
+	const COORD& getPosition() {//used to get the position of a sprite, because position is a private variable
 		return position;
 	}
 
-	void draw() {//draw sprite to screen
+	void draw() {//draw sprite to screen at its current position
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), position);
 		for (SHORT i = 0; i < numCols; i++) {
 			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ position.X, position.Y + i });
@@ -95,6 +105,6 @@ public:
 	}
 
 private:
-	COORD position;//Sprites current position
-	char** ascii;
+	COORD position;//the current position of a sprites Top Left corner
+	char** ascii;//a double pointer, will be initialized to a 2D array to store the ascii data for the sprite
 };

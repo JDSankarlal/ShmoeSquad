@@ -3,7 +3,9 @@
 Zombie::Zombie()
 {
 	getData("assets/zombie.txt");//gives it ASCII data
-	movePosition = { -1, 0 };
+	previousMoveTime = 0;
+	moveInterval = 500;//move every 0.5s
+	moveVector = { -1, 0 };//vector sprite will move in
 }
 
 
