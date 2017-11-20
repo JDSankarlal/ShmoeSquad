@@ -1,5 +1,10 @@
-Each grid square is 6 tall.
-Each grid square is 12 wide.
+Grid dimensions (squares): 5 rows x 9 cols
+
+Grid square dimensions: 6 rows x 12 cols
+
+Grid dimensions: 30 rows x 108 cols
+
+Screen dimensions: 42 rows x 125 cols
 
 Moving a sprite 1 grid square moves them 12 spaces horizontally.
 Moving a sprite 1 grid aquare moves the 6 spaces vertically.
