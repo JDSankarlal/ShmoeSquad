@@ -5,7 +5,13 @@
 Sun::Sun()
 {
 	getData("assets/sun.txt");//gives it ASCII data
-	lifeTime = 10;
+	lifeTime = 2000;//suns stays alive for 2 seconds
+}
+
+Sun::Sun(int time)
+{
+	getData("assets/sun.txt");//gives it ASCII data
+	lifeTime = time + 2000;//suns stays alive for 2 seconds
 }
 
 
@@ -13,12 +19,11 @@ Sun::~Sun()
 {
 }
 
-bool Sun::updateLife() {
-	lifeTime--;
-	if (lifeTime <= 0) {
-		return false;
+bool Sun::updateLife(int time) {
+	if (lifeTime - time <= 0) {
+		return false;//sun is dead
 	}
 	else {
-		return true;
+		return true;//sun is still alive
 	}
 }

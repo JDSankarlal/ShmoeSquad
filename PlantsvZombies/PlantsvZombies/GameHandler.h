@@ -33,9 +33,9 @@ public:
 	void checkSunSpawn(int time);
 	void checkPlantBuy();
 
-	void placePlant(COORD pos, Plant::plantType type);//places a plant at given coordinates
+	void placePlant(COORD pos, Plant::plantType type, int time);//places a plant at given coordinates
 	void spawnBullet(Plant);//creates a bullet for the passed in plant
-	void spawnSun(Plant);//creates a sun for the passed in plant
+	void spawnSun(Plant, int time);//creates a sun for the passed in plant
 	void spawnZombie();//creates a zombie in a random row
 	void createSun();//adds a set amount of sun to the player's sun count
 

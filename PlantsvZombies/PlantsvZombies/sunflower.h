@@ -4,6 +4,7 @@ class Sunflower : public Plant
 {
 public:
 	Sunflower();
+	Sunflower(int time);
 	~Sunflower();
 };
 

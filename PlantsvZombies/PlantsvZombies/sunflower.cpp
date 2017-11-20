@@ -7,9 +7,16 @@ Sunflower::Sunflower()
 	type = SUNFLOWER;
 	getData("assets/sunflower.txt");//gives it ASCII data
 	previousShootTime = 0;
-	shootInterval = 10000;//shoots every 10s
+	shootInterval = 5000;//shoots every 10s
 }
 
+Sunflower::Sunflower(int time)
+{
+	type = SUNFLOWER;
+	getData("assets/sunflower.txt");//gives it ASCII data
+	previousShootTime = time;
+	shootInterval = 5000;//shoots every 10s
+}
 
 Sunflower::~Sunflower()
 {

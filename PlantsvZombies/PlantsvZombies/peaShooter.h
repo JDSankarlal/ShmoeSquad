@@ -4,6 +4,7 @@ class Peashooter : public Plant
 {
 public:
 	Peashooter();
+	Peashooter(int time);
 	~Peashooter();
 };
 

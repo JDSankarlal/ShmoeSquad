@@ -10,6 +10,14 @@ Peashooter::Peashooter()
 	shootInterval = 3000;//shoots every 3s
 }
 
+Peashooter::Peashooter(int time)
+{
+	type = PEASHOOTER;
+	getData("assets/peashooter.txt");//gives it ASCII data
+	previousShootTime = time;
+	shootInterval = 3000;//shoots every 3s
+}
+
 
 Peashooter::~Peashooter()
 {

@@ -7,7 +7,6 @@ using std::vector;
 clock_t GAME_TIME;
 GameHandler::GameHandler()
 {
-	initialize(0);
 }
 
 GameHandler::~GameHandler()
@@ -33,11 +32,11 @@ void GameHandler::initialize(int time) {
 
 	//placing plants for testing purposes
 	COORD pos = grid.getPosition();
-	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::SUNFLOWER);
+	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::SUNFLOWER, time);
 	pos.Y += 6;
-	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::PEASHOOTER);
+	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::PEASHOOTER, time);
 	pos.Y += 6;
-	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::WALLNUT);
+	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::WALLNUT, time);
 }
 
 void GameHandler::render() {
@@ -46,7 +45,7 @@ void GameHandler::render() {
 	printPlants();
 	printZombies();
 	printBullets();
-	//printSuns();
+	printSuns();
 }
 
 void GameHandler::printBar() {//will take in a list of Plants, draw one of each in each square
@@ -105,23 +104,24 @@ void GameHandler::update(int time) {
 				spawnBullet(*it);
 			}
 			else if (it->getType() == Plant::SUNFLOWER) {//sunflowers will create sun instead of shooting
-				spawnSun(*it);
+				spawnSun(*it, time);
 			}
 		}
 	}
 	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it) {//update bullets
 		it->move(time);//bullets move a certain distance each frame
 	}
-	for (std::vector<Sun>::iterator it = suns.begin(); it != suns.end(); it++) {//update suns
-		if (it->updateLife() == false) {//if the sun's lifeTime is 0
-			//suns.erase(it);
-		}
-		else {
-			//it++;
-		}
-	}
 	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {//update zombies
 		it->move(time);//zombies move a certain distance each frame
+	}
+
+	for (int i = 0; i < suns.size(); i++)//update suns
+	{
+		if (suns[i].updateLife(time)== false)
+		{
+			suns.erase(suns.begin() + i);
+			i--;
+		}
 	}
 }
 
@@ -142,13 +142,13 @@ void GameHandler::checkSunSpawn(int time) {
 void GameHandler::checkPlantBuy() {
 }
 
-void GameHandler::placePlant(COORD pos, Plant::plantType type) {
+void GameHandler::placePlant(COORD pos, Plant::plantType type, int time) {
 	Plant* plant = 0;
 	if (type == Plant::PEASHOOTER) {
-		plant = new Peashooter;//creates a new peashooter
+		plant = new Peashooter(time);//creates a new peashooter
 	}
 	else if (type == Plant::SUNFLOWER) {
-		plant = new Sunflower;//creates a new sunflower
+		plant = new Sunflower(time);//creates a new sunflower
 	}
 	else if (type == Plant::WALLNUT) {
 		plant = new Wallnut;//creates a new wallnut
@@ -169,15 +169,15 @@ void GameHandler::spawnBullet(Plant shooter) {
 	bullets.push_back(*bullet);//adds newly created bullet to the list
 }
 
-void GameHandler::spawnSun(Plant flower) {
+void GameHandler::spawnSun(Plant flower, int time) {
 	COORD spawnPos = flower.getPosition();
-	spawnPos.X += 3;
-	spawnPos.Y -= 1;
+	spawnPos.X += 1;
+	//spawnPos.Y -= 1;
 
-	Sun* sun = new Sun;//creates a new sun
+	Sun* sun = new Sun(time);//creates a new sun
 	sun->setPosition(spawnPos);
 
-	suns.push_back(*sun);//adds newly created bullet to the list
+	suns.push_back(*sun);//adds newly created sun to the list
 	createSun();
 }
 
