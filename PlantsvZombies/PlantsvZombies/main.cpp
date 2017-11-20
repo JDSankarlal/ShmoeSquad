@@ -23,7 +23,7 @@ void main()
 {
 	srand(time(NULL));//set seed for random number generation
 
-	const int FRAME_RATE = 6;//number of frames per second for display
+	const int FRAME_RATE = 2;//number of frames per second for display
 	const int FRAME_TIME = 1000 / FRAME_RATE;//minimum time between each frame in milliseconds
 
 	clock_t previousTime;//keeps track of the time that the last frame ran at
