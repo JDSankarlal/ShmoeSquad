@@ -171,7 +171,7 @@ void GameHandler::spawnBullet(Plant shooter) {
 
 void GameHandler::spawnSun(Plant flower, int time) {
 	COORD spawnPos = flower.getPosition();
-	spawnPos.X += 1;
+	//spawnPos.X += 1;
 	//spawnPos.Y -= 1;
 
 	Sun* sun = new Sun(time);//creates a new sun

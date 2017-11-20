@@ -4,13 +4,13 @@
 
 Sun::Sun()
 {
-	getData("assets/sun.txt");//gives it ASCII data
+	getData("assets/sunflower2.txt");//gives it ASCII data
 	lifeTime = 2000;//suns stays alive for 2 seconds
 }
 
 Sun::Sun(int time)
 {
-	getData("assets/sun.txt");//gives it ASCII data
+	getData("assets/sunflower2.txt");//gives it ASCII data
 	lifeTime = time + 2000;//suns stays alive for 2 seconds
 }
 
