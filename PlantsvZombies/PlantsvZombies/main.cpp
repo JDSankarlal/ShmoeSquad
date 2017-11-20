@@ -13,14 +13,14 @@ using std::cin;
 using std::string;
 using std::endl;
 
-static GameHandler game;
-
-int frameCount = 0;//number or frames that have elapsed
-
 int currentTime();//gets time in milliseconds since program start
+
+static GameHandler game;
 
 void main()
 {
+	//gameconsole.Initialize(vec2(120, 200), "Plants vs Zombies");//idk what this is
+
 	srand(time(NULL));//set seed for random number generation
 
 	const int FRAME_RATE = 2;//number of frames per second for display
@@ -30,13 +30,12 @@ void main()
 
 	previousTime = currentTime();//initializing previousTime
 
-	//gameconsole.Initialize(vec2(120, 200), "Plants vs Zombies");
-
 	game.initialize(currentTime());//initialize the game state
 
 	PlaySound("assets/04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);//start playing background music
 
-	while (true) {//main game loop
+	//main game loop
+	while (true) {
 
 		//updating the game state
 		game.update(currentTime());//passing in currently elapsed time in ms
@@ -44,7 +43,6 @@ void main()
 		if (currentTime() - previousTime >= FRAME_TIME) {//draws to the screen on each frame of the game
 
 			previousTime = currentTime();//set previousTime to the time the previous frame (relative to the next frame) ran
-			frameCount++;
 
 			//rendering objects to the screen
 			game.render();
