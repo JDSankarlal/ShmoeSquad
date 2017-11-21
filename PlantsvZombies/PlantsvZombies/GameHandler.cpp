@@ -14,18 +14,27 @@ GameHandler::~GameHandler()
 }
 
 void GameHandler::initialize(int time) {
+	//clearing object lists
+	zombies.clear();
+	plants.clear();
+	bullets.clear();
+	suns.clear();
+
+	//initializing variables for spawn timers
 	sunCount = 50;
 	zombieInterval = 8000;//spawn a zombie every 8s
 	sunInterval = 30000;//spawn a sun every 30s
 	previousZombieTime = time;
 	previousSunTime = time;
 
+	//setting acii data for grid and bar
 	bar.getData("assets/bar.txt");
 	bar.setPosition({ 13,0 });
 	grid.getData("assets/grid2.txt");
 	grid.setPosition({ 13,10 });
 
-	//initializing the chosenPlants array with the default set of plants you can buy
+	//setting what plants are in the plant buy Bar
+	numChosenPlants = 3;
 	chosenPlants[0] = new Sunflower;
 	chosenPlants[1] = new Peashooter;
 	chosenPlants[2] = new Wallnut;
@@ -53,7 +62,7 @@ void GameHandler::printBar() {//will take in a list of Plants, draw one of each 
 	COORD pos = bar.getPosition();
 	pos.X += 3;
 	pos.Y += 1;
-	for (SHORT i = 0; i < 3; i++) {//drawing plants inside of the bar
+	for (SHORT i = 0; i < numChosenPlants; i++) {//drawing plants inside of the bar
 		chosenPlants[i]->setPosition({pos.X + i * 12, pos.Y});
 		chosenPlants[i]->draw();
 	}
