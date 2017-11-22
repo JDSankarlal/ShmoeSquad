@@ -44,7 +44,7 @@ public:
 	int randNum(int min, int max);//genrates a random number in a range
 
 	int numChosenPlants = 0;
-	Plant** chosenPlants = new Plant*[numChosenPlants];//the list of plants that the player can buy
+	Plant** chosenPlants = 0;//the list of plants that the player can buy
 
 	vector<Zombie> zombies;//list of all current zombies
 	vector<Plant> plants;//list of all current sprites

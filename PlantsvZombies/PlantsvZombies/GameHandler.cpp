@@ -7,6 +7,7 @@ using std::vector;
 clock_t GAME_TIME;
 GameHandler::GameHandler()
 {
+	initialize(0);
 }
 
 GameHandler::~GameHandler()
@@ -35,6 +36,7 @@ void GameHandler::initialize(int time) {
 
 	//setting what plants are in the plant buy Bar
 	numChosenPlants = 3;
+	chosenPlants = new Plant*[numChosenPlants];
 	chosenPlants[0] = new Sunflower;
 	chosenPlants[1] = new Peashooter;
 	chosenPlants[2] = new Wallnut;
