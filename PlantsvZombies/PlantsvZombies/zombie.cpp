@@ -6,6 +6,7 @@ Zombie::Zombie()
 	previousMoveTime = 0;
 	moveInterval = 500;//move every 0.5s
 	moveVector = { -1, 0 };//vector sprite will move in
+	health = 100;
 }
 
 

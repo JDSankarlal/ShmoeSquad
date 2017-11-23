@@ -8,6 +8,7 @@ Sunflower::Sunflower()
 	getData("assets/sunflower.txt");//gives it ASCII data
 	previousShootTime = 0;
 	shootInterval = 5000;//shoots every 10s
+	health = 100;
 }
 
 Sunflower::Sunflower(int time)

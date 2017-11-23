@@ -6,17 +6,18 @@ Plant::Plant()
 	getData("assets/peashooter.txt");//gives it ASCII data, default plant is peashooter
 	previousShootTime = 0;
 	shootInterval = 3000;//shoots every 3s
+	
 }
 
 Plant::~Plant()
 {
 }
 
-int Plant::plantHealth()
+/*nt Plant::plantHealth()
 {
 	int health = 100;
 	return health;
-}
+}*/
 
 bool Plant::shoot(int time)//the number this returns tells the game which type of bullet to spawn
 {
