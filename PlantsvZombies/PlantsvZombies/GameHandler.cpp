@@ -123,6 +123,15 @@ void GameHandler::update(int time) {
 	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it) {//update bullets
 		it->move(time);//bullets move a certain distance each frame
 	}
+
+	for (int i = 0; i<bullets.size(); i++) {
+		if (bullets[i].hitEdge())
+		{
+			bullets.erase(bullets.begin() + i);
+			i--;
+		}
+	}
+
 	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {//update zombies
 		it->move(time);//zombies move a certain distance each frame
 	}
