@@ -3,76 +3,42 @@
 #include <iostream>
 #include <cstdio>
 #include <fstream>
+#include <vector>
 #include <string>
 using std::ifstream;
 using std::string;
+using std::vector;
 
 class Sprite {
 public:
 	Sprite() {
-		getData("assets/default.txt");//set sprite data to a default just incase one gets created without being given ascii data
-		previousMoveTime = 0;
-		moveInterval = 1000;//move every 1s
+		//getData("assets/default.txt");//set sprite data to a default just incase one gets created without being given ascii data
+		//previousMoveTime = 0;
+		//moveInterval = 1000;//move every 1s
 	}
-	~Sprite() {}
-
-	int numRows = 0;//width of sprite
-	int numCols = 0;//height of sprite
+	~Sprite() {
+	}
 
 	int moveInterval;//number of ms before sprite moves
 	int previousMoveTime;//the last time the sprite moved
 	COORD moveVector{ 0,0 };//Amount the sprite will move each time it moves
 
-	void getData(string fileName) {//gets the ascii data from a text file
+	void getData(string fileName)
+	{//gets the ascii data from a text file
 		ifstream file;
 		file.open(fileName);
 		file >> std::noskipws;//tells it not to skip white space while scanning file
-		int charNum = 0;
-		int line = 0;
-		char c;
-		numRows = 0;
-		numCols = 1;
-		while (file >> c) {//gets the number of rows and columns in the file to set the size of the array to store the data itn
-			if (c == '\n') {
-				charNum = 0;
-				numCols++;
-			}
-			else {
-				charNum++;
-			}
-		}
-		numRows = charNum;
-		ascii = new char* [numCols];//allocates memory for an array of pointers
-		for (int i = 0; i < numCols; i++) {//allocates memory for each pointer in the above array to be an array of characters
-			ascii[i] = new char [numRows];
-		}
-		charNum = 0;
-		file.close();
-		file.open(fileName);
-		char c2;
-		while (file >> c2){
-			ascii[line][charNum] = c2;
-			charNum++;
-			if (c2 == '\n') {
-				charNum = 0;
-				line++;
-			}
+		string s;
+		while (getline(file, s)) {
+			asciiData.push_back(s);//adding each line from the file into a vector of strings
 		}
 		file.close();
-		COORD startPos{ 0,0 };
-		setPosition(startPos);
+		//getting sprites width and height
+		SHORT width = asciiData[0].size();
+		SHORT height = asciiData.size();
+		size = { width, height };
+		setPosition({ 0,0 });//setting default position to 0,0
 	}
-
-	//the below function is now obselete, probably won't use it ever again
-	/*void init(const char data[numRows][numColumns]) {//set what the sprite looks like
-		for (unsigned int i = 0; i < numRows; i++) {
-			for (unsigned int j = 0; j < numColumns; j++) {
-				ascii[i][j] = data[i][j];
-			}
-		}
-		COORD startPos{ 0,0 };
-		setPosition(startPos);
-	}*/
 
 	void move(int time) {
 		if (time - previousMoveTime >= moveInterval) {//shoot at set interval
@@ -90,21 +56,33 @@ public:
 		position.Y = position.Y + moveVector.Y;
 	}
 
-	const COORD& getPosition() {//used to get the position of a sprite, because position is a private variable
+	const COORD& getPosition() {//used to get the position of a sprite
 		return position;
 	}
 
-	void draw() {//draw sprite to screen at its current position
-		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), position);
-		for (SHORT i = 0; i < numCols; i++) {
-			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ position.X, position.Y + i });
-			for (SHORT j = 0; j < numRows; j++) {
-				printf("%c", ascii[i][j]);
+	const COORD& getSize() {//used to get the size of a sprite
+		return size;
+	}
+
+	void draw(HANDLE buffer) 
+	{//draw sprite to screen at its current position
+		CHAR_INFO* spriteData = new CHAR_INFO[size.X * size.Y];
+		SMALL_RECT spritePosition;
+		spritePosition = { position.X, position.Y, position.X + size.X, position.Y + size.Y };
+
+		for (SHORT i = 0; i < size.Y; i++) {
+			for (SHORT j = 0; j < size.X; j++) {
+				//SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ position.X + j, position.Y + i });
+				//printf("%c", asciiData[i][j]);
+				spriteData[j + size.X * i].Char.AsciiChar = asciiData[i][j];
+				spriteData[j + size.X * i].Attributes = 15;
 			}
+				WriteConsoleOutput(buffer, spriteData, size, { 0 , 0 }, &spritePosition);
 		}
 	}
 
 private:
 	COORD position;//the current position of a sprites Top Left corner
-	char** ascii;//a double pointer, will be initialized to a 2D array to store the ascii data for the sprite
+	COORD size;//the width and height of a sprite
+	vector<string> asciiData;//a vector of strings, used to store sprite data
 };

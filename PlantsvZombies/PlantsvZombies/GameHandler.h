@@ -20,13 +20,13 @@ public:
 
 	void initialize(int time);//initializes game state
 
-	void render();//draws everything to the screen
-	void printBar();//prints the plant buy bar
-	void printDisplay();//prints the UI and Grid
-	void printPlants();//prints all plants
-	void printBullets();//prints all bullets
-	void printSuns();//prints all suns
-	void printZombies();//prints all zombies
+	void render(HANDLE buffer);//draws everything to the screen
+	void printBar(HANDLE buffer);//prints the plant buy bar
+	void printDisplay(HANDLE buffer);//prints the UI and Grid
+	void printPlants(HANDLE buffer);//prints all plants
+	void printBullets(HANDLE buffer);//prints all bullets
+	void printSuns(HANDLE buffer);//prints all suns
+	void printZombies(HANDLE buffer);//prints all zombies
 
 	void update(int time);//updates the state of plants, zombies, bullets, and suns
 	void checkZombieSpawn(int time);
@@ -39,7 +39,7 @@ public:
 	void spawnZombie();//creates a zombie in a random row
 	void createSun();//adds a set amount of sun to the player's sun count
 
-	void cls();//clears the screen
+	void cls(HANDLE buffer);//clears the screen
 
 	int randNum(int min, int max);//genrates a random number in a range
 

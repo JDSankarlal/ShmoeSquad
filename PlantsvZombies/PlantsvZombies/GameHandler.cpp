@@ -8,7 +8,6 @@ using std::vector;
 clock_t GAME_TIME;
 GameHandler::GameHandler()
 {
-	initialize(0);
 }
 
 GameHandler::~GameHandler()
@@ -51,30 +50,30 @@ void GameHandler::initialize(int time) {
 	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::WALLNUT, time);
 }
 
-void GameHandler::render() {
-	cls();
-	printDisplay();
-	printPlants();
-	printZombies();
-	printBullets();
-	printSuns();
+void GameHandler::render(HANDLE buffer) {
+	cls(buffer);
+	printDisplay(buffer);
+	printPlants(buffer);
+	printZombies(buffer);
+	printBullets(buffer);
+	printSuns(buffer);
 }
 
-void GameHandler::printBar() {//will take in a list of Plants, draw one of each in each square
-	bar.draw();//draw the actual bar
+void GameHandler::printBar(HANDLE buffer) {//will take in a list of Plants, draw one of each in each square
+	bar.draw(buffer);//draw the actual bar
 	COORD pos = bar.getPosition();
 	pos.X += 3;
 	pos.Y += 1;
 	for (SHORT i = 0; i < numChosenPlants; i++) {//drawing plants inside of the bar
 		chosenPlants[i]->setPosition({pos.X + i * 12, pos.Y});
-		chosenPlants[i]->draw();
+		chosenPlants[i]->draw(buffer);
 	}
 }
 
-void GameHandler::printDisplay()
+void GameHandler::printDisplay(HANDLE buffer)
 {
-	printBar();
-	grid.draw();
+	printBar(buffer);
+	grid.draw(buffer);
 	//displays the player's sun count
 	COORD pos = grid.getPosition();
 	pos.Y -= 2;
@@ -82,27 +81,27 @@ void GameHandler::printDisplay()
 	printf("Sun: %i \r", sunCount);
 }
 
-void GameHandler::printPlants() {
+void GameHandler::printPlants(HANDLE buffer) {
 	for (std::vector<Plant>::iterator it = plants.begin(); it != plants.end(); ++it) {
-		it->draw();
+		it->draw(buffer);
 	}
 }
 
-void GameHandler::printBullets() {
+void GameHandler::printBullets(HANDLE buffer) {
 	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
-		it->draw();
+		it->draw(buffer);
 	}
 }
 
-void GameHandler::printSuns() {
+void GameHandler::printSuns(HANDLE buffer) {
 	for (std::vector<Sun>::iterator it = suns.begin(); it != suns.end(); ++it) {
-		it->draw();
+		it->draw(buffer);
 	}
 }
 
-void GameHandler::printZombies() {
+void GameHandler::printZombies(HANDLE buffer) {
 	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
-		it->draw();
+		it->draw(buffer);
 	}
 }
 
@@ -237,9 +236,8 @@ void GameHandler::createSun() {//Every x seconds we want to create sun and add i
 	Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bullet.cpp
 }*/
 
-void GameHandler::cls()//This is used insted of system("cls")
+void GameHandler::cls(HANDLE buffer)//This is used insted of system("cls")
 {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD coordScreen = { 0, 0 };    // home for the cursor 
 	DWORD cCharsWritten;
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -247,7 +245,7 @@ void GameHandler::cls()//This is used insted of system("cls")
 
 	// Get the number of character cells in the current buffer. 
 
-	if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
+	if (!GetConsoleScreenBufferInfo(buffer, &csbi))
 	{
 		return;
 	}
@@ -256,7 +254,7 @@ void GameHandler::cls()//This is used insted of system("cls")
 
 	// Fill the entire screen with blanks.
 
-	if (!FillConsoleOutputCharacter(hConsole,        // Handle to console screen buffer 
+	if (!FillConsoleOutputCharacter(buffer,        // Handle to console screen buffer 
 		(TCHAR) ' ',     // Character to write to the buffer
 		dwConSize,       // Number of cells to write 
 		coordScreen,     // Coordinates of first cell 
@@ -267,25 +265,21 @@ void GameHandler::cls()//This is used insted of system("cls")
 
 	// Get the current text attribute.
 
-	if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
+	if (!GetConsoleScreenBufferInfo(buffer, &csbi))
 	{
 		return;
 	}
 
 	// Set the buffer's attributes accordingly.
 
-	if (!FillConsoleOutputAttribute(hConsole,         // Handle to console screen buffer 
-		csbi.wAttributes, // Character attributes to use
+	if (!FillConsoleOutputAttribute(buffer,         // Handle to console screen buffer 
+		15, // Character attributes to use
 		dwConSize,        // Number of cells to set attribute 
 		coordScreen,      // Coordinates of first cell 
 		&cCharsWritten)) // Receive number of characters written
 	{
 		return;
 	}
-
-	// Put the cursor at its home coordinates.
-
-	SetConsoleCursorPosition(hConsole, coordScreen);
 }
 
 int GameHandler::randNum(int min, int max) {//takes in the minimum value and maximum value for random number to be generated

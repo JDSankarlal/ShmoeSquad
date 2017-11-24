@@ -3,10 +3,9 @@
 
 Plant::Plant()
 {
-	getData("assets/peashooter.txt");//gives it ASCII data, default plant is peashooter
-	previousShootTime = 0;
-	shootInterval = 3000;//shoots every 3s
-	
+	//getData("assets/peashooter.txt");//gives it ASCII data, default plant is peashooter
+	//previousShootTime = 0;
+	//shootInterval = 3000;//shoots every 3s
 }
 
 Plant::~Plant()
