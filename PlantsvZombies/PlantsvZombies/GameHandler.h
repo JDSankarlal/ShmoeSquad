@@ -58,5 +58,6 @@ public:
 	int sunInterval;//interval suns spawn at
 	int previousZombieTime;//stores last time a zombie was spawned
 	int previousSunTime;//last time a sun spawned
+	void collisions();
 };
 

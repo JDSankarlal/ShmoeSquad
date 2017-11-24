@@ -7,4 +7,5 @@ public:
 	Zombie();
 	~Zombie();
 	int health;
+	bool endCollision();
 };

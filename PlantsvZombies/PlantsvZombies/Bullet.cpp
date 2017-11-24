@@ -14,3 +14,15 @@ Bullet::Bullet()
 Bullet::~Bullet()
 {
 }
+
+//Deletes the bullet if it hits the righthand edge
+bool Bullet::hitEdge()
+{
+	if (getPosition().X == 121)
+	{
+		//VECTOR::EREASE <- LOWERCASE 
+		//Delete Bullet
+		return true;
+	}
+	else return false;
+}

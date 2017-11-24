@@ -5,5 +5,6 @@ class Bullet : public Sprite
 public:
 	Bullet();
 	~Bullet();
+	bool hitEdge();
 };
 

@@ -210,6 +210,13 @@ void GameHandler::createSun() {//Every x seconds we want to create sun and add i
 	sunCount += 50;
 }
 
+void GameHandler::collisions() {
+	//if zombie collides with plant
+	Zombie endColision(); // If Zombie collides with end, found in Zombie.cpp and Zombie.h
+	//if zombie collides with bullet
+	Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bullet.cpp
+}
+
 void GameHandler::cls()//This is used insted of system("cls")
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);

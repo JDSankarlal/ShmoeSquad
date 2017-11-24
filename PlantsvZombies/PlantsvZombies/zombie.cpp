@@ -14,3 +14,16 @@ Zombie::~Zombie()
 {
 }
 
+//deletes zombie if it hits the lefthand edge
+bool Zombie::endCollision()
+{
+	if (getPosition().X == 13)
+	{
+		bool DeleteObject(
+			//stuff
+		);
+		//delete zombieObject[i]; //Delete zombie
+		return true;
+	}
+	else return false;
+}
