@@ -1,4 +1,5 @@
 #include "GameHandler.h"
+#include "Zombie.h"
 
 using std::endl;
 using std::cout;
@@ -125,6 +126,14 @@ void GameHandler::update(int time) {
 	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {//update zombies
 		it->move(time);//zombies move a certain distance each frame
 	}
+		for (int i = 0; i<zombies.size(); i++) {
+			if (zombies[i].endCollision())
+			{
+				zombies.erase(zombies.begin() + i);
+				i--;
+			}
+		}
+		//delete zombie it
 
 	for (int i = 0; i < suns.size(); i++)//update suns
 	{
@@ -210,12 +219,14 @@ void GameHandler::createSun() {//Every x seconds we want to create sun and add i
 	sunCount += 50;
 }
 
-void GameHandler::collisions() {
+/*void GameHandler::collisions(Zombie zombie) {
 	//if zombie collides with plant
-	Zombie endColision(); // If Zombie collides with end, found in Zombie.cpp and Zombie.h
+	if (zombie.endCollision()) {
+
+	}// If Zombie collides with end, found in Zombie.cpp and Zombie.h
 	//if zombie collides with bullet
 	Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bullet.cpp
-}
+}*/
 
 void GameHandler::cls()//This is used insted of system("cls")
 {

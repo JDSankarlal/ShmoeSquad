@@ -4,7 +4,7 @@ Zombie::Zombie()
 {
 	getData("assets/zombie.txt");//gives it ASCII data
 	previousMoveTime = 0;
-	moveInterval = 500;//move every 0.5s
+	moveInterval = 100;//move every 0.5s
 	moveVector = { -1, 0 };//vector sprite will move in
 	health = 100;
 }
@@ -19,10 +19,7 @@ bool Zombie::endCollision()
 {
 	if (getPosition().X == 13)
 	{
-		bool DeleteObject(
-			//stuff
-		);
-		//delete zombieObject[i]; //Delete zombie
+		
 		return true;
 	}
 	else return false;
