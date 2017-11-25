@@ -63,8 +63,8 @@ public:
 	const COORD& getSize() {//used to get the size of a sprite
 		return size;
 	}
-
-	void draw(HANDLE buffer) 
+	
+	void draw(HANDLE buffer, int colour)
 	{//draw sprite to screen at its current position
 		CHAR_INFO* spriteData = new CHAR_INFO[size.X * size.Y];
 		SMALL_RECT spritePosition;
@@ -75,7 +75,7 @@ public:
 				//SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ position.X + j, position.Y + i });
 				//printf("%c", asciiData[i][j]);
 				spriteData[j + size.X * i].Char.AsciiChar = asciiData[i][j];
-				spriteData[j + size.X * i].Attributes = 15;
+				spriteData[j + size.X * i].Attributes = colour;
 			}
 				WriteConsoleOutput(buffer, spriteData, size, { 0 , 0 }, &spritePosition);
 		}

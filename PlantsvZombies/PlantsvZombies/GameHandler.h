@@ -39,7 +39,7 @@ public:
 	void spawnZombie();//creates a zombie in a random row
 	void createSun();//adds a set amount of sun to the player's sun count
 
-	void cls(HANDLE buffer);//clears the screen
+	void cls(HANDLE buffer, int colour);//clears the screen
 
 	int randNum(int min, int max);//genrates a random number in a range
 

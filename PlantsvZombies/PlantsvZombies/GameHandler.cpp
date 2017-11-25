@@ -5,7 +5,18 @@ using std::endl;
 using std::cout;
 using std::vector;
 
-clock_t GAME_TIME;
+//colour valuesfor drawing sprites
+//foregroundColour_backgroundColour
+#define white_black 0x000f
+#define green_black 0x000a
+#define dullGreen_black 0x0002
+#define yellow_black 0x000e
+#define turqoise_black 0x000b
+#define dullTurqoise_black 0x000b - 0x0008
+#define purple_black 0x000d
+#define white_dullGreen 0x002f
+#define white_grey 0x0080
+
 GameHandler::GameHandler()
 {
 }
@@ -43,15 +54,15 @@ void GameHandler::initialize(int time) {
 
 	//placing plants for testing purposes
 	COORD pos = grid.getPosition();
-	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::SUNFLOWER, time);
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::SUNFLOWER, time);
 	pos.Y += 6;
-	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::PEASHOOTER, time);
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
 	pos.Y += 6;
-	placePlant({ pos.X + 3, pos.Y + 1 }, Plant::WALLNUT, time);
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::WALLNUT, time);
 }
 
 void GameHandler::render(HANDLE buffer) {
-	cls(buffer);
+	cls(buffer, white_black);
 	printDisplay(buffer);
 	printPlants(buffer);
 	printZombies(buffer);
@@ -60,20 +71,20 @@ void GameHandler::render(HANDLE buffer) {
 }
 
 void GameHandler::printBar(HANDLE buffer) {//will take in a list of Plants, draw one of each in each square
-	bar.draw(buffer);//draw the actual bar
+	bar.draw(buffer, white_black);//draw the actual bar
 	COORD pos = bar.getPosition();
-	pos.X += 3;
+	pos.X += 2;
 	pos.Y += 1;
 	for (SHORT i = 0; i < numChosenPlants; i++) {//drawing plants inside of the bar
 		chosenPlants[i]->setPosition({pos.X + i * 12, pos.Y});
-		chosenPlants[i]->draw(buffer);
+		chosenPlants[i]->draw(buffer, white_black);
 	}
 }
 
 void GameHandler::printDisplay(HANDLE buffer)
 {
 	printBar(buffer);
-	grid.draw(buffer);
+	grid.draw(buffer, white_black);
 	//displays the player's sun count
 	COORD pos = grid.getPosition();
 	pos.Y -= 2;
@@ -83,25 +94,25 @@ void GameHandler::printDisplay(HANDLE buffer)
 
 void GameHandler::printPlants(HANDLE buffer) {
 	for (std::vector<Plant>::iterator it = plants.begin(); it != plants.end(); ++it) {
-		it->draw(buffer);
+		it->draw(buffer, green_black);
 	}
 }
 
 void GameHandler::printBullets(HANDLE buffer) {
 	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
-		it->draw(buffer);
+		it->draw(buffer, green_black);
 	}
 }
 
 void GameHandler::printSuns(HANDLE buffer) {
 	for (std::vector<Sun>::iterator it = suns.begin(); it != suns.end(); ++it) {
-		it->draw(buffer);
+		it->draw(buffer, yellow_black);
 	}
 }
 
 void GameHandler::printZombies(HANDLE buffer) {
 	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
-		it->draw(buffer);
+		it->draw(buffer, turqoise_black);
 	}
 }
 
@@ -236,50 +247,34 @@ void GameHandler::createSun() {//Every x seconds we want to create sun and add i
 	Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bullet.cpp
 }*/
 
-void GameHandler::cls(HANDLE buffer)//This is used insted of system("cls")
+void GameHandler::cls(HANDLE buffer, int colour)//This is used instead of system("cls")
 {
-	COORD coordScreen = { 0, 0 };    // home for the cursor 
-	DWORD cCharsWritten;
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	DWORD dwConSize;
+	DWORD charsWritten;
+	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
+	DWORD consoleSize;
 
-	// Get the number of character cells in the current buffer. 
+	// Get the number of character cells in the current buffer
+	GetConsoleScreenBufferInfo(buffer, &bufferInfo);
 
-	if (!GetConsoleScreenBufferInfo(buffer, &csbi))
-	{
-		return;
-	}
+	consoleSize = bufferInfo.dwSize.X * bufferInfo.dwSize.Y;
 
-	dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
+	// Fill the buffer with blanks
+	FillConsoleOutputCharacter(buffer,	// Handle to console screen buffer 
+		(TCHAR) ' ',	// Character to write to the buffer
+		consoleSize,	// Number of cells to write 
+		{ 0,0 },	// Coordinates of first cell 
+		&charsWritten);// Receive number of characters written
 
-	// Fill the entire screen with blanks.
-
-	if (!FillConsoleOutputCharacter(buffer,        // Handle to console screen buffer 
-		(TCHAR) ' ',     // Character to write to the buffer
-		dwConSize,       // Number of cells to write 
-		coordScreen,     // Coordinates of first cell 
-		&cCharsWritten))// Receive number of characters written
-	{
-		return;
-	}
-
-	// Get the current text attribute.
-
-	if (!GetConsoleScreenBufferInfo(buffer, &csbi))
-	{
-		return;
-	}
+	// Get the current text attribute
+	GetConsoleScreenBufferInfo(buffer, &bufferInfo);
 
 	// Set the buffer's attributes accordingly.
 
-	if (!FillConsoleOutputAttribute(buffer,         // Handle to console screen buffer 
-		15, // Character attributes to use
-		dwConSize,        // Number of cells to set attribute 
-		coordScreen,      // Coordinates of first cell 
-		&cCharsWritten)) // Receive number of characters written
-	{
-		return;
-	}
+	FillConsoleOutputAttribute(buffer,	// Handle to console screen buffer 
+		colour,	// Character attributes to use
+		consoleSize,	// Number of cells to set attribute 
+		{ 0,0 },	// Coordinates of first cell 
+		&charsWritten);	// Receive number of characters written
 }
 
 int GameHandler::randNum(int min, int max) {//takes in the minimum value and maximum value for random number to be generated
