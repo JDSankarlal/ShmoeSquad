@@ -7,5 +7,8 @@ public:
 	Zombie();
 	~Zombie();
 	int health;
+	int row;
 	bool endCollision();
+	bool shot();
+	int position();
 };

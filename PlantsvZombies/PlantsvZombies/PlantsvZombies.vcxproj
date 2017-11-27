@@ -126,6 +126,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="GameHandler.h" />
+    <ClInclude Include="keyInput.h" />
     <ClInclude Include="Peashooter.h" />
     <ClInclude Include="Plant.h" />
     <ClInclude Include="Sprite.h" />

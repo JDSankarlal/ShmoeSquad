@@ -146,7 +146,11 @@ void GameHandler::update(int time) {
 		it->move(time);//zombies move a certain distance each frame
 	}
 		for (int i = 0; i<zombies.size(); i++) {
-			if (zombies[i].endCollision())
+			if (zombies[i].getPosition().Y == bullets[i].getPosition().Y)
+			{
+				zombies[i].health -= 20;
+			}
+			if (zombies[i].endCollision() || zombies[i].health <= 0)
 			{
 				zombies.erase(zombies.begin() + i);
 				i--;

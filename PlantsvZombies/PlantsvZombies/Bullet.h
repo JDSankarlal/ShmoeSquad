@@ -6,5 +6,8 @@ public:
 	Bullet();
 	~Bullet();
 	bool hitEdge();
+	bool hitZombie();
+	int position();
+	int row;
 };
 
