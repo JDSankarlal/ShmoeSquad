@@ -42,7 +42,7 @@ void GameHandler::initialize(int time) {
 	//setting acii data for grid and bar
 	bar.getData("assets/bar.txt");
 	bar.setPosition({ 13,0 });
-	grid.getData("assets/grid2.txt");
+	grid.getData("assets/grid.txt");
 	grid.setPosition({ 13,10 });
 
 	//setting what plants are in the plant buy Bar

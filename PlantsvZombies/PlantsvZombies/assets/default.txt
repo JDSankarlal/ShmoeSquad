@@ -1,1 +1,2 @@
 NOSPRITE
+new_frame
