@@ -4,13 +4,11 @@
 
 Sun::Sun()
 {
-	getData("assets/sunflower2.txt");//gives it ASCII data
-	lifeTime = 2000;//suns stays alive for 2 seconds
 }
 
-Sun::Sun(int time)
+Sun::Sun(vector<vector<string>> spriteData, int time)
 {
-	getData("assets/sunflower2.txt");//gives it ASCII data
+	setData(spriteData);//gives it ASCII data
 	lifeTime = time + 3000;//suns stays alive for 2 seconds
 	frameSequence = new int[4]{ 0,1,2,1 };
 	totalNumFrames = 4;

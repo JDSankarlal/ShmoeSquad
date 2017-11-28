@@ -61,6 +61,7 @@ void main()
 
 	int useBuffer = 1;//used for alternating between the screen buffers
 
+	game.loadSprites();//must be called before initialize, loads sprite data into memory
 	game.initialize(currentTime());//initialize the game state
 
 	PlaySound("assets/04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);//start playing background music

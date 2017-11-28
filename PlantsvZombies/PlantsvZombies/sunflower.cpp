@@ -4,22 +4,18 @@
 
 Sunflower::Sunflower()
 {
-	type = SUNFLOWER;
-	getData("assets/sunflower.txt");//gives it ASCII data
-	previousShootTime = 0;
-	shootInterval = 5000;//shoots every 10s
-	health = 100;
 }
 
-Sunflower::Sunflower(int time)
+Sunflower::Sunflower(vector<vector<string>> spriteData, int time)
 {
 	type = SUNFLOWER;
-	getData("assets/sunflower.txt");//gives it ASCII data
-	previousShootTime = time;
-	shootInterval = 6000;//shoots every 6s
+	setData(spriteData);//gives it ASCII data
 	frameSequence = new int[4]{ 0,1,2,1 };
 	totalNumFrames = 4;
-	frameTime = 522;//change animation frame every 0.522s, synced witht he bpm of the music!
+	frameTime = 522;//change animation frame every 0.522s, synced with the bpm of the music!
+
+	previousShootTime = time;
+	shootInterval = 6000;//shoots every 6s
 }
 
 Sunflower::~Sunflower()

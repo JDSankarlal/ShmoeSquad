@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <ctime>
 #include <vector>
+#include <string>
 #include <Windows.h>
 #include <iostream>
 #include "Zombie.h"
@@ -11,6 +12,7 @@
 #include "Bullet.h"
 #include "Sun.h"
 using std::vector;
+using std::string;
 
 class GameHandler
 {
@@ -43,6 +45,9 @@ public:
 
 	int randNum(int min, int max);//genrates a random number in a range
 
+	vector<vector<string>> getSprite(string fileName);//reads in ascii data for a sprite and stores it in a vector, of vectors, of strings
+	void loadSprites();//loads all the sprites into memory on program start
+
 	int numChosenPlants = 0;
 	Plant** chosenPlants = 0;//the list of plants that the player can buy
 
@@ -59,5 +64,15 @@ public:
 	int previousZombieTime;//stores last time a zombie was spawned
 	int previousSunTime;//last time a sun spawned
 	//void collisions();
+
+	vector<vector<string>> defaultSprite;
+	vector<vector<string>> barSprite;
+	vector<vector<string>> bulletSprite;
+	vector<vector<string>> gridSprite;
+	vector<vector<string>> peashooterSprite;
+	vector<vector<string>> sunflowerSprite;
+	vector<vector<string>> sunflower_shineSprite;
+	vector<vector<string>> wallnutSprite;
+	vector<vector<string>> zombieSprite;
 };
 

@@ -6,7 +6,7 @@ class Plant : public Sprite
 public:
 	Plant();
 	~Plant();
-	int plantHealth();
+
 	virtual bool shoot(int time);//function used to check whether plant should shoot on the current frame
 	int shootInterval;//time in ms between shots
 	int previousShootTime;//stores last time the plant shot

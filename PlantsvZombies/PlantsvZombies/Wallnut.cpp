@@ -4,9 +4,17 @@
 
 Wallnut::Wallnut()
 {
+}
+
+Wallnut::Wallnut(vector<vector<string>> spriteData, int time)
+{
 	type = WALLNUT;
-	getData("assets/wallnut.txt");//gives it ASCII data
-	health = 200;
+	setData(spriteData);//gives it ASCII data
+	frameSequence = new int[4]{ 0,1,0,2 };
+	totalNumFrames = 4;
+	frameTime = 1044;//change animation frame every 0.522s, synced with the bpm of the music!
+
+	health = 400;
 }
 
 

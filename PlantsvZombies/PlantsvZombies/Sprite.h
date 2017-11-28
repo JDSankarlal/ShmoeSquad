@@ -12,7 +12,7 @@ using std::vector;
 class Sprite {
 public:
 	Sprite() {
-		//getData("assets/default.txt");//set sprite data to a default just incase one gets created without being given ascii data
+		//setData(defaultSprite);//set sprite data to a default just incase one gets created without being given ascii data
 		//previousMoveTime = 0;
 		//moveInterval = 1000;//move every 1s
 		frameTime = 1000;//change animation frame every 1s
@@ -20,8 +20,8 @@ public:
 		frameSequence = new int[1]{ 0 };
 		totalNumFrames = 1;
 	}
-	Sprite(int time) {
-		//getData("assets/default.txt");//set sprite data to a default just incase one gets created without being given ascii data
+	Sprite(vector<vector<string>> spriteData, int time) {
+		//setData(spriteData);//set sprite data to a default just incase one gets created without being given ascii data
 		//previousMoveTime = 0;
 		//moveInterval = 1000;//move every 1s
 		frameTime = 1000;//change animation frame every 1s
@@ -42,25 +42,9 @@ public:
 		frameTime = animationTime;
 	}
 	
-
-	//**WARNING** all text files MUST end in a new line containing "new_frame" only
-	void getData(string fileName)
-	{//gets the ascii data from a text file
-		ifstream file;
-		file.open(fileName);
-		file >> std::noskipws;//tells it not to skip white space while scanning file
-		string s;
-		vector<string> fileData;//a vector of strings, used to store sprite data
-		while (getline(file, s)) {
-			if (s == "new_frame") {
-				asciiData.push_back(fileData);//adding each line from the file into a vector of strings
-				fileData.clear();
-			}
-			else {
-				fileData.push_back(s);//adding each line from the file into a vector of strings
-			}
-		}
-		file.close();
+	void setData(vector<vector<string>> spriteData)
+	{//sets the ascii data for the sprite
+		asciiData = spriteData;
 		//getting sprites width and height
 		SHORT width = asciiData[0][0].size();
 		SHORT height = asciiData[0].size();

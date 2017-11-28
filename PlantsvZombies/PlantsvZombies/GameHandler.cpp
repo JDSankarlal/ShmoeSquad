@@ -40,12 +40,12 @@ void GameHandler::initialize(int time) {
 	previousSunTime = time;
 
 	//setting acii data for grid and bar
-	bar.getData("assets/bar2.txt");
+	bar.setData(barSprite);
 	bar.setPosition({ 13,0 });
 	int* sequence = new int[2]{ 0, 1 };
 	grid.setAnimation(sequence, 2, 1044);
 
-	grid.getData("assets/lawn.txt");
+	grid.setData(gridSprite);
 	grid.setPosition({ 13,10 });
 	sequence = new int[4]{ 0,1,2,1 };
 	grid.setAnimation(sequence, 4, 1044);
@@ -53,9 +53,9 @@ void GameHandler::initialize(int time) {
 	//setting what plants are in the plant buy Bar
 	numChosenPlants = 3;
 	chosenPlants = new Plant*[numChosenPlants];
-	chosenPlants[0] = new Sunflower;
-	chosenPlants[1] = new Peashooter;
-	chosenPlants[2] = new Wallnut;
+	chosenPlants[0] = new Sunflower(sunflowerSprite, time);
+	chosenPlants[1] = new Peashooter(peashooterSprite, time);
+	chosenPlants[2] = new Wallnut(wallnutSprite, time);
 
 	//placing plants in the plant buy bar
 	COORD pos = bar.getPosition();
@@ -205,13 +205,13 @@ void GameHandler::checkPlantBuy() {
 void GameHandler::placePlant(COORD pos, Plant::plantType type, int time) {
 	Plant* plant = 0;
 	if (type == Plant::PEASHOOTER) {
-		plant = new Peashooter(time);//creates a new peashooter
+		plant = new Peashooter(peashooterSprite, time);//creates a new peashooter
 	}
 	else if (type == Plant::SUNFLOWER) {
-		plant = new Sunflower(time);//creates a new sunflower
+		plant = new Sunflower(sunflowerSprite, time);//creates a new sunflower
 	}
 	else if (type == Plant::WALLNUT) {
-		plant = new Wallnut;//creates a new wallnut
+		plant = new Wallnut(wallnutSprite, time);//creates a new wallnut
 	}
 	plant->setPosition(pos);
 
@@ -223,7 +223,7 @@ void GameHandler::spawnBullet(Plant shooter, int time) {
 	spawnPos.X += 7;
 	spawnPos.Y += 1;
 
-	Bullet* bullet = new Bullet(time);//creates a new bullet
+	Bullet* bullet = new Bullet(bulletSprite, time);//creates a new bullet
 	bullet->setPosition(spawnPos);
 
 	bullets.push_back(*bullet);//adds newly created bullet to the list
@@ -234,7 +234,7 @@ void GameHandler::spawnSun(Plant flower, int time) {
 	//spawnPos.X += 1;
 	//spawnPos.Y -= 1;
 
-	Sun* sun = new Sun(time);//creates a new sun
+	Sun* sun = new Sun(sunflower_shineSprite, time);//creates a new sun
 	sun->setPosition(spawnPos);
 
 	suns.push_back(*sun);//adds newly created sun to the list
@@ -248,7 +248,7 @@ void GameHandler::spawnZombie(int time) {
 	spawnPos.X = gridPos.X + 110;
 	spawnPos.Y = gridPos.Y + randNum(0, 5) * 6;
 
-	Zombie* zombie = new Zombie(time);//creates a new zombie
+	Zombie* zombie = new Zombie(zombieSprite, time);//creates a new zombie
 	zombie->setPosition(spawnPos);
 
 	zombies.push_back(*zombie);//adds newly created zombie to the list
@@ -296,4 +296,46 @@ void GameHandler::cls(HANDLE buffer, int colour)//This is used instead of system
 int GameHandler::randNum(int min, int max) {//takes in the minimum value and maximum value for random number to be generated
 	int num = min + (rand() % max - min);
 	return num;
+}
+
+//**WARNING** all text files MUST end in a new line containing "new_frame" only
+vector<vector<string>> GameHandler::getSprite(string fileName) {
+	vector<vector<string>> asciiData;
+
+	ifstream file;
+	file.open(fileName);
+	if (!file) {//if file wasn't opened successfully
+		std::cout << "File " << fileName << " not found!";
+		std::cin.ignore(1000, '\n');
+		std::cin.get();
+	}
+	else {
+		file >> std::noskipws;//tells it not to skip white space while scanning file
+		string s;
+		vector<string> fileData;//a vector of strings, used to store sprite data
+		while (getline(file, s)) {
+			if (s == "new_frame") {
+				asciiData.push_back(fileData);//adding each line from the file into a vector of strings
+				fileData.clear();
+			}
+			else {
+				fileData.push_back(s);//adding each line from the file into a vector of strings
+			}
+		}
+	}
+	file.close();
+
+	return asciiData;
+}
+
+void GameHandler::loadSprites() {
+	defaultSprite = getSprite("assets/default.txt");
+	barSprite = getSprite("assets/bar2.txt");
+	bulletSprite = getSprite("assets/bullet.txt");
+	gridSprite = getSprite("assets/lawn.txt");
+	peashooterSprite = getSprite("assets/peashooter.txt");
+	sunflowerSprite = getSprite("assets/sunflower.txt");
+	sunflower_shineSprite = getSprite("assets/sunflower_shine.txt");
+	wallnutSprite = getSprite("assets/wallnut.txt");
+	zombieSprite = getSprite("assets/zombie.txt");
 }

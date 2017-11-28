@@ -4,7 +4,7 @@ class Peashooter : public Plant
 {
 public:
 	Peashooter();
-	Peashooter(int time);
+	Peashooter(vector<vector<string>> spriteData, int time);
 	~Peashooter();
 };
 

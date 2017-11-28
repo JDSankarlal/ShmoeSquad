@@ -4,43 +4,19 @@
 
 Bullet::Bullet()//don't use this one
 {
-	getData("assets/bullet.txt");//gives it ASCII data
-	previousMoveTime = 0;
-	moveInterval = 100;//move every 0.1s
-	moveVector = { 1, 0 };//vector sprite will move in
-	//row = position();
-	if (getPosition().Y == 12)
-	{
-		row = 1;
-	}
-	else if (getPosition().Y == 18)
-	{
-		row = 2;
-	}
-	else if (getPosition().Y == 24)
-	{
-		row = 3;
-	}
-	else if (getPosition().Y == 30)
-	{
-		row = 4;
-	}
-	else if (getPosition().Y == 36)
-	{
-		row = 5;
-	}
 }
 
-Bullet::Bullet(int time)//use this constructor instead
+Bullet::Bullet(vector<vector<string>> spriteData, int time)//use this constructor instead
 {
-	getData("assets/bullet.txt");//gives it ASCII data
-	previousMoveTime = 0;
-	moveInterval = 100;//move every 0.1s
-	moveVector = { 1, 0 };//vector sprite will move in
-	//animation information
+	setData(spriteData);//gives it ASCII data
+	
 	frameSequence = new int[4]{ 0,1,2,3 };
 	totalNumFrames = 4;
 	frameTime = 350;
+
+	previousMoveTime = 0;
+	moveInterval = 100;//move every 0.1s
+	moveVector = { 1, 0 };//vector sprite will move in
 
 	//row = position();
 	if (getPosition().Y == 12)

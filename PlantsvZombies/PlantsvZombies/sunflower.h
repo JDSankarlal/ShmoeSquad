@@ -4,7 +4,7 @@ class Sunflower : public Plant
 {
 public:
 	Sunflower();
-	Sunflower(int time);
+	Sunflower(vector<vector<string>> spriteData, int time);
 	~Sunflower();
 };
 

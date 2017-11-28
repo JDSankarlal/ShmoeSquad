@@ -2,17 +2,11 @@
 
 Zombie::Zombie()
 {
-	getData("assets/zombie.txt");//gives it ASCII data
-	previousMoveTime = 0;
-	moveInterval = 300;//move every 0.3s
-	moveVector = { -1, 0 };//vector sprite will move in
-	health = 100;
-	row;
 }
 
-Zombie::Zombie(int time)
+Zombie::Zombie(vector<vector<string>> spriteData, int time)
 {
-	getData("assets/zombie.txt");//gives it ASCII data
+	setData(spriteData);//gives it ASCII data
 	previousMoveTime = time;
 	moveInterval = 800;//move every 0.8s
 	moveVector = { -1, 0 };//vector sprite will move in
