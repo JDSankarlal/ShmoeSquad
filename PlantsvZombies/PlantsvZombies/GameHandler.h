@@ -43,6 +43,7 @@ public:
 	void checkSunSpawn(int time);
 
 	void cls(HANDLE buffer, int colour);//clears the screen
+	void printString(HANDLE buffer, string string, COORD position);
 
 	int randNum(int min, int max);//genrates a random number in a range
 

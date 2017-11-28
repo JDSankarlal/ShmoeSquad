@@ -101,8 +101,10 @@ void GameHandler::printDisplay(HANDLE buffer)
 	//displays the player's sun count
 	COORD pos = grid.getPosition();
 	pos.Y -= 2;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-	printf("Sun: %i \r", sunCount);
+
+	string numSun = "Sun: " + std::to_string(sunCount);
+
+	printString(buffer, numSun, pos);
 }
 
 void GameHandler::printPlants(HANDLE buffer) {
@@ -305,6 +307,19 @@ void GameHandler::cls(HANDLE buffer, int colour)//This is used instead of system
 		consoleSize,	// Number of cells to set attribute 
 		{ 0,0 },	// Coordinates of first cell 
 		&charsWritten);	// Receive number of characters written
+}
+
+void GameHandler::printString(HANDLE buffer, string string, COORD position) {
+
+	CHAR_INFO* stringData = new CHAR_INFO[string.size()];
+	SMALL_RECT stringPosition = { position.X, position.Y, position.X + string.size(), position.Y };
+	COORD stringSize = { string.size(), 1 };
+
+	for (int i = 0; i < string.size(); i++) {
+		stringData[i].Char.AsciiChar = string[i];
+		stringData[i].Attributes = white_black;
+	}
+	WriteConsoleOutput(buffer, stringData, stringSize, { 0 , 0 }, &stringPosition);
 }
 
 int GameHandler::randNum(int min, int max) {//takes in the minimum value and maximum value for random number to be generated

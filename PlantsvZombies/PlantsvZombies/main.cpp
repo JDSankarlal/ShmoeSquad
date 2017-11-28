@@ -1,25 +1,19 @@
-#include "GameHandler.h"
-#include <iostream>
-#include <ctime>
-#include "Events.h"
-#include "Sprite.h"
 #include "Windows.h"
-#include "plant.h"
+#include <ctime>
+#include "GameHandler.h"
+#include "Events.h"
 
-#pragma comment(lib, "Winmm.lib")
-
-using std::cout;
-using std::cin;
-using std::string;
-using std::endl;
+#pragma comment(lib, "Winmm.lib")//for playing sound
 
 int currentTime();//gets time in milliseconds since program start
 
+void fullscreen();//puts program in fullscreen mode
+
 HANDLE buffer1;
-HANDLE buffer2;
+//HANDLE buffer2;
 
 HANDLE wHnd;
-HANDLE rHnd;
+//HANDLE rHnd;
 
 static GameHandler game;
 
@@ -27,11 +21,11 @@ void main()
 {
 	//Setting up screen buffers
 	buffer1 = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-	buffer2 = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
+	//buffer2 = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 
 	// Set up the handles for reading/writing:
 	wHnd = GetStdHandle(STD_OUTPUT_HANDLE);
-	rHnd = GetStdHandle(STD_INPUT_HANDLE);
+	//rHnd = GetStdHandle(STD_INPUT_HANDLE);
 
 	// Change the window title:
 	SetConsoleTitle(TEXT("Plants VS Zombies!?"));
@@ -46,7 +40,11 @@ void main()
 	// Change the internal buffer size:
 	SetConsoleScreenBufferSize(wHnd, bufferSize);
 	SetConsoleScreenBufferSize(buffer1, bufferSize);
-	SetConsoleScreenBufferSize(buffer2, bufferSize);
+	//SetConsoleScreenBufferSize(buffer2, bufferSize);
+
+	//int useBuffer = 1;//used for alternating between the screen buffers
+
+	CHAR_INFO charBuffer[134 * 45];
 
 	srand(time(NULL));//set seed for random number generation
 
@@ -58,8 +56,6 @@ void main()
 	DWORD sleepTime;
 
 	previousTime = currentTime();//initializing previousTime
-
-	int useBuffer = 1;//used for alternating between the screen buffers
 
 	game.loadSprites();//must be called before initialize, loads sprite data into memory
 	game.initialize(currentTime());//initialize the game state
@@ -73,17 +69,20 @@ void main()
 
 		//rendering graphics
 		if (currentTime() - previousTime >= FRAME_TIME) {//draws to the screen on each frame of the game
-			//alternating which buffer the game is rendering to
-			if (useBuffer == 1) {
+			//if (useBuffer == 1) {
 				game.render(buffer1);
-				SetConsoleActiveScreenBuffer(buffer1);
-				useBuffer = 2;
-			}
-			else if (useBuffer == 2) {
-				game.render(buffer2);
-				SetConsoleActiveScreenBuffer(buffer2);
-				useBuffer = 1;
-			}
+				//SetConsoleActiveScreenBuffer(buffer1);
+				//useBuffer = 2;
+				ReadConsoleOutput(buffer1, charBuffer, bufferSize, { 0,0 }, &windowSize);
+				WriteConsoleOutput(wHnd, charBuffer, bufferSize, { 0,0 }, &windowSize);
+			//}
+			//else if (useBuffer == 2) {
+				//game.render(buffer2);
+				//SetConsoleActiveScreenBuffer(buffer2);
+				//useBuffer = 1;
+				//ReadConsoleOutput(buffer2, charBuffer, bufferSize, { 0,0 }, &windowSize);
+				//WriteConsoleOutput(wHnd, charBuffer, bufferSize, { 0,0 }, &windowSize);
+			//}
 			previousTime = currentTime();//set previousTime to the time the previous frame (relative to the next frame) ran
 		}
 		else {
@@ -98,3 +97,12 @@ void main()
 int currentTime() {
 	return clock() / (double)CLOCKS_PER_SEC * 1000;
 }
+
+void fullscreen()
+{
+	keybd_event(VK_MENU, 0x38, 0, 0);
+	keybd_event(VK_RETURN, 0x1c, 0, 0);
+	keybd_event(VK_RETURN, 0x1c, KEYEVENTF_KEYUP, 0);
+	keybd_event(VK_MENU, 0x38, KEYEVENTF_KEYUP, 0);
+}
+

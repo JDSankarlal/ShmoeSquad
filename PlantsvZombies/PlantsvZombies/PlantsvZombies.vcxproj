@@ -112,6 +112,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="DisplayHandler.cpp" />
     <ClCompile Include="Events.cpp" />
     <ClCompile Include="GameHandler.cpp" />
     <ClCompile Include="main.cpp" />
@@ -124,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="DisplayHandler.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="GameHandler.h" />
     <ClInclude Include="keyInput.h" />

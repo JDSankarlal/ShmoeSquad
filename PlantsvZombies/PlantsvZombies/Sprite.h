@@ -83,13 +83,10 @@ public:
 	void draw(HANDLE buffer, int colour)
 	{//draw sprite to screen at its current position
 		CHAR_INFO* spriteData = new CHAR_INFO[size.X * size.Y];
-		SMALL_RECT spritePosition;
-		spritePosition = { position.X, position.Y, position.X + size.X, position.Y + size.Y };
+		SMALL_RECT spritePosition = { position.X, position.Y, position.X + size.X, position.Y + size.Y };
 
 		for (SHORT i = 0; i < size.Y; i++) {
 			for (SHORT j = 0; j < size.X; j++) {
-				//SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ position.X + j, position.Y + i });
-				//printf("%c", asciiData[i][j]);
 				spriteData[j + size.X * i].Char.AsciiChar = asciiData[frameSequence[frameNum]][i][j];
 				spriteData[j + size.X * i].Attributes = colour;
 			}
