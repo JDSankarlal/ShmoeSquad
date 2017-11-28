@@ -11,7 +11,10 @@ Sun::Sun()
 Sun::Sun(int time)
 {
 	getData("assets/sunflower2.txt");//gives it ASCII data
-	lifeTime = time + 2000;//suns stays alive for 2 seconds
+	lifeTime = time + 3000;//suns stays alive for 2 seconds
+	frameSequence = new int[4]{ 0,1,2,1 };
+	totalNumFrames = 4;
+	frameTime = 200;//change animation frame every 0.5s
 }
 
 

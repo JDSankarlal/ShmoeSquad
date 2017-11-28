@@ -17,8 +17,8 @@ public:
 		//moveInterval = 1000;//move every 1s
 		frameTime = 1000;//change animation frame every 1s
 		previousFrameTime = 0;
-		frameSequence = new int[4]{ 0,1,2,1 };
-		totalNumFrames = 4;
+		frameSequence = new int[1]{ 0 };
+		totalNumFrames = 1;
 	}
 	Sprite(int time) {
 		//getData("assets/default.txt");//set sprite data to a default just incase one gets created without being given ascii data
@@ -26,8 +26,8 @@ public:
 		//moveInterval = 1000;//move every 1s
 		frameTime = 1000;//change animation frame every 1s
 		previousFrameTime = time;
-		frameSequence = new int[4]{ 0,1,2,1 };
-		totalNumFrames = 4;
+		frameSequence = new int[1]{ 0 };
+		totalNumFrames = 1;
 	}
 	~Sprite() {
 	}
@@ -35,9 +35,15 @@ public:
 	int moveInterval;//number of ms before sprite moves
 	int previousMoveTime;//the last time the sprite moved
 	COORD moveVector{ 0,0 };//Amount the sprite will move each time it moves
+
+	void setAnimation(int*& sequence, int numFrames, int animationTime) {//set values for animating the sprite
+		frameSequence = sequence;
+		totalNumFrames = numFrames;
+		frameTime = animationTime;
+	}
 	
 
-	//**WARNING** all test files MUST end in a new line containing "new_frame" only
+	//**WARNING** all text files MUST end in a new line containing "new_frame" only
 	void getData(string fileName)
 	{//gets the ascii data from a text file
 		ifstream file;
@@ -113,13 +119,14 @@ public:
 		}
 	}
 
+protected:
+	int* frameSequence;//array of the order the animation frames display in
+	int totalNumFrames;//the number of frames of animation the sprite has
+	int frameTime;//time each frame of animation is drawn for
 private:
 	COORD position;//the current position of a sprites Top Left corner
 	COORD size;//the width and height of a sprite
 	vector<vector<string>> asciiData;//a vector of strings, used to store sprite data
-	int* frameSequence;//array of the order the animation frames display in
-	int totalNumFrames;//the number of frames of animation the sprite has
 	int frameNum = 0;//the current frame being drawn
-	int frameTime;//time each frame of animation is drawn for
 	int previousFrameTime;//time at which the last frame of animation was changed
 };

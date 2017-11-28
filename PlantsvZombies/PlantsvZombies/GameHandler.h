@@ -34,9 +34,9 @@ public:
 	void checkPlantBuy();
 
 	void placePlant(COORD pos, Plant::plantType type, int time);//places a plant at given coordinates
-	void spawnBullet(Plant);//creates a bullet for the passed in plant
+	void spawnBullet(Plant, int time);//creates a bullet for the passed in plant
 	void spawnSun(Plant, int time);//creates a sun for the passed in plant
-	void spawnZombie();//creates a zombie in a random row
+	void spawnZombie(int time);//creates a zombie in a random row
 	void createSun();//adds a set amount of sun to the player's sun count
 
 	void cls(HANDLE buffer, int colour);//clears the screen
@@ -58,6 +58,6 @@ public:
 	int sunInterval;//interval suns spawn at
 	int previousZombieTime;//stores last time a zombie was spawned
 	int previousSunTime;//last time a sun spawned
-	void collisions();
+	//void collisions();
 };
 

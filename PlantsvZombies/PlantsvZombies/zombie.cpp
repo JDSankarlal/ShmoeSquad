@@ -4,10 +4,23 @@ Zombie::Zombie()
 {
 	getData("assets/zombie.txt");//gives it ASCII data
 	previousMoveTime = 0;
-	moveInterval = 100;//move every 0.5s
+	moveInterval = 300;//move every 0.3s
 	moveVector = { -1, 0 };//vector sprite will move in
 	health = 100;
 	row;
+}
+
+Zombie::Zombie(int time)
+{
+	getData("assets/zombie.txt");//gives it ASCII data
+	previousMoveTime = time;
+	moveInterval = 800;//move every 0.8s
+	moveVector = { -1, 0 };//vector sprite will move in
+	health = 100;
+	row;
+	frameSequence = new int[4]{ 0,1,2,1 };
+	totalNumFrames = 4;
+	frameTime = 800;//change animation frame every 0.8s
 }
 
 

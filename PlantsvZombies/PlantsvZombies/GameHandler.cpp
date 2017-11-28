@@ -40,10 +40,15 @@ void GameHandler::initialize(int time) {
 	previousSunTime = time;
 
 	//setting acii data for grid and bar
-	bar.getData("assets/bar.txt");
+	bar.getData("assets/bar2.txt");
 	bar.setPosition({ 13,0 });
-	grid.getData("assets/grid.txt");
+	int* sequence = new int[2]{ 0, 1 };
+	grid.setAnimation(sequence, 2, 1044);
+
+	grid.getData("assets/lawn.txt");
 	grid.setPosition({ 13,10 });
+	sequence = new int[4]{ 0,1,2,1 };
+	grid.setAnimation(sequence, 4, 1044);
 
 	//setting what plants are in the plant buy Bar
 	numChosenPlants = 3;
@@ -52,8 +57,16 @@ void GameHandler::initialize(int time) {
 	chosenPlants[1] = new Peashooter;
 	chosenPlants[2] = new Wallnut;
 
+	//placing plants in the plant buy bar
+	COORD pos = bar.getPosition();
+	pos.X += 2;
+	pos.Y += 1;
+	for (SHORT i = 0; i < numChosenPlants; i++) {//placing plants inside of the bar
+		chosenPlants[i]->setPosition({ pos.X + i * 12, pos.Y });
+	}
+
 	//placing plants for testing purposes
-	COORD pos = grid.getPosition();
+	pos = grid.getPosition();
 	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::SUNFLOWER, time);
 	pos.Y += 6;
 	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
@@ -72,11 +85,7 @@ void GameHandler::render(HANDLE buffer) {
 
 void GameHandler::printBar(HANDLE buffer) {//will take in a list of Plants, draw one of each in each square
 	bar.draw(buffer, white_black);//draw the actual bar
-	COORD pos = bar.getPosition();
-	pos.X += 2;
-	pos.Y += 1;
 	for (SHORT i = 0; i < numChosenPlants; i++) {//drawing plants inside of the bar
-		chosenPlants[i]->setPosition({pos.X + i * 12, pos.Y});
 		chosenPlants[i]->draw(buffer, white_black);
 	}
 }
@@ -120,10 +129,14 @@ void GameHandler::update(int time) {
 	checkZombieSpawn(time);
 	checkSunSpawn(time);
 
+	bar.updateAnimation(time);
+	grid.updateAnimation(time);
+
 	for (std::vector<Plant>::iterator it = plants.begin(); it != plants.end(); ++it) {//update plants
+		it->updateAnimation(time);
 		if (it->shoot(time) == true) {//check if each plant is shooting on the current frame
 			if (it->getType() == Plant::PEASHOOTER) {//peashooters will shoot bullets
-				spawnBullet(*it);
+				spawnBullet(*it, time);
 			}
 			else if (it->getType() == Plant::SUNFLOWER) {//sunflowers will create sun instead of shooting
 				spawnSun(*it, time);
@@ -131,10 +144,11 @@ void GameHandler::update(int time) {
 		}
 	}
 	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it) {//update bullets
+		it->updateAnimation(time);
 		it->move(time);//bullets move a certain distance each frame
 	}
-
-	for (int i = 0; i<bullets.size(); i++) {
+	
+	for (int i = 0; i<bullets.size(); i++) {//deleting bullets
 		if (bullets[i].hitEdge())
 		{
 			bullets.erase(bullets.begin() + i);
@@ -143,23 +157,26 @@ void GameHandler::update(int time) {
 	}
 
 	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {//update zombies
+		it->updateAnimation(time);
 		it->move(time);//zombies move a certain distance each frame
 	}
-		for (int i = 0; i<zombies.size(); i++) {
-			if (zombies[i].getPosition().Y == bullets[i].getPosition().Y)
-			{
-				zombies[i].health -= 20;
-			}
-			if (zombies[i].endCollision() || zombies[i].health <= 0)
-			{
-				zombies.erase(zombies.begin() + i);
-				i--;
-			}
+
+	//collision detection
+	for (int i = 0; i<zombies.size(); i++) {//*this is broken right now*
+		if (zombies[i].getPosition().Y == bullets[i].getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
+		{
+			zombies[i].health -= 20;
 		}
-		//delete zombie it
+		if (zombies[i].endCollision() || zombies[i].health <= 0)
+		{
+			zombies.erase(zombies.begin() + i);
+			i--;
+		}
+	}
 
 	for (int i = 0; i < suns.size(); i++)//update suns
 	{
+		suns[i].updateAnimation(time);
 		if (suns[i].updateLife(time)== false)
 		{
 			suns.erase(suns.begin() + i);
@@ -170,7 +187,7 @@ void GameHandler::update(int time) {
 
 void GameHandler::checkZombieSpawn(int time) {
 	if (time - previousZombieTime >= zombieInterval) {
-		spawnZombie();
+		spawnZombie(time);
 		previousZombieTime = time;
 	}
 }
@@ -201,12 +218,12 @@ void GameHandler::placePlant(COORD pos, Plant::plantType type, int time) {
 	plants.push_back(*plant);//adds newly created plant to the list
 }
 
-void GameHandler::spawnBullet(Plant shooter) {
+void GameHandler::spawnBullet(Plant shooter, int time) {
 	COORD spawnPos = shooter.getPosition();
 	spawnPos.X += 7;
 	spawnPos.Y += 1;
 
-	Bullet* bullet = new Bullet;//creates a new bullet
+	Bullet* bullet = new Bullet(time);//creates a new bullet
 	bullet->setPosition(spawnPos);
 
 	bullets.push_back(*bullet);//adds newly created bullet to the list
@@ -224,14 +241,14 @@ void GameHandler::spawnSun(Plant flower, int time) {
 	createSun();
 }
 
-void GameHandler::spawnZombie() {
+void GameHandler::spawnZombie(int time) {
 	COORD gridPos = grid.getPosition();
 	gridPos.Y += 1;
 	COORD spawnPos;
 	spawnPos.X = gridPos.X + 110;
 	spawnPos.Y = gridPos.Y + randNum(0, 5) * 6;
 
-	Zombie* zombie = new Zombie;//creates a new zombie
+	Zombie* zombie = new Zombie(time);//creates a new zombie
 	zombie->setPosition(spawnPos);
 
 	zombies.push_back(*zombie);//adds newly created zombie to the list
@@ -242,7 +259,7 @@ void GameHandler::createSun() {//Every x seconds we want to create sun and add i
 	sunCount += 50;
 }
 
-/*void GameHandler::collisions(Zombie zombie) {
+/*void GameHandler::collisions(Zombie zombie) {//make this a function member of Sprite, a general checkCollision function: sprite1.checkCollision(sprite2);
 	//if zombie collides with plant
 	if (zombie.endCollision()) {
 
@@ -268,11 +285,6 @@ void GameHandler::cls(HANDLE buffer, int colour)//This is used instead of system
 		consoleSize,	// Number of cells to write 
 		{ 0,0 },	// Coordinates of first cell 
 		&charsWritten);// Receive number of characters written
-
-	// Get the current text attribute
-	GetConsoleScreenBufferInfo(buffer, &bufferInfo);
-
-	// Set the buffer's attributes accordingly.
 
 	FillConsoleOutputAttribute(buffer,	// Handle to console screen buffer 
 		colour,	// Character attributes to use

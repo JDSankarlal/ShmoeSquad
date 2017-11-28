@@ -55,15 +55,15 @@ void main()
 
 	clock_t previousTime;//keeps track of the time that the last frame ran at
 
+	DWORD sleepTime;
+
 	previousTime = currentTime();//initializing previousTime
+
+	int useBuffer = 1;//used for alternating between the screen buffers
 
 	game.initialize(currentTime());//initialize the game state
 
 	PlaySound("assets/04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);//start playing background music
-
-	//SetConsoleActiveScreenBuffer(buffer2);
-
-	int useBuffer = 1;//used for alternating between the screen buffers
 
 	//main game loop
 	while (true) {
@@ -84,6 +84,10 @@ void main()
 				useBuffer = 1;
 			}
 			previousTime = currentTime();//set previousTime to the time the previous frame (relative to the next frame) ran
+		}
+		else {
+			sleepTime = FRAME_TIME - (currentTime() - previousTime);
+			Sleep(sleepTime);
 		}
 
 	}//main game loop

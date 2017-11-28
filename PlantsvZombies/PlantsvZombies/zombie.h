@@ -5,6 +5,7 @@ class Zombie : public Sprite
 {
 public:
 	Zombie();
+	Zombie(int time);
 	~Zombie();
 	int health;
 	int row;
