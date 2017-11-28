@@ -12,29 +12,27 @@ using std::vector;
 class Sprite {
 public:
 	Sprite() {
-		//setData(defaultSprite);//set sprite data to a default just incase one gets created without being given ascii data
-		//previousMoveTime = 0;
-		//moveInterval = 1000;//move every 1s
 		frameTime = 1000;//change animation frame every 1s
 		previousFrameTime = 0;
 		frameSequence = new int[1]{ 0 };
 		totalNumFrames = 1;
 	}
-	Sprite(vector<vector<string>> spriteData, int time) {
-		//setData(spriteData);//set sprite data to a default just incase one gets created without being given ascii data
-		//previousMoveTime = 0;
-		//moveInterval = 1000;//move every 1s
+	Sprite(vector<vector<string>>* spriteData, int time) {
+		setData(spriteData);//set sprite data to a default just incase one gets created without being given ascii data
 		frameTime = 1000;//change animation frame every 1s
 		previousFrameTime = time;
 		frameSequence = new int[1]{ 0 };
 		totalNumFrames = 1;
+
+		//previousMoveTime = time;
+		//moveInterval = 1000;//move every 1s
 	}
 	~Sprite() {
 	}
 
 	int moveInterval;//number of ms before sprite moves
 	int previousMoveTime;//the last time the sprite moved
-	COORD moveVector{ 0,0 };//Amount the sprite will move each time it moves
+	COORD moveVector{ 0,0 };//Distance and direction the sprite will move each time it moves
 
 	void setAnimation(int*& sequence, int numFrames, int animationTime) {//set values for animating the sprite
 		frameSequence = sequence;
@@ -42,9 +40,9 @@ public:
 		frameTime = animationTime;
 	}
 	
-	void setData(vector<vector<string>> spriteData)
+	void setData(vector<vector<string>>* spriteData)
 	{//sets the ascii data for the sprite
-		asciiData = spriteData;
+		asciiData = *spriteData;
 		//getting sprites width and height
 		SHORT width = asciiData[0][0].size();
 		SHORT height = asciiData[0].size();

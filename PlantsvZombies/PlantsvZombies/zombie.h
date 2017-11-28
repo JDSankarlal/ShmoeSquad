@@ -5,7 +5,7 @@ class Zombie : public Sprite
 {
 public:
 	Zombie();
-	Zombie(vector<vector<string>> spriteData, int time);
+	Zombie(vector<vector<string>>* spriteData, int time);
 	~Zombie();
 	int health;
 	int row;

@@ -6,7 +6,7 @@ Bullet::Bullet()//don't use this one
 {
 }
 
-Bullet::Bullet(vector<vector<string>> spriteData, int time)//use this constructor instead
+Bullet::Bullet(vector<vector<string>>* spriteData, int time)//use this constructor instead
 {
 	setData(spriteData);//gives it ASCII data
 	

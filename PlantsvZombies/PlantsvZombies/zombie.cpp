@@ -4,7 +4,7 @@ Zombie::Zombie()
 {
 }
 
-Zombie::Zombie(vector<vector<string>> spriteData, int time)
+Zombie::Zombie(vector<vector<string>>* spriteData, int time)
 {
 	setData(spriteData);//gives it ASCII data
 	previousMoveTime = time;
@@ -12,7 +12,7 @@ Zombie::Zombie(vector<vector<string>> spriteData, int time)
 	moveVector = { -1, 0 };//vector sprite will move in
 	health = 100;
 	row;
-	frameSequence = new int[4]{ 0,1,2,1 };
+	frameSequence = new int[4]{ 0,1,0,2 };
 	totalNumFrames = 4;
 	frameTime = 800;//change animation frame every 0.8s
 }

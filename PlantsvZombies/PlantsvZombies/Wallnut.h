@@ -4,7 +4,7 @@ class Wallnut : public Plant
 {
 public:
 	Wallnut();
-	Wallnut(vector<vector<string>> spriteData, int time);
+	Wallnut(vector<vector<string>>* spriteData, int time);
 	~Wallnut();
 };
 

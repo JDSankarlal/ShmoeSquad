@@ -25,6 +25,7 @@ GameHandler::~GameHandler()
 {
 }
 
+//INITIALIZING OBJECTS
 void GameHandler::initialize(int time) {
 	//clearing object lists
 	zombies.clear();
@@ -39,23 +40,24 @@ void GameHandler::initialize(int time) {
 	previousZombieTime = time;
 	previousSunTime = time;
 
-	//setting acii data for grid and bar
-	bar.setData(barSprite);
-	bar.setPosition({ 13,0 });
-	int* sequence = new int[2]{ 0, 1 };
-	grid.setAnimation(sequence, 2, 1044);
-
-	grid.setData(gridSprite);
+	//setting ascii data for grid/lawn
+	grid.setData(&gridSprite);
 	grid.setPosition({ 13,10 });
-	sequence = new int[4]{ 0,1,2,1 };
+	int* sequence = new int[4]{ 0,1,2,1 };
 	grid.setAnimation(sequence, 4, 1044);
+
+	//setting acii data for bar
+	bar.setData(&barSprite);
+	bar.setPosition({ 13,0 });
+	//sequence = new int[2]{ 0, 1 };
+	//bar.setAnimation(sequence, 2, 1044);
 
 	//setting what plants are in the plant buy Bar
 	numChosenPlants = 3;
 	chosenPlants = new Plant*[numChosenPlants];
-	chosenPlants[0] = new Sunflower(sunflowerSprite, time);
-	chosenPlants[1] = new Peashooter(peashooterSprite, time);
-	chosenPlants[2] = new Wallnut(wallnutSprite, time);
+	chosenPlants[0] = new Sunflower(&sunflowerSprite, time);
+	chosenPlants[1] = new Peashooter(&peashooterSprite, time);
+	chosenPlants[2] = new Wallnut(&wallnutSprite, time);
 
 	//placing plants in the plant buy bar
 	COORD pos = bar.getPosition();
@@ -74,6 +76,8 @@ void GameHandler::initialize(int time) {
 	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::WALLNUT, time);
 }
 
+
+//RENDERING OBJECTS
 void GameHandler::render(HANDLE buffer) {
 	cls(buffer, white_black);
 	printDisplay(buffer);
@@ -125,12 +129,13 @@ void GameHandler::printZombies(HANDLE buffer) {
 	}
 }
 
+//UPDATING OBJECTS
 void GameHandler::update(int time) {
 	checkZombieSpawn(time);
 	checkSunSpawn(time);
 
-	bar.updateAnimation(time);
 	grid.updateAnimation(time);
+	//bar.updateAnimation(time);
 
 	for (std::vector<Plant>::iterator it = plants.begin(); it != plants.end(); ++it) {//update plants
 		it->updateAnimation(time);
@@ -163,10 +168,10 @@ void GameHandler::update(int time) {
 
 	//collision detection
 	for (int i = 0; i<zombies.size(); i++) {//*this is broken right now*
-		if (zombies[i].getPosition().Y == bullets[i].getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
+		/*if (zombies[i].getPosition().Y == bullets[i].getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
 		{
 			zombies[i].health -= 20;
-		}
+		}*/
 		if (zombies[i].endCollision() || zombies[i].health <= 0)
 		{
 			zombies.erase(zombies.begin() + i);
@@ -185,6 +190,73 @@ void GameHandler::update(int time) {
 	}
 }
 
+void GameHandler::checkPlantBuy() {
+}
+
+//SPAWING OBJECTS
+void GameHandler::placePlant(COORD pos, Plant::plantType type, int time) {
+	Plant* plant = 0;
+	if (type == Plant::PEASHOOTER) {
+		plant = new Peashooter(&peashooterSprite, time);//creates a new peashooter
+	}
+	else if (type == Plant::SUNFLOWER) {
+		plant = new Sunflower(&sunflowerSprite, time);//creates a new sunflower
+	}
+	else if (type == Plant::WALLNUT) {
+		plant = new Wallnut(&wallnutSprite, time);//creates a new wallnut
+	}
+	plant->setPosition(pos);
+
+	plants.push_back(*plant);//adds newly created plant to the list
+
+	delete plant;
+}
+
+void GameHandler::spawnBullet(Plant shooter, int time) {
+	COORD spawnPos = shooter.getPosition();
+	spawnPos.X += 7;
+	spawnPos.Y += 1;
+
+	Bullet* bullet = new Bullet(&bulletSprite, time);//creates a new bullet
+	bullet->setPosition(spawnPos);
+
+	bullets.push_back(*bullet);//adds newly created bullet to the list
+}
+
+void GameHandler::spawnSun(Plant flower, int time) {
+	COORD spawnPos = flower.getPosition();
+	//spawnPos.X += 1;
+	//spawnPos.Y -= 1;
+
+	Sun* sun = new Sun(&sunflower_shineSprite, time);//creates a new sun
+	sun->setPosition(spawnPos);
+
+	suns.push_back(*sun);//adds newly created sun to the list
+	createSun();
+
+	delete sun;
+}
+
+void GameHandler::spawnZombie(int time) {
+	COORD gridPos = grid.getPosition();
+	gridPos.Y += 1;
+	COORD spawnPos;
+	spawnPos.X = gridPos.X + 110;
+	spawnPos.Y = gridPos.Y + randNum(0, 5) * 6;
+
+	Zombie* zombie = new Zombie(&zombieSprite, time);//creates a new zombie
+	zombie->setPosition(spawnPos);
+
+	zombies.push_back(*zombie);//adds newly created zombie to the list
+
+	delete zombie;
+}
+
+void GameHandler::createSun() {//adds sun to the player's sun count
+	sunCount += 50;
+}
+
+//CHECKING SPAWN TIMERS
 void GameHandler::checkZombieSpawn(int time) {
 	if (time - previousZombieTime >= zombieInterval) {
 		spawnZombie(time);
@@ -199,67 +271,7 @@ void GameHandler::checkSunSpawn(int time) {
 	}
 }
 
-void GameHandler::checkPlantBuy() {
-}
-
-void GameHandler::placePlant(COORD pos, Plant::plantType type, int time) {
-	Plant* plant = 0;
-	if (type == Plant::PEASHOOTER) {
-		plant = new Peashooter(peashooterSprite, time);//creates a new peashooter
-	}
-	else if (type == Plant::SUNFLOWER) {
-		plant = new Sunflower(sunflowerSprite, time);//creates a new sunflower
-	}
-	else if (type == Plant::WALLNUT) {
-		plant = new Wallnut(wallnutSprite, time);//creates a new wallnut
-	}
-	plant->setPosition(pos);
-
-	plants.push_back(*plant);//adds newly created plant to the list
-}
-
-void GameHandler::spawnBullet(Plant shooter, int time) {
-	COORD spawnPos = shooter.getPosition();
-	spawnPos.X += 7;
-	spawnPos.Y += 1;
-
-	Bullet* bullet = new Bullet(bulletSprite, time);//creates a new bullet
-	bullet->setPosition(spawnPos);
-
-	bullets.push_back(*bullet);//adds newly created bullet to the list
-}
-
-void GameHandler::spawnSun(Plant flower, int time) {
-	COORD spawnPos = flower.getPosition();
-	//spawnPos.X += 1;
-	//spawnPos.Y -= 1;
-
-	Sun* sun = new Sun(sunflower_shineSprite, time);//creates a new sun
-	sun->setPosition(spawnPos);
-
-	suns.push_back(*sun);//adds newly created sun to the list
-	createSun();
-}
-
-void GameHandler::spawnZombie(int time) {
-	COORD gridPos = grid.getPosition();
-	gridPos.Y += 1;
-	COORD spawnPos;
-	spawnPos.X = gridPos.X + 110;
-	spawnPos.Y = gridPos.Y + randNum(0, 5) * 6;
-
-	Zombie* zombie = new Zombie(zombieSprite, time);//creates a new zombie
-	zombie->setPosition(spawnPos);
-
-	zombies.push_back(*zombie);//adds newly created zombie to the list
-
-}
-
-void GameHandler::createSun() {//Every x seconds we want to create sun and add it to the player's sun counter.
-	sunCount += 50;
-}
-
-/*void GameHandler::collisions(Zombie zombie) {//make this a function member of Sprite, a general checkCollision function: sprite1.checkCollision(sprite2);
+/*void GameHandler::collisions(Zombie zombie) {//**make this a function member of Sprite, a general checkCollision function: sprite1.checkCollision(sprite2);**
 	//if zombie collides with plant
 	if (zombie.endCollision()) {
 
@@ -268,6 +280,7 @@ void GameHandler::createSun() {//Every x seconds we want to create sun and add i
 	Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bullet.cpp
 }*/
 
+//OTHER FUNCTIONS
 void GameHandler::cls(HANDLE buffer, int colour)//This is used instead of system("cls")
 {
 	DWORD charsWritten;
@@ -330,7 +343,7 @@ vector<vector<string>> GameHandler::getSprite(string fileName) {
 
 void GameHandler::loadSprites() {
 	defaultSprite = getSprite("assets/default.txt");
-	barSprite = getSprite("assets/bar2.txt");
+	barSprite = getSprite("assets/bar.txt");
 	bulletSprite = getSprite("assets/bullet.txt");
 	gridSprite = getSprite("assets/lawn.txt");
 	peashooterSprite = getSprite("assets/peashooter.txt");

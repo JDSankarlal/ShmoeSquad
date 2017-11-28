@@ -6,7 +6,7 @@ Wallnut::Wallnut()
 {
 }
 
-Wallnut::Wallnut(vector<vector<string>> spriteData, int time)
+Wallnut::Wallnut(vector<vector<string>>* spriteData, int time)
 {
 	type = WALLNUT;
 	setData(spriteData);//gives it ASCII data

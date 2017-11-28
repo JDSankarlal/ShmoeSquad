@@ -6,7 +6,7 @@ Sun::Sun()
 {
 }
 
-Sun::Sun(vector<vector<string>> spriteData, int time)
+Sun::Sun(vector<vector<string>>* spriteData, int time)
 {
 	setData(spriteData);//gives it ASCII data
 	lifeTime = time + 3000;//suns stays alive for 2 seconds

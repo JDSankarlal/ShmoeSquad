@@ -31,8 +31,6 @@ public:
 	void printZombies(HANDLE buffer);//prints all zombies
 
 	void update(int time);//updates the state of plants, zombies, bullets, and suns
-	void checkZombieSpawn(int time);
-	void checkSunSpawn(int time);
 	void checkPlantBuy();
 
 	void placePlant(COORD pos, Plant::plantType type, int time);//places a plant at given coordinates
@@ -40,6 +38,9 @@ public:
 	void spawnSun(Plant, int time);//creates a sun for the passed in plant
 	void spawnZombie(int time);//creates a zombie in a random row
 	void createSun();//adds a set amount of sun to the player's sun count
+
+	void checkZombieSpawn(int time);
+	void checkSunSpawn(int time);
 
 	void cls(HANDLE buffer, int colour);//clears the screen
 
@@ -65,6 +66,7 @@ public:
 	int previousSunTime;//last time a sun spawned
 	//void collisions();
 
+	//SPRITE DATA
 	vector<vector<string>> defaultSprite;
 	vector<vector<string>> barSprite;
 	vector<vector<string>> bulletSprite;
