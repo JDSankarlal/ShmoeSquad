@@ -13,6 +13,7 @@ Bullet::Bullet(vector<vector<string>>* spriteData, int time)//use this construct
 	frameSequence = new int[4]{ 0,1,2,3 };
 	totalNumFrames = 4;
 	frameTime = 350;
+	previousFrameTime = time;
 
 	previousMoveTime = 0;
 	moveInterval = 100;//move every 0.1s

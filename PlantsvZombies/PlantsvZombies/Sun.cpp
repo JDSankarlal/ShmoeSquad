@@ -13,6 +13,7 @@ Sun::Sun(vector<vector<string>>* spriteData, int time)
 	frameSequence = new int[4]{ 0,1,2,1 };
 	totalNumFrames = 4;
 	frameTime = 200;//change animation frame every 0.5s
+	previousFrameTime = time;
 }
 
 

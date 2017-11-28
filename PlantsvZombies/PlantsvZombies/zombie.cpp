@@ -7,14 +7,18 @@ Zombie::Zombie()
 Zombie::Zombie(vector<vector<string>>* spriteData, int time)
 {
 	setData(spriteData);//gives it ASCII data
+
 	previousMoveTime = time;
-	moveInterval = 800;//move every 0.8s
+	moveInterval = 1000;//move every 1.0s
 	moveVector = { -1, 0 };//vector sprite will move in
+	
+	frameSequence = new int[4]{ 0, 1, 0, 2 };
+	totalNumFrames = 4;
+	frameTime = moveInterval / 2;//change animation frame every 0.4s
+	previousFrameTime = time;
+
 	health = 100;
 	row;
-	frameSequence = new int[4]{ 0,1,0,2 };
-	totalNumFrames = 4;
-	frameTime = 800;//change animation frame every 0.8s
 }
 
 

@@ -142,6 +142,7 @@ void GameHandler::update(int time) {
 		if (it->shoot(time) == true) {//check if each plant is shooting on the current frame
 			if (it->getType() == Plant::PEASHOOTER) {//peashooters will shoot bullets
 				spawnBullet(*it, time);
+				//it->setData(&peashooter_shootingSprite);//change sprite to shooting sprite
 			}
 			else if (it->getType() == Plant::SUNFLOWER) {//sunflowers will create sun instead of shooting
 				spawnSun(*it, time);
@@ -162,11 +163,11 @@ void GameHandler::update(int time) {
 	}
 
 	for (std::vector<Zombie>::iterator it = zombies.begin(); it != zombies.end(); ++it) {//update zombies
-		it->updateAnimation(time);
 		it->move(time);//zombies move a certain distance each frame
+		it->updateAnimation(time);
 	}
 
-	//collision detection
+	//COLLISION DETECTION
 	for (int i = 0; i<zombies.size(); i++) {//*this is broken right now*
 		/*if (zombies[i].getPosition().Y == bullets[i].getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
 		{
@@ -214,7 +215,7 @@ void GameHandler::placePlant(COORD pos, Plant::plantType type, int time) {
 
 void GameHandler::spawnBullet(Plant shooter, int time) {
 	COORD spawnPos = shooter.getPosition();
-	spawnPos.X += 7;
+	spawnPos.X += 8;
 	spawnPos.Y += 1;
 
 	Bullet* bullet = new Bullet(&bulletSprite, time);//creates a new bullet
@@ -347,6 +348,7 @@ void GameHandler::loadSprites() {
 	bulletSprite = getSprite("assets/bullet.txt");
 	gridSprite = getSprite("assets/lawn.txt");
 	peashooterSprite = getSprite("assets/peashooter.txt");
+	peashooter_shootingSprite = getSprite("assets/peashooter_shooting.txt");
 	sunflowerSprite = getSprite("assets/sunflower.txt");
 	sunflower_shineSprite = getSprite("assets/sunflower_shine.txt");
 	wallnutSprite = getSprite("assets/wallnut.txt");

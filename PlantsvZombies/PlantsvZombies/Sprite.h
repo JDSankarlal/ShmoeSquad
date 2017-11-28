@@ -30,10 +30,6 @@ public:
 	~Sprite() {
 	}
 
-	int moveInterval;//number of ms before sprite moves
-	int previousMoveTime;//the last time the sprite moved
-	COORD moveVector{ 0,0 };//Distance and direction the sprite will move each time it moves
-
 	void setAnimation(int*& sequence, int numFrames, int animationTime) {//set values for animating the sprite
 		frameSequence = sequence;
 		totalNumFrames = numFrames;
@@ -105,10 +101,14 @@ protected:
 	int* frameSequence;//array of the order the animation frames display in
 	int totalNumFrames;//the number of frames of animation the sprite has
 	int frameTime;//time each frame of animation is drawn for
+	int previousFrameTime;//time at which the last frame of animation was changed
+
+	int moveInterval;//number of ms before sprite moves
+	int previousMoveTime;//the last time the sprite moved
+	COORD moveVector{ 0,0 };//Distance and direction the sprite will move each time it moves
 private:
 	COORD position;//the current position of a sprites Top Left corner
 	COORD size;//the width and height of a sprite
 	vector<vector<string>> asciiData;//a vector of strings, used to store sprite data
 	int frameNum = 0;//the current frame being drawn
-	int previousFrameTime;//time at which the last frame of animation was changed
 };

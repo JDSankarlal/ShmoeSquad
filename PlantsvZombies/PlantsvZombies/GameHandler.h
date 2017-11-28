@@ -72,6 +72,7 @@ public:
 	vector<vector<string>> bulletSprite;
 	vector<vector<string>> gridSprite;
 	vector<vector<string>> peashooterSprite;
+	vector<vector<string>> peashooter_shootingSprite;
 	vector<vector<string>> sunflowerSprite;
 	vector<vector<string>> sunflower_shineSprite;
 	vector<vector<string>> wallnutSprite;

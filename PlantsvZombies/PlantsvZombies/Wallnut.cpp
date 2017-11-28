@@ -13,6 +13,7 @@ Wallnut::Wallnut(vector<vector<string>>* spriteData, int time)
 	frameSequence = new int[4]{ 0,1,0,2 };
 	totalNumFrames = 4;
 	frameTime = 1044;//change animation frame every 0.522s, synced with the bpm of the music!
+	previousFrameTime = time;
 
 	health = 400;
 }

@@ -68,10 +68,10 @@ void main()
 
 	//main game loop
 	while (true) {
-
-		//updating the game state
+		//updating game state
 		game.update(currentTime());//passing in currently elapsed time in ms
 
+		//rendering graphics
 		if (currentTime() - previousTime >= FRAME_TIME) {//draws to the screen on each frame of the game
 			//alternating which buffer the game is rendering to
 			if (useBuffer == 1) {
@@ -88,7 +88,7 @@ void main()
 		}
 		else {
 			sleepTime = FRAME_TIME - (currentTime() - previousTime);
-			Sleep(sleepTime);
+			Sleep(sleepTime);//sleep for remainder of time until next frame
 		}
 
 	}//main game loop
