@@ -370,7 +370,7 @@ vector<vector<string>> GameHandler::getSprite(string fileName) {
 void GameHandler::loadSprites() {
 	defaultSprite = getSprite("assets/default.txt");
 	barSprite = getSprite("assets/bar.txt");
-	bulletSprite = getSprite("assets/bullet2.txt");
+	bulletSprite = getSprite("assets/bullet.txt");
 	gridSprite = getSprite("assets/lawn.txt");
 	peashooterSprite = getSprite("assets/peashooter.txt");
 	peashooter_shootingSprite = getSprite("assets/peashooter_shooting.txt");

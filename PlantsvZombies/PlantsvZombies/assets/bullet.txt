@@ -1,8 +1,8 @@
-   (o)
+(o)
 new_frame
-  <(O)
+(O)
 new_frame
- ~<(o)
+(o)
 new_frame
--~<(O)
+(O)
 new_frame
