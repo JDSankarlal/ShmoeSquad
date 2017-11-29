@@ -3,44 +3,41 @@
 #include "GameHandler.h"
 #include "Events.h"
 
-#pragma comment(lib, "Winmm.lib")//for playing sound
+#pragma comment(lib, "Winmm.lib")//for playing the music
 
-int currentTime();//gets time in milliseconds since program start
+int currentTime();//gets time in milliseconds since program started
 
-void fullscreen();//puts program in fullscreen mode
+HANDLE buffer1;//handle for the buffer for rendering into
 
-HANDLE buffer1;
+HANDLE wHnd;//handle for standard Windows Console output
+HANDLE rHnd;//handle for standard Windows Console intput
 
-HANDLE wHnd;
-HANDLE rHnd;
-
-static GameHandler game;
+static GameHandler game;//the game instance
 
 void main()
 {
-	//Setting up screen buffers
+	//Setting up screen buffer
 	buffer1 = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-	//buffer2 = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 
-	// Set up the handles for reading/writing:
+	// Setting up handles for reading/writing
 	wHnd = GetStdHandle(STD_OUTPUT_HANDLE);
 	rHnd = GetStdHandle(STD_INPUT_HANDLE);
 
-	// Change the window title:
+	// Changing the window title
 	SetConsoleTitle(TEXT("Plants VS Zombies!?"));
 
-	// Set up the required window size:
+	// Setting window size
 	SMALL_RECT windowSize = { 0, 0, 133, 44 };//{.Left, .Top, .Right, .Bottom}
 	// Change the console window size:
 	SetConsoleWindowInfo(wHnd, TRUE, &windowSize);
 
-	// Create a COORD to hold the buffer size:
+	// Creating a COORD to hold the buffer size
 	COORD bufferSize = { 134, 45 };
 	// Change the internal buffer size:
 	SetConsoleScreenBufferSize(wHnd, bufferSize);
 	SetConsoleScreenBufferSize(buffer1, bufferSize);
 
-	CHAR_INFO charBuffer[134 * 45];
+	CHAR_INFO charBuffer[134 * 45];//buffer for copying rendering buffer into active buffer
 
 	srand(time(NULL));//set seed for random number generation
 
@@ -49,7 +46,7 @@ void main()
 
 	clock_t previousTime;//keeps track of the time that the last frame ran at
 
-	DWORD sleepTime;
+	DWORD sleepTime;//used by Windows Sleep() function, time in milliseconds
 
 	previousTime = currentTime();//initializing previousTime
 
@@ -86,12 +83,3 @@ void main()
 int currentTime() {
 	return clock() / (double)CLOCKS_PER_SEC * 1000;
 }
-
-void fullscreen()
-{
-	keybd_event(VK_MENU, 0x38, 0, 0);
-	keybd_event(VK_RETURN, 0x1c, 0, 0);
-	keybd_event(VK_RETURN, 0x1c, KEYEVENTF_KEYUP, 0);
-	keybd_event(VK_MENU, 0x38, KEYEVENTF_KEYUP, 0);
-}
-

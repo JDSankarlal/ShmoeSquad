@@ -65,6 +65,7 @@ void GameHandler::initialize(int time) {
 	pos.Y += 1;
 	for (SHORT i = 0; i < numChosenPlants; i++) {//placing plants inside of the bar
 		chosenPlants[i]->setPosition({ pos.X + i * 12, pos.Y });
+		chosenPlants[i]->setDefaultColour(white_black);
 	}
 
 	//placing plants for testing purposes
@@ -321,6 +322,14 @@ void GameHandler::printString(HANDLE buffer, string string, COORD position) {
 		stringData[i].Attributes = white_black;
 	}
 	WriteConsoleOutput(buffer, stringData, stringSize, { 0 , 0 }, &stringPosition);
+}
+
+void GameHandler::fullscreen()
+{
+	keybd_event(VK_MENU, 0x38, 0, 0);
+	keybd_event(VK_RETURN, 0x1c, 0, 0);
+	keybd_event(VK_RETURN, 0x1c, KEYEVENTF_KEYUP, 0);
+	keybd_event(VK_MENU, 0x38, KEYEVENTF_KEYUP, 0);
 }
 
 int GameHandler::randNum(int min, int max) {//takes in the minimum value and maximum value for random number to be generated

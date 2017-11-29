@@ -9,6 +9,7 @@ Wallnut::Wallnut()
 Wallnut::Wallnut(vector<vector<string>>* spriteData, int time)
 {
 	type = WALLNUT;
+	defaultColour = 0x000a;//green_black;
 	defaultData = spriteData;
 	resetData();
 	previousFrameTime = time;
@@ -22,7 +23,7 @@ Wallnut::~Wallnut()
 }
 
 void Wallnut::defaultAnimation() {
-	colour = 0x000a;//green_black
+	colour = defaultColour;
 	frameSequence = new int[4]{ 0,1,0,2 };
 	totalNumFrames = 4;
 	frameTime = 1000;

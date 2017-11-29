@@ -12,10 +12,12 @@ using std::vector;
 class Sprite {
 public:
 	Sprite() {
+		defaultColour = 0x000f;//white_black
 		defaultAnimation();
 		previousFrameTime = 0;
 	}
 	Sprite(vector<vector<string>>* spriteData, int time) {
+		defaultColour = 0x000f;//white_black
 		defaultData = spriteData;
 		resetData();
 		previousFrameTime = time;
@@ -50,10 +52,19 @@ public:
 	}
 
 	virtual void defaultAnimation() {
-		colour = 0x000f;//white_black
+		colour = defaultColour;
 		frameTime = 1000;//change animation frame every 1s
 		frameSequence = new int[1]{ 0 };
 		totalNumFrames = 1;
+	}
+
+	void setColour(int colourNum) {//sets the current colour
+		colour = colourNum;
+	}
+
+	void setDefaultColour(int colourNum) {//sets the current colour and default colour
+		colour = colourNum;
+		defaultColour = colour;
 	}
 
 	void move(int time) {
@@ -91,6 +102,7 @@ public:
 						resetData();
 						loopNum = 1;
 						inAnimation = false;
+						frameNum = defaultFrameNum;
 					}
 					else {
 						loopNum++;
@@ -100,7 +112,7 @@ public:
 		}
 	}
 	
-	virtual void draw(HANDLE buffer)
+	void draw(HANDLE buffer)
 	{//draw sprite to screen at its current position
 		CHAR_INFO* spriteData = new CHAR_INFO[size.X * size.Y];
 		SMALL_RECT spritePosition = { position.X, position.Y, position.X + size.X, position.Y + size.Y };
@@ -120,12 +132,15 @@ protected:
 	int numLoops = 1;//number of times to loop through an animation
 	int loopNum = 1;//keeps track of the number of loops of animation that have occured
 	int colour = 0x0007;//the sprites current colour, default is dull white
+	int defaultColour = colour;
 
 	int* frameSequence;//array of the order the animation frames display in
 	int totalNumFrames;//the number of frames of animation the sprite has
 	int frameTime = 10000;//time each frame of animation is drawn for
 	int previousFrameTime;//time at which the last frame of animation was changed
 	int frameNum = 0;//the current frame being drawn
+	int defaultFrameNum = frameNum;//keeps track of the frameNum sprite was on when a special animation started, so it can resume animation at right spot
+	//int defaultTotalNumFrames;//stores the number of frames in the default animation
 
 	int moveInterval;//number of ms inbetween sprite movements
 	int previousMoveTime;//the last time the sprite moved

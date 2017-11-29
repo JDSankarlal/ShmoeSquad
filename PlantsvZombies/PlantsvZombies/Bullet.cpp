@@ -8,6 +8,7 @@ Bullet::Bullet()//don't use this one
 
 Bullet::Bullet(vector<vector<string>>* spriteData, int time)//use this constructor instead
 {
+	defaultColour = 0x000a;//green_black;
 	defaultData = spriteData;
 	resetData();
 	previousFrameTime = time;
@@ -45,7 +46,7 @@ Bullet::~Bullet()
 }
 
 void Bullet::defaultAnimation() {
-	colour = 0x000a;//green_black
+	colour = defaultColour;
 	frameSequence = new int[4]{ 0,1,2,3 };
 	totalNumFrames = 4;
 	frameTime = 350;

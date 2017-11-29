@@ -9,6 +9,7 @@ Sun::Sun()
 Sun::Sun(vector<vector<string>>* spriteData, int time)
 {
 	colour = 0x000e;//yellow_black
+	defaultColour = colour;
 	defaultData = spriteData;
 	setData(spriteData);//gives it ASCII data
 	frameSequence = new int[1]{ 0 };

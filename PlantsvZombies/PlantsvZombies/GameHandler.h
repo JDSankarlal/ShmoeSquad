@@ -44,6 +44,7 @@ public:
 
 	void cls(HANDLE buffer, int colour);//clears the screen
 	void printString(HANDLE buffer, string string, COORD position);
+	void fullscreen();//puts program in fullscreen mode
 
 	int randNum(int min, int max);//genrates a random number in a range
 
