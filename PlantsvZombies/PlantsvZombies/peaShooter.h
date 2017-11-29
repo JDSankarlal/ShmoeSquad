@@ -6,5 +6,7 @@ public:
 	Peashooter();
 	Peashooter(vector<vector<string>>* spriteData, int time);
 	~Peashooter();
-};
 
+	void shootingAnimation(vector<vector<string>>* spriteData, int time);
+	void defaultAnimation();
+};

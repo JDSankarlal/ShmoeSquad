@@ -19,3 +19,6 @@ bool Plant::shoot(int time)//the number this returns tells the game which type o
 		return false;
 	}
 }
+
+void Plant::shootingAnimation(vector<vector<string>>* spriteData, int time) {
+}

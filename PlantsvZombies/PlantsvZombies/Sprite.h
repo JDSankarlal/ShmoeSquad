@@ -18,6 +18,7 @@ public:
 		totalNumFrames = 1;
 	}
 	Sprite(vector<vector<string>>* spriteData, int time) {
+		defaultData = spriteData;
 		setData(spriteData);//set sprite data to a default just incase one gets created without being given ascii data
 		frameTime = 1000;//change animation frame every 1s
 		previousFrameTime = time;
@@ -30,10 +31,12 @@ public:
 	~Sprite() {
 	}
 
-	void setAnimation(int*& sequence, int numFrames, int animationTime) {//set values for animating the sprite
+	void setAnimation(int*& sequence, int numFrames, int animationTime, int time) {//set values for animating the sprite
 		frameSequence = sequence;
 		totalNumFrames = numFrames;
 		frameTime = animationTime;
+		frameNum = 0;
+		previousFrameTime = time;
 	}
 	
 	void setData(vector<vector<string>>* spriteData)
@@ -44,6 +47,17 @@ public:
 		SHORT height = asciiData[0].size();
 		size = { width, height };
 		//setPosition({ 0,0 });//setting default position to 0,0
+	}
+
+	void resetData() {
+		setData(defaultData);
+		defaultAnimation();
+	}
+
+	virtual void defaultAnimation() {
+		frameTime = 1000;//change animation frame every 1s
+		frameSequence = new int[1]{ 0 };
+		totalNumFrames = 1;
 	}
 
 	void move(int time) {
@@ -76,11 +90,15 @@ public:
 			frameNum++;
 			if (frameNum >= totalNumFrames) {
 				frameNum = 0;
+				if (inAnimation == true) {
+					resetData();
+					inAnimation = false;
+				}
 			}
 		}
 	}
 	
-	void draw(HANDLE buffer, int colour)
+	virtual void draw(HANDLE buffer, int colour)
 	{//draw sprite to screen at its current position
 		CHAR_INFO* spriteData = new CHAR_INFO[size.X * size.Y];
 		SMALL_RECT spritePosition = { position.X, position.Y, position.X + size.X, position.Y + size.Y };
@@ -95,17 +113,20 @@ public:
 	}
 
 protected:
+	vector<vector<string>>* defaultData = 0;//the default ascii data for a sprite
+	bool inAnimation = false;//keeps track of wether the sprite is in a special animation or not
+
 	int* frameSequence;//array of the order the animation frames display in
 	int totalNumFrames;//the number of frames of animation the sprite has
 	int frameTime;//time each frame of animation is drawn for
 	int previousFrameTime;//time at which the last frame of animation was changed
+	int frameNum = 0;//the current frame being drawn
 
-	int moveInterval;//number of ms before sprite moves
+	int moveInterval;//number of ms inbetween sprite movements
 	int previousMoveTime;//the last time the sprite moved
 	COORD moveVector{ 0,0 };//Distance and direction the sprite will move each time it moves
 private:
 	COORD position;//the current position of a sprites Top Left corner
 	COORD size;//the width and height of a sprite
 	vector<vector<string>> asciiData;//a vector of strings, used to store sprite data
-	int frameNum = 0;//the current frame being drawn
 };
