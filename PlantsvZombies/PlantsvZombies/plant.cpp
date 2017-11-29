@@ -9,7 +9,7 @@ Plant::~Plant()
 {
 }
 
-bool Plant::shoot(int time)//the number this returns tells the game which type of bullet to spawn
+bool Plant::checkShoot(int time)//the number this returns tells the game which type of bullet to spawn
 {
 	if (time - previousShootTime >= shootInterval) {//shoot at set interval
 		previousShootTime = time;
@@ -21,4 +21,14 @@ bool Plant::shoot(int time)//the number this returns tells the game which type o
 }
 
 void Plant::shootingAnimation(vector<vector<string>>* spriteData, int time) {
+}
+
+bool Plant::shootBullet(int time) {
+	if (time - shootTime >= shootDelay && shootTime > 0) {
+		shootTime = -1;
+		return true;
+	}
+	else {
+		return false;
+	}
 }

@@ -141,14 +141,16 @@ void GameHandler::update(int time) {
 
 	for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {//update plants
 		(*it)->updateAnimation(time);
-		if ((*it)->shoot(time) == true) {//check if each plant is shooting on the current frame
+		if ((*it)->checkShoot(time) == true) {//check if each plant is shooting on the current frame
 			if ((*it)->getType() == Plant::PEASHOOTER) {//peashooters will shoot bullets
-				spawnBullet((*it), time);
 				(*it)->shootingAnimation(&peashooter_shootingSprite, time);
 			}
 			else if ((*it)->getType() == Plant::SUNFLOWER) {//sunflowers will create sun instead of shooting
 				spawnSun((*it), time);
 			}
+		}
+		if ((*it)->shootBullet(time) == true) {//check if each plant should spawn a bullet after it's shooting animation has finished
+			spawnBullet((*it), time);
 		}
 	}
 
@@ -216,7 +218,7 @@ void GameHandler::placePlant(COORD pos, Plant::plantType type, int time) {
 
 void GameHandler::spawnBullet(Plant* shooter, int time) {
 	COORD spawnPos = shooter->getPosition();
-	spawnPos.X += 8;
+	spawnPos.X += 6;
 	spawnPos.Y += 1;
 
 	Bullet* bullet = new Bullet(&bulletSprite, time);//creates a new bullet
@@ -355,7 +357,7 @@ vector<vector<string>> GameHandler::getSprite(string fileName) {
 void GameHandler::loadSprites() {
 	defaultSprite = getSprite("assets/default.txt");
 	barSprite = getSprite("assets/bar.txt");
-	bulletSprite = getSprite("assets/bullet.txt");
+	bulletSprite = getSprite("assets/bullet2.txt");
 	gridSprite = getSprite("assets/lawn.txt");
 	peashooterSprite = getSprite("assets/peashooter.txt");
 	peashooter_shootingSprite = getSprite("assets/peashooter_shooting.txt");
