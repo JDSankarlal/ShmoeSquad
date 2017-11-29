@@ -7,6 +7,9 @@ public:
 	Zombie();
 	Zombie(vector<vector<string>>* spriteData, int time);
 	~Zombie();
+
+	void defaultAnimation();
+
 	int health;
 	int row;
 	bool endCollision();

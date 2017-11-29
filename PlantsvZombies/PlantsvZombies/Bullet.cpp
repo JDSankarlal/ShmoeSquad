@@ -8,16 +8,14 @@ Bullet::Bullet()//don't use this one
 
 Bullet::Bullet(vector<vector<string>>* spriteData, int time)//use this constructor instead
 {
-	setData(spriteData);//gives it ASCII data
-	
-	frameSequence = new int[4]{ 0,1,2,3 };
-	totalNumFrames = 4;
-	frameTime = 350;
+	defaultData = spriteData;
+	resetData();
 	previousFrameTime = time;
 
 	previousMoveTime = 0;
 	moveInterval = 100;//move every 0.1s
 	moveVector = { 1, 0 };//vector sprite will move in
+
 
 	//row = position();
 	if (getPosition().Y == 12)
@@ -42,10 +40,15 @@ Bullet::Bullet(vector<vector<string>>* spriteData, int time)//use this construct
 	}
 }
 
-
-
 Bullet::~Bullet()
 {
+}
+
+void Bullet::defaultAnimation() {
+	colour = 0x000a;//green_black
+	frameSequence = new int[4]{ 0,1,2,3 };
+	totalNumFrames = 4;
+	frameTime = 350;
 }
 
 //Deletes the bullet if it hits the righthand edge

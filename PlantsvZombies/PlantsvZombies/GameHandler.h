@@ -27,17 +27,17 @@ public:
 	void printDisplay(HANDLE buffer);//prints the UI and Grid
 	void printPlants(HANDLE buffer);//prints all plants
 	void printBullets(HANDLE buffer);//prints all bullets
-	void printSuns(HANDLE buffer);//prints all suns
 	void printZombies(HANDLE buffer);//prints all zombies
+	//void printSuns(HANDLE buffer);//prints all suns, unused for now
 
 	void update(int time);//updates the state of plants, zombies, bullets, and suns
 	void checkPlantBuy();
 
 	void placePlant(COORD pos, Plant::plantType type, int time);//places a plant at given coordinates
 	void spawnBullet(Plant*, int time);//creates a bullet for the passed in plant
-	void spawnSun(Plant*, int time);//creates a sun for the passed in plant
 	void spawnZombie(int time);//creates a zombie in a random row
-	void createSun();//adds a set amount of sun to the player's sun count
+	void createSun(int num);//adds a certain amount of sun to the player's sun count
+	//void spawnSun(Plant*, int time);//creates a sun for the passed in plant, unused for now
 
 	void checkZombieSpawn(int time);
 	void checkSunSpawn(int time);
@@ -56,12 +56,12 @@ public:
 	vector<Zombie*> zombies;//list of all current zombies
 	vector<Plant*> plants;//list of all current sprites
 	vector<Bullet*> bullets;//list of all current bullets
-	vector<Sun*> suns;//list of all current suns
+	//vector<Sun*> suns;//list of all current suns, unused for now
 
 	Sprite grid;
 	Sprite bar;//sprites for the grid and plant bar
 
-	int sunCount;
+	int sunCount;//amount of sun player has
 	int zombieInterval;//the interval in ms that zombies spawn
 	int sunInterval;//interval suns spawn at
 	int previousZombieTime;//stores last time a zombie was spawned
@@ -77,6 +77,7 @@ public:
 	vector<vector<string>> peashooter_shootingSprite;
 	vector<vector<string>> sunflowerSprite;
 	vector<vector<string>> sunflower_shineSprite;
+	//vector<vector<string>> sunSprite;//unused for now
 	vector<vector<string>> wallnutSprite;
 	vector<vector<string>> zombieSprite;
 };

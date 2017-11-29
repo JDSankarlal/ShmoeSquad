@@ -6,8 +6,12 @@ public:
 	Bullet();
 	Bullet(vector<vector<string>>* spriteData, int time);
 	~Bullet();
+
+	void defaultAnimation();
+
 	bool hitEdge();
 	//bool hitZombie();
+
 	int position();
 	int row;
 };

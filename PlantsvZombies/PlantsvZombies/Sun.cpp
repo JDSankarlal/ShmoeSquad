@@ -8,12 +8,15 @@ Sun::Sun()
 
 Sun::Sun(vector<vector<string>>* spriteData, int time)
 {
+	colour = 0x000e;//yellow_black
+	defaultData = spriteData;
 	setData(spriteData);//gives it ASCII data
-	lifeTime = time + 3000;//suns stays alive for 2 seconds
-	frameSequence = new int[4]{ 0,1,2,1 };
-	totalNumFrames = 4;
-	frameTime = 200;//change animation frame every 0.5s
+	frameSequence = new int[1]{ 0 };
+	totalNumFrames = 1;
+	//frameTime = 200;//change animation frame every 0.5s
 	previousFrameTime = time;
+
+	lifeTime = time + 3000;//suns stays alive for 2 seconds
 }
 
 

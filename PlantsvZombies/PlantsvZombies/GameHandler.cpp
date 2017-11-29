@@ -31,7 +31,7 @@ void GameHandler::initialize(int time) {
 	zombies.clear();
 	plants.clear();
 	bullets.clear();
-	suns.clear();
+	//suns.clear();
 
 	//initializing variables for spawn timers
 	sunCount = 50;
@@ -84,20 +84,20 @@ void GameHandler::render(HANDLE buffer) {
 	printPlants(buffer);
 	printZombies(buffer);
 	printBullets(buffer);
-	printSuns(buffer);
+	//printSuns(buffer);
 }
 
 void GameHandler::printBar(HANDLE buffer) {//will take in a list of Plants, draw one of each in each square
-	bar.draw(buffer, white_black);//draw the actual bar
+	bar.draw(buffer);//draw the actual bar
 	for (SHORT i = 0; i < numChosenPlants; i++) {//drawing plants inside of the bar
-		chosenPlants[i]->draw(buffer, white_black);
+		chosenPlants[i]->draw(buffer);
 	}
 }
 
 void GameHandler::printDisplay(HANDLE buffer)
 {
 	printBar(buffer);
-	grid.draw(buffer, white_black);
+	grid.draw(buffer);
 	//displays the player's sun count
 	COORD pos = grid.getPosition();
 	pos.Y -= 2;
@@ -109,27 +109,27 @@ void GameHandler::printDisplay(HANDLE buffer)
 
 void GameHandler::printPlants(HANDLE buffer) {
 	for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {
-		(*it)->draw(buffer, green_black);
+		(*it)->draw(buffer);
 	}
 }
 
 void GameHandler::printBullets(HANDLE buffer) {
 	for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
-		(*it)->draw(buffer, green_black);
-	}
-}
-
-void GameHandler::printSuns(HANDLE buffer) {
-	for (std::vector<Sun*>::iterator it = suns.begin(); it != suns.end(); ++it) {
-		(*it)->draw(buffer, yellow_black);
+		(*it)->draw(buffer);
 	}
 }
 
 void GameHandler::printZombies(HANDLE buffer) {
 	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
-		(*it)->draw(buffer, turqoise_black);
+		(*it)->draw(buffer);
 	}
 }
+
+/*void GameHandler::printSuns(HANDLE buffer) {//unused for now
+for (std::vector<Sun*>::iterator it = suns.begin(); it != suns.end(); ++it) {
+(*it)->draw(buffer);
+}
+}*/
 
 //UPDATING OBJECTS
 void GameHandler::update(int time) {
@@ -146,7 +146,9 @@ void GameHandler::update(int time) {
 				(*it)->shootingAnimation(&peashooter_shootingSprite, time);
 			}
 			else if ((*it)->getType() == Plant::SUNFLOWER) {//sunflowers will create sun instead of shooting
-				spawnSun((*it), time);
+				//spawnSun((*it), time);
+				createSun(50);
+				(*it)->shootingAnimation(&sunflower_shineSprite, time);
 			}
 		}
 		if ((*it)->shootBullet(time) == true) {//check if each plant should spawn a bullet after it's shooting animation has finished
@@ -158,14 +160,6 @@ void GameHandler::update(int time) {
 		(*it)->updateAnimation(time);
 		(*it)->move(time);//bullets move a certain distance each frame
 	}
-	
-	for (int i = 0; i<bullets.size(); i++) {//deleting bullets
-		if (bullets[i]->hitEdge())
-		{
-			bullets.erase(bullets.begin() + i);
-			i--;
-		}
-	}
 
 	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {//update zombies
 		(*it)->move(time);//zombies move a certain distance each frame
@@ -173,6 +167,15 @@ void GameHandler::update(int time) {
 	}
 
 	//COLLISION DETECTION
+	for (int i = 0; i<bullets.size(); i++) {//deleting bullets
+		if (bullets[i]->hitEdge())
+		{
+			delete bullets[i];//deallocating memory
+			bullets.erase(bullets.begin() + i);//removing it from the vector
+			i--;
+		}
+	}
+
 	for (int i = 0; i < zombies.size(); i++) {//*this is broken right now*
 		/*if (zombies[i]->getPosition().Y == bullets[i]->getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
 		{
@@ -180,12 +183,13 @@ void GameHandler::update(int time) {
 		}*/
 		if (zombies[i]->endCollision() || zombies[i]->health <= 0)
 		{
-			zombies.erase(zombies.begin() + i);
+			delete zombies[i];//deallocating memory
+			zombies.erase(zombies.begin() + i);//removing it from the vector
 			i--;
 		}
 	}
 
-	for (int i = 0; i < suns.size(); i++)//update suns
+	/*for (int i = 0; i < suns.size(); i++)//update suns, unused for now
 	{
 		suns[i]->updateAnimation(time);
 		if (suns[i]->updateLife(time)== false)
@@ -193,7 +197,7 @@ void GameHandler::update(int time) {
 			suns.erase(suns.begin() + i);
 			i--;
 		}
-	}
+	}*/
 }
 
 void GameHandler::checkPlantBuy() {
@@ -227,18 +231,6 @@ void GameHandler::spawnBullet(Plant* shooter, int time) {
 	bullets.push_back(bullet);//adds newly created bullet to the list
 }
 
-void GameHandler::spawnSun(Plant* flower, int time) {
-	COORD spawnPos = flower->getPosition();
-	//spawnPos.X += 1;
-	//spawnPos.Y -= 1;
-
-	Sun* sun = new Sun(&sunflower_shineSprite, time);//creates a new sun
-	sun->setPosition(spawnPos);
-
-	suns.push_back(sun);//adds newly created sun to the list
-	createSun();
-}
-
 void GameHandler::spawnZombie(int time) {
 	COORD gridPos = grid.getPosition();
 	gridPos.Y += 1;
@@ -252,8 +244,20 @@ void GameHandler::spawnZombie(int time) {
 	zombies.push_back(zombie);//adds newly created zombie to the list
 }
 
-void GameHandler::createSun() {//adds sun to the player's sun count
-	sunCount += 50;
+/*void GameHandler::spawnSun(Plant* flower, int time) {
+COORD spawnPos = flower->getPosition();
+//spawnPos.X += 1;
+//spawnPos.Y -= 1;
+
+Sun* sun = new Sun(&sunSprite, time);//creates a new sun
+sun->setPosition(spawnPos);
+
+suns.push_back(sun);//adds newly created sun to the list
+createSun();
+}*/
+
+void GameHandler::createSun(int num) {//adds sun to the player's sun count
+	sunCount += num;
 }
 
 //CHECKING SPAWN TIMERS
@@ -266,7 +270,7 @@ void GameHandler::checkZombieSpawn(int time) {
 
 void GameHandler::checkSunSpawn(int time) {
 	if (time - previousSunTime >= sunInterval) {
-		createSun();
+		createSun(100);
 		previousSunTime = time;
 	}
 }
@@ -363,6 +367,7 @@ void GameHandler::loadSprites() {
 	peashooter_shootingSprite = getSprite("assets/peashooter_shooting.txt");
 	sunflowerSprite = getSprite("assets/sunflower.txt");
 	sunflower_shineSprite = getSprite("assets/sunflower_shine.txt");
+	//sunSprite = getSprite("assets/sun.txt");
 	wallnutSprite = getSprite("assets/wallnut.txt");
 	zombieSprite = getSprite("assets/zombie.txt");
 }

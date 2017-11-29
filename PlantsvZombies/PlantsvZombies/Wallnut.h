@@ -6,5 +6,7 @@ public:
 	Wallnut();
 	Wallnut(vector<vector<string>>* spriteData, int time);
 	~Wallnut();
+
+	void defaultAnimation();
 };
 

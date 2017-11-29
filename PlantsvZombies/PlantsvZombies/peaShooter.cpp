@@ -10,10 +10,7 @@ Peashooter::Peashooter(vector<vector<string>>* spriteData, int time)
 {
 	type = PEASHOOTER;
 	defaultData = spriteData;
-	setData(spriteData);//gives it ASCII data
-	frameSequence = new int[4]{ 0,1,0,2 };
-	totalNumFrames = 4;
-	frameTime = 522;//change animation frame every 0.522s, synced with the bpm of the music!
+	resetData();
 	previousFrameTime = time;
 
 	shootDelay = 1000;
@@ -40,6 +37,7 @@ void Peashooter::shootingAnimation(vector<vector<string>>* spriteData, int time)
 }
 
 void Peashooter::defaultAnimation() {
+	colour = 0x000a;//green_black
 	frameSequence = new int[4]{ 0,1,0,2 };
 	totalNumFrames = 4;
 	frameTime = 500;//change animation frame every 0.522s, synced with the bpm of the music!
