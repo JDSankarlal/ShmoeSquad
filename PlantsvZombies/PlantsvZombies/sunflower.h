@@ -10,4 +10,3 @@ public:
 	void defaultAnimation();
 	void shootingAnimation(vector<vector<string>>* spriteData, int time);
 };
-

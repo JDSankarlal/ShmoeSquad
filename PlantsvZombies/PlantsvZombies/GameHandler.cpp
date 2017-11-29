@@ -372,11 +372,18 @@ void GameHandler::loadSprites() {
 	barSprite = getSprite("assets/bar.txt");
 	bulletSprite = getSprite("assets/bullet.txt");
 	gridSprite = getSprite("assets/lawn.txt");
+	lawnmowerSprite = getSprite("assets/lawnmower.txt");
 	peashooterSprite = getSprite("assets/peashooter.txt");
 	peashooter_shootingSprite = getSprite("assets/peashooter_shooting.txt");
+	selectionsquareSprite = getSprite("assets/selectionsquare.txt");
 	sunflowerSprite = getSprite("assets/sunflower.txt");
 	sunflower_shineSprite = getSprite("assets/sunflower_shine.txt");
 	//sunSprite = getSprite("assets/sun.txt");
 	wallnutSprite = getSprite("assets/wallnut.txt");
+	wallnut_hurtSprite = getSprite("assets/wallnut_hurt.txt");
 	zombieSprite = getSprite("assets/zombie.txt");
+	zombie_dyingSprite = getSprite("assets/zombie_dying.txt");
+	zombie_eatingSprite = getSprite("assets/zombie_eating.txt");
+	zombie_hurtSprite = getSprite("assets/zombie_hurt.txt");
+	zombie_hurt_eatingSprite = getSprite("assets/zombie_hurt_eating.txt");
 }

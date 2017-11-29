@@ -74,12 +74,18 @@ public:
 	vector<vector<string>> barSprite;
 	vector<vector<string>> bulletSprite;
 	vector<vector<string>> gridSprite;
+	vector<vector<string>> lawnmowerSprite;
 	vector<vector<string>> peashooterSprite;
 	vector<vector<string>> peashooter_shootingSprite;
+	vector<vector<string>> selectionsquareSprite;
 	vector<vector<string>> sunflowerSprite;
 	vector<vector<string>> sunflower_shineSprite;
 	//vector<vector<string>> sunSprite;//unused for now
 	vector<vector<string>> wallnutSprite;
+	vector<vector<string>> wallnut_hurtSprite;
 	vector<vector<string>> zombieSprite;
+	vector<vector<string>> zombie_dyingSprite;
+	vector<vector<string>> zombie_eatingSprite;
+	vector<vector<string>> zombie_hurtSprite;
+	vector<vector<string>> zombie_hurt_eatingSprite;
 };
-

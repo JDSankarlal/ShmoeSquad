@@ -31,4 +31,3 @@ public:
 protected://like private but can be accessed by child classes
 	plantType type;//don't want to modify this ever
 };
-
