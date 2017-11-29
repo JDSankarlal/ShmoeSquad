@@ -29,7 +29,7 @@ void Plant::takeDamage(int time) {
 }
 
 bool Plant::shootBullet(int time) {
-	if (time - shootTime >= shootDelay && shootTime > 0) {
+	if (shootTime > 0 && time - shootTime >= shootDelay) {
 		shootTime = -1;
 		return true;
 	}
