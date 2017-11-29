@@ -10,7 +10,8 @@ public:
 
 	enum State {
 		ALIVE,//default state
-		DEAD//set to this when zombie hp reaches 0
+		HURT,//when health is below half
+		DEAD//set to this when zombie health reaches 0
 	};
 
 	int health;
@@ -24,7 +25,9 @@ public:
 
 	void defaultAnimation();
 	void hurtAnimation(vector<vector<string>>* spriteData);
+	void eatingAnimation(vector<vector<string>>* spriteData, vector<vector<string>>* spriteData2, int time);
 	void deathAnimation(vector<vector<string>>* spriteData, int time);//called when zombie's hp reaches 0, sets state to dead and starts death animation
+	bool killZombie(int time);//check if death animation is over and actually kill the zombie
 	void takeDamage(int time);//change colour of sprite so it flashes when taking damage
 
 	

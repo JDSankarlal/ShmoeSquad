@@ -24,7 +24,7 @@ void Plant::shootingAnimation(vector<vector<string>>* spriteData, int time) {
 }
 
 void Plant::takeDamage(int time) {
-	colour = 0x0002;//dullGreen_black
+	colour = colour - 0x0008;//dullGreen_black, sunflower could be dullYellow_black if spawning sun
 	damageTime = time;
 }
 
