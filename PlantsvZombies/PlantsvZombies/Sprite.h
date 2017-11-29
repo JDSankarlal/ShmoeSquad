@@ -110,6 +110,11 @@ public:
 				}
 			}
 		}
+		//update flashing
+		if (damageTime > 0 && time - damageTime >= flashTime) {
+			colour = defaultColour;
+			damageTime = -1;
+		}
 	}
 	
 	void draw(HANDLE buffer)
@@ -131,8 +136,8 @@ protected:
 	bool inAnimation = false;//keeps track of wether the sprite is in a special animation or not
 	int numLoops = 1;//number of times to loop through an animation
 	int loopNum = 1;//keeps track of the number of loops of animation that have occured
-	int colour = 0x0007;//the sprites current colour, default is dull white
-	int defaultColour = colour;
+	int colour = 0x0007;//the sprites current colour (set to dull white on black here)
+	int defaultColour = colour;//the sprites default colour
 
 	int* frameSequence;//array of the order the animation frames display in
 	int totalNumFrames;//the number of frames of animation the sprite has
@@ -145,6 +150,10 @@ protected:
 	int moveInterval;//number of ms inbetween sprite movements
 	int previousMoveTime;//the last time the sprite moved
 	COORD moveVector{ 0,0 };//Distance and direction the sprite will move each time it moves
+
+	bool takingDamage = false;//keeps track of whether an object is taking damage or not
+	int damageTime = -1;//the time at which the object took damage last
+	int flashTime = 250;//the amount of time a sprite should flash a different colour, when taking damage
 
 private:
 	COORD position;//the current position of a sprites Top Left corner

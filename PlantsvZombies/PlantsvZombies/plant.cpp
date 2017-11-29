@@ -23,6 +23,11 @@ bool Plant::checkShoot(int time)//the number this returns tells the game which t
 void Plant::shootingAnimation(vector<vector<string>>* spriteData, int time) {
 }
 
+void Plant::takeDamage(int time) {
+	colour = 0x0002;//dullGreen_black
+	damageTime = time;
+}
+
 bool Plant::shootBullet(int time) {
 	if (time - shootTime >= shootDelay && shootTime > 0) {
 		shootTime = -1;

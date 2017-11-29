@@ -30,6 +30,11 @@ void Zombie::defaultAnimation() {
 	frameTime = moveInterval / 2;//change animation frame every 0.4s
 }
 
+void Zombie::takeDamage(int time) {
+	colour = 0x000b - 0x0008;//dullTurqoise_black
+	damageTime = time;
+}
+
 //deletes zombie if it hits the lefthand edge
 bool Zombie::endCollision()
 {

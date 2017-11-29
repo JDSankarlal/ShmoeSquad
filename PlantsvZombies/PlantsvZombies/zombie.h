@@ -9,6 +9,7 @@ public:
 	~Zombie();
 
 	void defaultAnimation();
+	void takeDamage(int time);//change colour of sprite so it flashes when taking damage
 
 	int health;
 	int row;
