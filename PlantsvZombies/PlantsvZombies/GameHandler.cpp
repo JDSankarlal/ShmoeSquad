@@ -18,6 +18,7 @@ using std::vector;
 #define white_grey 0x0080
 #define red_black 0x0004 + 0x0008
 #define dullRed_black 0x0004
+#define blue_black 0x0009
 
 GameHandler::GameHandler()
 {
@@ -46,6 +47,13 @@ void GameHandler::initialize(int time) {
 	grid.setPosition({ 13,10 });
 	int* sequence = new int[4]{ 0,1,2,1 };
 	grid.setAnimation(sequence, 4, 1000, time);
+
+	//setting ascii data for selection square
+	square.setData(&selectionsquareSprite);
+	square.setDefaultColour(blue_black);
+	square.setPosition({ 13,10 });
+	sequence = new int[1]{ 0 };
+	square.setAnimation(sequence, 1, 1000, time);
 
 	//setting acii data for bar
 	bar.setData(&barSprite);
@@ -127,7 +135,9 @@ void GameHandler::printDisplay(HANDLE buffer)
 {
 	printBar(buffer);
 	grid.draw(buffer);
-	square.draw(buffer);
+	if (isPlacingPlant == true) {
+		square.draw(buffer);
+	}
 	//displays the player's sun count
 	COORD pos = grid.getPosition();
 	pos.Y -= 2;
@@ -287,6 +297,7 @@ void GameHandler::update(int time) {
 		for (int j = 0; j < mowers.size(); j++)
 		{
 			if (zombies[i]->checkCollision(mowers[j]) == true) {
+				mowers[i]->activate(time);//activate lawnmower if touched by zombie
 				zombies[i]->health = 0; //instantly kill zombie
 			}
 		}

@@ -45,7 +45,7 @@ public:
 	void checkPlantBuy(int time);
 	void placingPlant(int time);
 
-	bool isPlacingPlant = false;
+	bool isPlacingPlant = true;
 
 	void placePlant(COORD pos, Plant::plantType type, int time);//places a plant at given coordinates
 	void spawnBullet(Plant*, int time);//creates a bullet for the passed in plant
