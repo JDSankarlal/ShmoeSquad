@@ -290,13 +290,14 @@ void GameHandler::update(int time) {
 		{
 			for (int j = 0; j < bullets.size(); j++)
 			{
-				if (zombies[i]->getPosition().Y == bullets[j]->getPosition().Y + 1)//if the bullet Y position is one less than the zombie Y position
+				if ((zombies[i]->getPosition().Y) == (bullets[j]->getPosition().Y) - 1)//if the bullet Y position is one less than the zombie Y position
 				{
 					if (zombies[i]->getPosition().X == bullets[j]->getPosition().X) // and if bullet and zombie X positions are the same
 					{
 						zombies[i]->health -= 20; //reduce zombies health by 20
-						delete bullets[j];//deallocating memory
-						bullets.erase(bullets.begin() + j);//removing it from the vector
+
+						delete bullets[j];//deallocating memory from bullet
+						bullets.erase(bullets.begin() + j);//removing bullet from the vector
 						j--;
 					}
 				}
