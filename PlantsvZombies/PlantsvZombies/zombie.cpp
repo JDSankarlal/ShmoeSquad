@@ -114,7 +114,7 @@ void Zombie::takeDamage(int dmg, int time) {
 	else {
 		health -= dmg;
 	}
-	colour = colour - 0x0008;//dullTurqoise_black
+	colour = 0x000b - 0x0008;//dullTurqoise_black
 	damageTime = time;
 }
 

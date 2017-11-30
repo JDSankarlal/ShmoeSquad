@@ -36,7 +36,7 @@ void Plant::takeDamage(int dmg, int time) {
 		health -= dmg;
 	}
 	if (dmg > 0) {
-		colour = colour - 0x0008;//dullGreen_black, sunflower will be dullYellow_black if spawning sun
+		colour = 0x0002;//dullGreen_black, sunflower will be dullYellow_black if spawning sun
 		damageTime = time;
 	}
 }
