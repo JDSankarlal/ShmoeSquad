@@ -97,6 +97,7 @@ public:
 	int sunflowerCooldown = 0;
 	int peashooterCooldown = 0;
 	int wallnutCooldown = 0;
+	bool shovel = false;
 
 
 	//SPRITE DATA

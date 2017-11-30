@@ -224,8 +224,10 @@ void GameHandler::update(int time) {
 
 	grid.updateAnimation(time);
 	//bar.updateAnimation(time);
+
 	checkPlantBuy(time);
 	placingPlant(time);
+
 	//update plants
 	for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {
 		(*it)->updateAnimation(time);
@@ -370,6 +372,7 @@ void GameHandler::checkPlantBuy(int time) {
 			{
 				isPlacingPlant = true;
 			}
+			shovel = false;
 		}
 		else if (Events::keyDown(Events::Two)) {
 			selectedPlant = new Peashooter(&peashooterSprite, time);
@@ -377,6 +380,7 @@ void GameHandler::checkPlantBuy(int time) {
 			{
 				isPlacingPlant = true;
 			}
+			shovel = false;
 		}
 		else if (Events::keyDown(Events::Three)) {
 			selectedPlant = new Wallnut(&wallnutSprite, time);
@@ -384,7 +388,14 @@ void GameHandler::checkPlantBuy(int time) {
 			{
 				isPlacingPlant = true;
 			}
+			shovel = false;
 		}
+		else if (Events::keyDown(Events::Four))
+		{
+			shovel = true;
+			isPlacingPlant = true;
+		}
+		
 }
 
 // The following fucntion makes the box move and not be able to go outside of the grid
@@ -399,9 +410,7 @@ void GameHandler::placingPlant(int time) {
 				boxMoveTime = time;
 				if (square.getPosition().Y > grid.getPosition().Y)
 				{
-					
-						square.setPosition({ square.getPosition().X,  square.getPosition().Y - 6 });
-					
+					square.setPosition({ square.getPosition().X,  square.getPosition().Y - 6 });
 				}
 			}
 			else if (Events::keyDown(Events::Down))
@@ -433,11 +442,17 @@ void GameHandler::placingPlant(int time) {
 		if (Events::keyDown(Events::Space))
 		{
 			const COORD position = { square.getPosition().X + 2, square.getPosition().Y + 1 };
-			bool canPlacePlant;
-			for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {
-				if ((*it)->getPosition().X == position.X && (*it)->getPosition().Y == position.Y)
+			bool canPlacePlant = true;
+			for (int i = 0; i < plants.size(); i++) {
+				if (plants[i]->getPosition().X == position.X && plants[i]->getPosition().Y == position.Y)
 				{
-					
+					if (shovel == true)
+					{
+						delete plants[i];
+						plants.erase(plants.begin() + i);
+						shovel = false;
+						isPlacingPlant = false;
+					}
 					canPlacePlant = false;
 					break;
 				}
@@ -463,7 +478,6 @@ void GameHandler::placingPlant(int time) {
 			}
 			boxMoveTime = -1;
 		}
-		
 	}
 }
 
