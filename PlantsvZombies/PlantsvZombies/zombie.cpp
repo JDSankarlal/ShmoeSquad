@@ -30,6 +30,8 @@ Zombie::State Zombie::getState() {
 }
 
 void Zombie::defaultAnimation() {
+	moveInterval = 500;
+
 	isEating = false;
 	colour = defaultColour;
 	frameSequence = new int[4]{ 0, 1, 0, 2 };
@@ -43,16 +45,22 @@ void Zombie::defaultAnimation() {
 }
 
 void Zombie::hurtAnimation(vector<vector<string>>* spriteData) {
-	if (state != HURT) {
+	if (state != HURT && state != DEAD) {
 		state = HURT;
-		setData(spriteData);//gives it new ASCII data for animation
-		defaultData = spriteData;//change default sprite data so it goes back to it after a special animation
+		if (isEating == false) {
+			setData(spriteData);//gives it new ASCII data for animation
+			defaultData = spriteData;//change default sprite data so it goes back to it after a special animation
+		}
+		else {
+			isEating = false;
+		}
 	}
 }
 
 void Zombie::eatingAnimation(vector<vector<string>>* spriteData, vector<vector<string>>* spriteData2, int time) {
-	if (isEating == false) {
+	if (isEating == false && state != DEAD) {
 		isEating = true;
+		moveInterval = -1;//don't move
 		if (state == ALIVE) {
 			setData(spriteData);//set to normal eating
 		}
@@ -61,24 +69,26 @@ void Zombie::eatingAnimation(vector<vector<string>>* spriteData, vector<vector<s
 		}
 		frameSequence = new int[3]{ 0, 1, 2 };//both have the same frame sequence
 		totalNumFrames = 3;
-		frameTime = 250;//change animation frame every 0.522s, synced with the bpm of the music!
+		frameTime = 250;
 		previousFrameTime = time;
 		frameNum = 0;
 	}
 }
 
 void Zombie::deathAnimation(vector<vector<string>>* spriteData, int time) {
-	state = DEAD;
-	if (inAnimation == false) {
+	if (state != DEAD) {
+		state = DEAD;
+		moveInterval = -1;//don't move
 		deathTime = time;
-		inAnimation = true;
 
 		setData(spriteData);//gives it new ASCII data for animation
-		frameSequence = new int[6]{ 0, 1, 2, 3, 4, 5 };//change this
-		totalNumFrames = 6;//change this
-		frameTime = 250;//change this
+		frameSequence = new int[7]{ 0, 1, 2, 3, 4, 5, 4 };//change this
+		totalNumFrames = 7;//change this
+		frameTime = 350;//change this
 		previousFrameTime = time;
 		frameNum = 0;
+
+		deathDelay = totalNumFrames * frameTime;
 	}
 }
 

@@ -14,7 +14,7 @@ Bullet::Bullet(vector<vector<string>>* spriteData, int time)//use this construct
 	previousFrameTime = time;
 
 	previousMoveTime = 0;
-	moveInterval = 100;//move every 0.1s
+	moveInterval = 75;
 	moveVector = { 1, 0 };//vector sprite will move in
 
 
@@ -49,7 +49,7 @@ void Bullet::defaultAnimation() {
 	colour = defaultColour;
 	frameSequence = new int[4]{ 0,1,2,3 };
 	totalNumFrames = 4;
-	frameTime = 350;
+	frameTime = 375;
 }
 
 //Deletes the bullet if it hits the righthand edge

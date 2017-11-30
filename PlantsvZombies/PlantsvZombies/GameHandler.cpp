@@ -225,9 +225,19 @@ void GameHandler::update(int time) {
 	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
 		(*it)->move(time);//zombies move a certain distance each frame
 		(*it)->updateAnimation(time);
-		//(*it)->health -= 1;for testing
-		if ((*it)->health <= 250) {//check if zombie is hurt
+		//(*it)->health -= 1;//for testing
+		if ((*it)->health <= 200) {//check if zombie is hurt
 			(*it)->hurtAnimation(&zombie_hurtSprite);//change sprite
+		}
+		//for testing eating animation
+		/*if ((*it)->getPosition().X <= 25) {//this should be if it's colliding with a plant
+			(*it)->eatingAnimation(&zombie_eatingSprite, &zombie_hurt_eatingSprite, time);
+		}
+		else {
+			(*it)->resetData();
+		}*/
+		if ((*it)->health <= 0) {
+			(*it)->deathAnimation(&zombie_dyingSprite, time);
 		}
 	}
 
@@ -258,17 +268,18 @@ void GameHandler::update(int time) {
 		}
 	}
 	//deleting zombies
-	for (int i = 0; i < zombies.size(); i++) {//*this is broken right now*
-		/*if (zombies[i]->getPosition().Y == bullets[i]->getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
-		{
-			zombies[i]->health -= 20;
-		}*/
-		if (zombies[i]->endCollision() == true || zombies[i]->health <= 0)
+	for (int i = 0; i < zombies.size(); i++) {
+		if (zombies[i]->endCollision() == true || zombies[i]->killZombie(time) == true)
 		{
 			delete zombies[i];//deallocating memory
 			zombies.erase(zombies.begin() + i);//removing it from the vector
 			i--;
 		}
+		//*this is broken right now*
+		/*if (zombies[i]->getPosition().Y == bullets[i]->getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
+		{
+		zombies[i]->health -= 20;
+		}*/
 	}
 
 	/*for (int i = 0; i < suns.size(); i++)//update suns, unused for now
