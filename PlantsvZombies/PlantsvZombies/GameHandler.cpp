@@ -295,6 +295,9 @@ void GameHandler::update(int time) {
 					if (zombies[i]->getPosition().X == bullets[j]->getPosition().X) // and if bullet and zombie X positions are the same
 					{
 						zombies[i]->health -= 20; //reduce zombies health by 20
+						delete bullets[j];//deallocating memory
+						bullets.erase(bullets.begin() + j);//removing it from the vector
+						j--;
 					}
 				}
 			}
