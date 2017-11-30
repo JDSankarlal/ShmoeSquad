@@ -55,7 +55,7 @@ void Bullet::defaultAnimation() {
 //Deletes the bullet if it hits the righthand edge
 bool Bullet::hitEdge()
 {
-	if (getPosition().X == 121)//instead of hard coding a number, use the bullet's (position.x + size.x) and see if it's greater than the grid's (position.x + size.x)
+	if (getPosition().X >= 135)
 	{
 		//VECTOR::EREASE <- LOWERCASE 
 		//Delete Bullet

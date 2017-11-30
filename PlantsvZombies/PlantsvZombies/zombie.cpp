@@ -9,7 +9,7 @@ Zombie::Zombie(vector<vector<string>>* spriteData, int time)
 	state = ALIVE;
 
 	previousMoveTime = time;
-	moveInterval = 1000;//move every 1.0s
+	moveInterval = 500;//move every 1.0s
 	moveVector = { -1, 0 };//vector sprite will move in
 
 	defaultColour = 0x000b;//turqoise_black
@@ -37,7 +37,7 @@ void Zombie::defaultAnimation() {
 	colour = defaultColour;
 	frameSequence = new int[4]{ 0, 1, 0, 2 };
 	totalNumFrames = 4;
-	frameTime = moveInterval / 2;//change animation frame every 0.4s
+	frameTime = moveInterval;//change animation frame every 0.4s
 }
 
 void Zombie::hurtAnimation(vector<vector<string>>* spriteData) {
@@ -93,7 +93,13 @@ bool Zombie::killZombie(int time) {
 }
 
 
-void Zombie::takeDamage(int time) {
+void Zombie::takeDamage(int dmg, int time) {
+	if (health - dmg < 0) {
+		health = 0;
+	}
+	else {
+		health -= dmg;
+	}
 	colour = colour - 0x0008;//dullTurqoise_black
 	damageTime = time;
 }
@@ -101,7 +107,7 @@ void Zombie::takeDamage(int time) {
 //deletes zombie if it hits the lefthand edge
 bool Zombie::endCollision()
 {
-	if (getPosition().X == 13)
+	if (getPosition().X <= 12)
 	{
 		
 		return true;

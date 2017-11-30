@@ -5,8 +5,8 @@ using std::endl;
 using std::cout;
 using std::vector;
 
-//colour valuesfor drawing sprites
-//foregroundColour_backgroundColour
+//colour values for drawing sprites
+	//foregroundColour_backgroundColour
 #define white_black 0x000f
 #define green_black 0x000a
 #define dullGreen_black 0x0002
@@ -16,22 +16,23 @@ using std::vector;
 #define purple_black 0x000d
 #define white_dullGreen 0x002f
 #define white_grey 0x0080
+#define red_black 0x0004 + 0x0008
+#define dullRed_black 0x0004
 
 GameHandler::GameHandler()
 {
 }
-
 GameHandler::~GameHandler()
 {
 }
-
 //INITIALIZING OBJECTS
 void GameHandler::initialize(int time) {
 	//clearing object lists
-	zombies.clear();
-	plants.clear();
-	bullets.clear();
-	//suns.clear();
+	deleteZombies();
+	deletePlants();
+	deleteBullets();
+	deleteMowers();
+	//deleteSuns();
 
 	//initializing variables for spawn timers
 	sunCount = 50;
@@ -44,13 +45,13 @@ void GameHandler::initialize(int time) {
 	grid.setData(&gridSprite);
 	grid.setPosition({ 13,10 });
 	int* sequence = new int[4]{ 0,1,2,1 };
-	grid.setAnimation(sequence, 4, 1044, time);
+	grid.setAnimation(sequence, 4, 1000, time);
 
 	//setting acii data for bar
 	bar.setData(&barSprite);
 	bar.setPosition({ 13,0 });
 	//sequence = new int[2]{ 0, 1 };
-	//bar.setAnimation(sequence, 2, 1044, time);
+	//bar.setAnimation(sequence, 2, 1000, time);
 
 	//setting what plants are in the plant buy Bar
 	numChosenPlants = 3;
@@ -75,6 +76,18 @@ void GameHandler::initialize(int time) {
 	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
 	pos.Y += 6;
 	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::WALLNUT, time);
+
+	//setting up lawnmowers
+	pos = grid.getPosition();
+	pos.X -= 12;
+	pos.Y += 2;
+	Mower* lawnmower;
+	for (int i = 0; i < 5; i++) {
+		lawnmower = new Mower(&lawnmowerSprite, time);
+		lawnmower->setPosition(pos);
+		mowers.push_back(lawnmower);
+		pos.Y += 6;
+	}
 }
 
 
@@ -85,6 +98,7 @@ void GameHandler::render(HANDLE buffer) {
 	printPlants(buffer);
 	printZombies(buffer);
 	printBullets(buffer);
+	printMowers(buffer);
 	//printSuns(buffer);
 }
 
@@ -113,24 +127,60 @@ void GameHandler::printPlants(HANDLE buffer) {
 		(*it)->draw(buffer);
 	}
 }
-
 void GameHandler::printBullets(HANDLE buffer) {
 	for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
 		(*it)->draw(buffer);
 	}
 }
-
 void GameHandler::printZombies(HANDLE buffer) {
 	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
 		(*it)->draw(buffer);
 	}
 }
-
-/*void GameHandler::printSuns(HANDLE buffer) {//unused for now
-for (std::vector<Sun*>::iterator it = suns.begin(); it != suns.end(); ++it) {
-(*it)->draw(buffer);
+void GameHandler::printMowers(HANDLE buffer) {
+	for (std::vector<Mower*>::iterator it = mowers.begin(); it != mowers.end(); ++it) {
+		(*it)->draw(buffer);
+	}
 }
+/*void GameHandler::printSuns(HANDLE buffer) {//unused for now
+	for (std::vector<Sun*>::iterator it = suns.begin(); it != suns.end(); ++it) {
+		(*it)->draw(buffer);
+	}
 }*/
+
+
+//CLEARING OBJECTS
+void GameHandler::deletePlants() {
+	for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {
+		delete (*it);
+	}
+	plants.clear();
+}
+void GameHandler::deleteBullets() {
+	for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
+		delete (*it);
+	}
+	bullets.clear();
+}
+void GameHandler::deleteZombies() {
+	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
+		delete (*it);
+	}
+	zombies.clear();
+}
+void GameHandler::deleteMowers() {
+	for (std::vector<Mower*>::iterator it = mowers.begin(); it != mowers.end(); ++it) {
+		delete (*it);
+	}
+	mowers.clear();
+}
+/*void GameHandler::deleteSuns() {//unused for now
+	for (std::vector<Sun*>::iterator it = suns.begin(); it != suns.end(); ++it) {
+		delete (*it);
+	}
+	suns.clear();
+}*/
+
 
 //UPDATING OBJECTS
 void GameHandler::update(int time) {
@@ -201,8 +251,18 @@ void GameHandler::update(int time) {
 	}*/
 }
 
+/*void GameHandler::collisions(Zombie zombie) {//**make this a function member of Sprite, a general checkCollision function: sprite1.checkCollision(sprite2);**
+//if zombie collides with plant
+if (zombie.endCollision()) {
+
+}// If Zombie collides with end, found in Zombie.cpp and Zombie.h
+//if zombie collides with bullet
+Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bullet.cpp
+}*/
+
 void GameHandler::checkPlantBuy() {
 }
+
 
 //SPAWING OBJECTS
 void GameHandler::placePlant(COORD pos, Plant::plantType type, int time) {
@@ -236,7 +296,7 @@ void GameHandler::spawnZombie(int time) {
 	COORD gridPos = grid.getPosition();
 	gridPos.Y += 1;
 	COORD spawnPos;
-	spawnPos.X = gridPos.X + 110;
+	spawnPos.X = gridPos.X + grid.getSize().X + 13;
 	spawnPos.Y = gridPos.Y + randNum(0, 5) * 6;
 
 	Zombie* zombie = new Zombie(&zombieSprite, time);//creates a new zombie
@@ -261,6 +321,7 @@ void GameHandler::createSun(int num) {//adds sun to the player's sun count
 	sunCount += num;
 }
 
+
 //CHECKING SPAWN TIMERS
 void GameHandler::checkZombieSpawn(int time) {
 	if (time - previousZombieTime >= zombieInterval) {
@@ -276,14 +337,6 @@ void GameHandler::checkSunSpawn(int time) {
 	}
 }
 
-/*void GameHandler::collisions(Zombie zombie) {//**make this a function member of Sprite, a general checkCollision function: sprite1.checkCollision(sprite2);**
-	//if zombie collides with plant
-	if (zombie.endCollision()) {
-
-	}// If Zombie collides with end, found in Zombie.cpp and Zombie.h
-	//if zombie collides with bullet
-	Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bullet.cpp
-}*/
 
 //OTHER FUNCTIONS
 void GameHandler::cls(HANDLE buffer, int colour)//This is used instead of system("cls")

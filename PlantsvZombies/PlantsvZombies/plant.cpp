@@ -23,8 +23,14 @@ bool Plant::checkShoot(int time)//the number this returns tells the game which t
 void Plant::shootingAnimation(vector<vector<string>>* spriteData, int time) {
 }
 
-void Plant::takeDamage(int time) {
-	colour = colour - 0x0008;//dullGreen_black, sunflower could be dullYellow_black if spawning sun
+void Plant::takeDamage(int dmg, int time) {
+	if (health - dmg < 0) {
+		health = 0;
+	}
+	else {
+		health -= dmg;
+	}
+	colour = colour - 0x0008;//dullGreen_black, sunflower will be dullYellow_black if spawning sun
 	damageTime = time;
 }
 

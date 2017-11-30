@@ -68,7 +68,7 @@ public:
 	}
 
 	void move(int time) {
-		if (time - previousMoveTime >= moveInterval) {//shoot at set interval
+		if (moveInterval > 0 && time - previousMoveTime >= moveInterval) {//shoot at set interval
 			previousMoveTime = time;
 			updatePosition();
 		}
@@ -92,7 +92,7 @@ public:
 	}
 
 	void updateAnimation(int time) {
-		if (time - previousFrameTime >= frameTime) {
+		if (frameTime > 0 && time - previousFrameTime >= frameTime) {
 			previousFrameTime = time;
 			frameNum++;
 			if (frameNum >= totalNumFrames) {
@@ -141,14 +141,14 @@ protected:
 
 	int* frameSequence;//array of the order the animation frames display in
 	int totalNumFrames;//the number of frames of animation the sprite has
-	int frameTime = 10000;//time each frame of animation is drawn for
+	int frameTime = -1;//time each frame of animation is drawn for
 	int previousFrameTime;//time at which the last frame of animation was changed
 	int frameNum = 0;//the current frame being drawn
 	int defaultFrameNum = frameNum;//keeps track of the frameNum sprite was on when a special animation started, so it can resume animation at right spot
 	//int defaultTotalNumFrames;//stores the number of frames in the default animation
 
-	int moveInterval;//number of ms inbetween sprite movements
-	int previousMoveTime;//the last time the sprite moved
+	int moveInterval = -1;//number of ms inbetween sprite movements
+	int previousMoveTime = 0;//the last time the sprite moved
 	COORD moveVector{ 0,0 };//Distance and direction the sprite will move each time it moves
 
 	bool takingDamage = false;//keeps track of whether an object is taking damage or not

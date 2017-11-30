@@ -10,7 +10,9 @@
 #include "Peashooter.h"
 #include "Wallnut.h"
 #include "Bullet.h"
-#include "Sun.h"
+#include "Mower.h"
+//#include "Sun.h"
+
 using std::vector;
 using std::string;
 
@@ -19,7 +21,7 @@ class GameHandler
 public:
 	GameHandler();
 	~GameHandler();
-
+	//FUNCTIONS
 	void initialize(int time);//initializes game state
 
 	void render(HANDLE buffer);//draws everything to the screen
@@ -28,9 +30,17 @@ public:
 	void printPlants(HANDLE buffer);//prints all plants
 	void printBullets(HANDLE buffer);//prints all bullets
 	void printZombies(HANDLE buffer);//prints all zombies
+	void printMowers(HANDLE buffer);//prints all lawnmowers
 	//void printSuns(HANDLE buffer);//prints all suns, unused for now
 
+	void deletePlants();//deletes all plants
+	void deleteBullets();//deletes all bullets
+	void deleteZombies();//deletes all zombies
+	void deleteMowers();//deletes all lawnmowers
+	//void clearSuns();//unused for now
+
 	void update(int time);//updates the state of plants, zombies, bullets, and suns
+	//void collisions();
 	void checkPlantBuy();
 
 	void placePlant(COORD pos, Plant::plantType type, int time);//places a plant at given coordinates
@@ -51,12 +61,15 @@ public:
 	vector<vector<string>> getSprite(string fileName);//reads in ascii data for a sprite and stores it in a vector, of vectors, of strings
 	void loadSprites();//loads all the sprites into memory on program start
 
+
+	//VARIABLES
 	int numChosenPlants = 0;
 	Plant** chosenPlants = 0;//the list of plants that the player can buy
 
 	vector<Zombie*> zombies;//list of all current zombies
 	vector<Plant*> plants;//list of all current sprites
 	vector<Bullet*> bullets;//list of all current bullets
+	vector<Mower*> mowers;//list of all lawnmowers
 	//vector<Sun*> suns;//list of all current suns, unused for now
 
 	Sprite grid;
@@ -67,7 +80,7 @@ public:
 	int sunInterval;//interval suns spawn at
 	int previousZombieTime;//stores last time a zombie was spawned
 	int previousSunTime;//last time a sun spawned
-	//void collisions();
+
 
 	//SPRITE DATA
 	vector<vector<string>> defaultSprite;

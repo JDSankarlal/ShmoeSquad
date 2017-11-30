@@ -116,6 +116,7 @@
     <ClCompile Include="Events.cpp" />
     <ClCompile Include="GameHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mower.cpp" />
     <ClCompile Include="Peashooter.cpp" />
     <ClCompile Include="Plant.cpp" />
     <ClCompile Include="Sun.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="Events.h" />
     <ClInclude Include="GameHandler.h" />
     <ClInclude Include="keyInput.h" />
+    <ClInclude Include="Mower.h" />
     <ClInclude Include="Peashooter.h" />
     <ClInclude Include="Plant.h" />
     <ClInclude Include="Sprite.h" />
