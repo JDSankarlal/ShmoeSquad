@@ -119,15 +119,8 @@ void Zombie::takeDamage(int dmg, int time) {
 }
 
 int Zombie::dealDamage(int time) {
-	if (dmgTime < 0) {
-		dmgTime = time;
-	}
-	if (time - dmgTime >= dmgInterval) {
-		return dmg;
-	}
-	else {
-		return 0;
-	}
+	dmgTime = time;
+	return dmg;
 }
 
 //deletes zombie if it hits the lefthand edge

@@ -366,39 +366,23 @@ Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bul
 void GameHandler::checkPlantBuy(int time) {
 		if (Events::keyDown(Events::One)) {
 			selectedPlant = new Sunflower(&sunflowerSprite, time);
-			if (sunCount >= selectedPlant->cost)
+			if (sunCount >= selectedPlant->cost && time >= sunflowerCooldown)
 			{
-				if (time >= sunflowerCooldown)
-				{
-					isPlacingPlant = true;
-				}
-			}
-			else {
-				isPlacingPlant = false;
+				isPlacingPlant = true;
 			}
 		}
 		else if (Events::keyDown(Events::Two)) {
 			selectedPlant = new Peashooter(&peashooterSprite, time);
-			if (sunCount >= selectedPlant->cost)
+			if (sunCount >= selectedPlant->cost && time >= peashooterCooldown)
 			{
-				if (time >= peashooterCooldown) {
-					isPlacingPlant = true;
-				}
-			}
-			else {
-				isPlacingPlant = false;
+				isPlacingPlant = true;
 			}
 		}
 		else if (Events::keyDown(Events::Three)) {
 			selectedPlant = new Wallnut(&wallnutSprite, time);
-			if (sunCount >= selectedPlant->cost)
+			if (sunCount >= selectedPlant->cost && time >= wallnutCooldown)
 			{
-				if (time >= wallnutCooldown) {
-					isPlacingPlant = true;
-				}
-			}
-			else {
-				isPlacingPlant = false;
+				isPlacingPlant = true;
 			}
 		}
 }
