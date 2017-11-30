@@ -366,21 +366,21 @@ Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bul
 void GameHandler::checkPlantBuy(int time) {
 		if (Events::keyDown(Events::One)) {
 			selectedPlant = new Sunflower(&sunflowerSprite, time);
-			if (sunCount >= selectedPlant->cost)
+			if (sunCount >= selectedPlant->cost && time >= sunflowerCooldown)
 			{
 				isPlacingPlant = true;
 			}
 		}
 		else if (Events::keyDown(Events::Two)) {
 			selectedPlant = new Peashooter(&peashooterSprite, time);
-			if (sunCount >= selectedPlant->cost)
+			if (sunCount >= selectedPlant->cost && time >= peashooterCooldown)
 			{
 				isPlacingPlant = true;
 			}
 		}
 		else if (Events::keyDown(Events::Three)) {
 			selectedPlant = new Wallnut(&wallnutSprite, time);
-			if (sunCount >= selectedPlant->cost)
+			if (sunCount >= selectedPlant->cost && time >= wallnutCooldown)
 			{
 				isPlacingPlant = true;
 			}
@@ -426,6 +426,7 @@ void GameHandler::placingPlant(int time) {
 				if (square.getPosition().X + square.getSize().X < grid.getPosition().X + grid.getSize().X)
 				{
 					square.setPosition({ square.getPosition().X + 12, square.getPosition().Y });
+					
 				}
 			}
 		}
@@ -436,6 +437,7 @@ void GameHandler::placingPlant(int time) {
 			for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {
 				if ((*it)->getPosition().X == position.X && (*it)->getPosition().Y == position.Y)
 				{
+					
 					canPlacePlant = false;
 					break;
 				}
@@ -446,6 +448,18 @@ void GameHandler::placingPlant(int time) {
 				placePlant(position, selectedPlant->getType(), time);
 				isPlacingPlant = false;
 				sunCount -= selectedPlant->cost;
+				if (selectedPlant->getType() == Plant::SUNFLOWER)
+				{
+					sunflowerCooldown = time + selectedPlant->cooldown;
+				}
+				else if (selectedPlant->getType() == Plant::PEASHOOTER)
+				{
+					peashooterCooldown = time + selectedPlant->cooldown;
+				}
+				else if (selectedPlant->getType() == Plant::WALLNUT)
+				{
+					wallnutCooldown = time + selectedPlant->cooldown;
+				}
 			}
 			boxMoveTime = -1;
 		}

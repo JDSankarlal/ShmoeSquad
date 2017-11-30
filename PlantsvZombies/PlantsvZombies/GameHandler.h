@@ -94,6 +94,9 @@ public:
 	int previousSunTime;//last time a sun spawned
 	int boxMoveTime = -1; //Time since box last moved
 	int boxMoveInterval = 150; //The time in which the box can move
+	int sunflowerCooldown = 0;
+	int peashooterCooldown = 0;
+	int wallnutCooldown = 0;
 
 
 	//SPRITE DATA
