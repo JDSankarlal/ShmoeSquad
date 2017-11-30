@@ -120,7 +120,12 @@ void GameHandler::printDisplay(HANDLE buffer)
 
 	string numSun = "Sun: " + std::to_string(sunCount);
 
-	printString(buffer, numSun, pos);
+	printString(buffer, numSun, pos, white_black);
+
+	if (displaySunAdded > 0) {
+		string sunObtained = " + " + std::to_string(displaySunAdded);
+		printString(buffer, sunObtained, { pos.X + static_cast<SHORT>(numSun.size()), pos.Y }, yellow_black);
+	}
 }
 
 void GameHandler::printPlants(HANDLE buffer) {
@@ -185,6 +190,11 @@ void GameHandler::deleteMowers() {
 
 //UPDATING OBJECTS
 void GameHandler::update(int time) {
+	if (time - displaySunAddedTime >= displaySunAddedLength) {
+		displaySunAdded = 0;
+	}
+	sunAdded = 0;
+
 	checkZombieSpawn(time);
 	checkSunSpawn(time);
 
@@ -200,7 +210,7 @@ void GameHandler::update(int time) {
 			}
 			else if ((*it)->getType() == Plant::SUNFLOWER) {//sunflowers will create sun instead of shooting
 				//spawnSun((*it), time);
-				createSun(50);
+				createSun(25);
 				(*it)->shootingAnimation(&sunflower_shineSprite, time);
 			}
 		}
@@ -291,6 +301,11 @@ void GameHandler::update(int time) {
 			i--;
 		}
 	}*/
+
+	if (sunAdded > 0) {
+		displaySunAddedTime = time;
+		displaySunAdded += sunAdded;
+	}
 }
 
 /*void GameHandler::collisions(Zombie zombie) {//**make this a function member of Sprite, a general checkCollision function: sprite1.checkCollision(sprite2);**
@@ -361,6 +376,7 @@ createSun();
 
 void GameHandler::createSun(int num) {//adds sun to the player's sun count
 	sunCount += num;
+	sunAdded += num;
 }
 
 
@@ -374,7 +390,7 @@ void GameHandler::checkZombieSpawn(int time) {
 
 void GameHandler::checkSunSpawn(int time) {
 	if (time - previousSunTime >= sunInterval) {
-		createSun(100);
+		createSun(50);
 		previousSunTime = time;
 	}
 }
@@ -406,7 +422,7 @@ void GameHandler::cls(HANDLE buffer, int colour)//This is used instead of system
 		&charsWritten);	// Receive number of characters written
 }
 
-void GameHandler::printString(HANDLE buffer, string string, COORD position) {
+void GameHandler::printString(HANDLE buffer, string string, COORD position, int colour) {
 
 	CHAR_INFO* stringData = new CHAR_INFO[string.size()];
 	SMALL_RECT stringPosition = { position.X, position.Y, position.X + string.size(), position.Y };
@@ -414,7 +430,7 @@ void GameHandler::printString(HANDLE buffer, string string, COORD position) {
 
 	for (int i = 0; i < string.size(); i++) {
 		stringData[i].Char.AsciiChar = string[i];
-		stringData[i].Attributes = white_black;
+		stringData[i].Attributes = colour;
 	}
 	WriteConsoleOutput(buffer, stringData, stringSize, { 0 , 0 }, &stringPosition);
 }

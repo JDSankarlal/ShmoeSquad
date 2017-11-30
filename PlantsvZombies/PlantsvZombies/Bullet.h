@@ -14,4 +14,6 @@ public:
 
 	int position();
 	int row;
+
+	int dmg = 50;//the amount of damage dealt to a zombie upon collision
 };

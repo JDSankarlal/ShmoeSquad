@@ -14,8 +14,9 @@ Sunflower::Sunflower(vector<vector<string>>* spriteData, int time)
 	resetData();
 	previousFrameTime = time;
 
-	previousShootTime = time;
-	shootInterval = 8000;//shines every 8s
+	shootInterval = 24000;//shines every 24s
+	previousShootTime = time - shootInterval + 7000;//will shine once 7 seconds after being planted
+	
 }
 
 Sunflower::~Sunflower()

@@ -53,7 +53,7 @@ public:
 	void checkSunSpawn(int time);
 
 	void cls(HANDLE buffer, int colour);//clears the screen
-	void printString(HANDLE buffer, string string, COORD position);
+	void printString(HANDLE buffer, string string, COORD position, int colour);
 	void fullscreen();//puts program in fullscreen mode
 
 	int randNum(int min, int max);//genrates a random number in a range
@@ -76,7 +76,13 @@ public:
 	Sprite bar;//sprites for the grid and plant bar
 
 	int sunCount;//amount of sun player has
+	int sunAdded;//amount of sun obtained this frame
+	int displaySunAdded = 0;//used to print to the screen only
+	int displaySunAddedTime;//time at which sun added started displaying
+	int displaySunAddedLength = 3000;//amount of time added sun is displayed for
 	int zombieInterval;//the interval in ms that zombies spawn
+	int zombieIncreaseInterval;//The interval that the zombie spawn rate increases at
+	int zombieIncreaseAmount;//the degree to which the zombie spawn rate increases at each interval
 	int sunInterval;//interval suns spawn at
 	int previousZombieTime;//stores last time a zombie was spawned
 	int previousSunTime;//last time a sun spawned
