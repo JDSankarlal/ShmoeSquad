@@ -364,21 +364,27 @@ Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bul
 }*/
 
 void GameHandler::checkPlantBuy(int time) {
-	if (isPlacingPlant == false)
-	{
 		if (Events::keyDown(Events::One)) {
 			selectedPlant = new Sunflower(&sunflowerSprite, time);
-			isPlacingPlant = true;
+			if (sunCount >= selectedPlant->cost)
+			{
+				isPlacingPlant = true;
+			}
 		}
 		else if (Events::keyDown(Events::Two)) {
 			selectedPlant = new Peashooter(&peashooterSprite, time);
-			isPlacingPlant = true;
+			if (sunCount >= selectedPlant->cost)
+			{
+				isPlacingPlant = true;
+			}
 		}
 		else if (Events::keyDown(Events::Three)) {
 			selectedPlant = new Wallnut(&wallnutSprite, time);
-			isPlacingPlant = true;
+			if (sunCount >= selectedPlant->cost)
+			{
+				isPlacingPlant = true;
+			}
 		}
-	}
 }
 
 // The following fucntion makes the box move and not be able to go outside of the grid
@@ -393,7 +399,9 @@ void GameHandler::placingPlant(int time) {
 				boxMoveTime = time;
 				if (square.getPosition().Y > grid.getPosition().Y)
 				{
-					square.setPosition({ square.getPosition().X,  square.getPosition().Y - 6 });
+					
+						square.setPosition({ square.getPosition().X,  square.getPosition().Y - 6 });
+					
 				}
 			}
 			else if (Events::keyDown(Events::Down))
@@ -437,6 +445,7 @@ void GameHandler::placingPlant(int time) {
 			{
 				placePlant(position, selectedPlant->getType(), time);
 				isPlacingPlant = false;
+				sunCount -= selectedPlant->cost;
 			}
 			boxMoveTime = -1;
 		}
