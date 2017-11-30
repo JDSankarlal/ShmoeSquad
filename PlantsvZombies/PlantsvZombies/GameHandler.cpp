@@ -286,10 +286,23 @@ void GameHandler::update(int time) {
 			i--;
 		}
 		//*this is broken right now*
-		/*if (zombies[i]->getPosition().Y == bullets[i]->getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
+		for (int i = 0; i < zombies.size(); i++)
 		{
-		zombies[i]->health -= 20;
-		}*/
+			for (int j = 0; j < bullets.size(); j++)
+			{
+				if (zombies[i]->getPosition().Y == bullets[j]->getPosition().Y + 1)//if the bullet Y position is one less than the zombie Y position
+				{
+					if (zombies[i]->getPosition().X == bullets[j]->getPosition().X) // and if bullet and zombie X positions are the same
+					{
+						zombies[i]->health -= 20; //reduce zombies health by 20
+					}
+				}
+			}
+			/*if (zombies[i]->getPosition().Y == bullets[i]->getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
+			{
+			zombies[i]->health -= 20;
+			}*/
+		}
 	}
 
 	/*for (int i = 0; i < suns.size(); i++)//update suns, unused for now
@@ -319,6 +332,7 @@ Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bul
 
 void GameHandler::checkPlantBuy() {
 }
+
 
 
 //SPAWING OBJECTS
