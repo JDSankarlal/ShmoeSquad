@@ -69,14 +69,6 @@ void GameHandler::initialize(int time) {
 		chosenPlants[i]->setDefaultColour(white_black);
 	}
 
-	//placing plants for testing purposes
-	pos = grid.getPosition();
-	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::SUNFLOWER, time);
-	pos.Y += 6;
-	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
-	pos.Y += 6;
-	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::WALLNUT, time);
-
 	//setting up lawnmowers
 	pos = grid.getPosition();
 	pos.X -= 12;
@@ -89,6 +81,27 @@ void GameHandler::initialize(int time) {
 		mowers.push_back(lawnmower);
 		pos.Y += 6;
 	}
+
+	//placing plants for testing purposes
+	pos = grid.getPosition();
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::SUNFLOWER, time);
+	pos.X += 12;
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
+	pos.X -= 12;
+	pos.Y += 6;
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
+	pos.Y += 6;
+	pos.X += 60;
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::WALLNUT, time);
+	pos.Y += 6;
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::WALLNUT, time);
+	pos.Y -= 6;
+	pos.X -= 48;
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
+	pos.Y += 6;
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
+	pos.Y += 6;
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
 }
 
 
@@ -259,9 +272,43 @@ void GameHandler::update(int time) {
 
 
 	//COLLISION DETECTION
+	//Zombie collisions
+	for (int i = 0; i < zombies.size(); i++) {
+		//collisions with bullets
+		for (int j = 0; j < bullets.size(); j++)
+		{
+			if (zombies[i]->checkCollision(bullets[j]) == true) {
+				zombies[i]->takeDamage(75, time); //reduce zombies health by 75
+				bullets[j]->hit();//set bullet to be dead
+			}
+		}
+		//collisions with lawnmowers
+		for (int j = 0; j < mowers.size(); j++)
+		{
+			if (zombies[i]->checkCollision(mowers[j]) == true) {
+				zombies[i]->health = 0; //instantly kill zombie
+			}
+		}
+		//collisions with lawnmowers
+		for (int j = 0; j < plants.size(); j++)
+		{
+			if (zombies[i]->checkCollision(plants[j]) == true) {
+				//plants[i]->
+			}
+		}
+	}
+	//deleting zombies
+	for (int i = 0; i < zombies.size(); i++) {
+		if (zombies[i]->endCollision() == true || zombies[i]->killZombie(time) == true)
+		{
+			delete zombies[i];//deallocating memory
+			zombies.erase(zombies.begin() + i);//removing it from the vector
+			i--;
+		}
+	}
 	//deleting bullets
 	for (int i = 0; i<bullets.size(); i++) {
-		if (bullets[i]->hitEdge() == true)
+		if (bullets[i]->hitEdge() == true || bullets[i]->isAlive == false)
 		{
 			delete bullets[i];//deallocating memory
 			bullets.erase(bullets.begin() + i);//removing it from the vector
@@ -275,33 +322,6 @@ void GameHandler::update(int time) {
 			delete mowers[i];//deallocating memory
 			mowers.erase(mowers.begin() + i);//removing it from the vector
 			i--;
-		}
-	}
-	//deleting zombies
-	for (int i = 0; i < zombies.size(); i++) {
-		if (zombies[i]->endCollision() == true || zombies[i]->killZombie(time) == true)
-		{
-			delete zombies[i];//deallocating memory
-			zombies.erase(zombies.begin() + i);//removing it from the vector
-			i--;
-		}
-		//*this is broken right now*
-		for (int i = 0; i < zombies.size(); i++)
-		{
-			for (int j = 0; j < bullets.size(); j++)
-			{
-				if (zombies[i]->checkCollision(bullets[j]) == true) {
-					zombies[i]->health -= 75; //reduce zombies health by 20
-
-					delete bullets[j];//deallocating memory from bullet
-					bullets.erase(bullets.begin() + j);//removing bullet from the vector
-					j--;
-				}
-			}
-			/*if (zombies[i]->getPosition().Y == bullets[i]->getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
-			{
-			zombies[i]->health -= 20;
-			}*/
 		}
 	}
 

@@ -12,6 +12,9 @@ public:
 	bool hitEdge();
 	//bool hitZombie();
 
+	void hit();
+
+	bool isAlive = true;
 	int position();
 	int row;
 

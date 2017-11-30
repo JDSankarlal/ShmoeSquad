@@ -1,5 +1,6 @@
 #pragma once
 #include "Sprite.h"
+#include "plant.h"
 
 class Zombie : public Sprite
 {
@@ -18,6 +19,10 @@ public:
 	int deathTime = -1;//used for delaying killing the zombie to after it's finished it's death animation
 	int deathDelay = 0;//the delay between when the zombie is detected to die and when it actually dies
 
+	int dmg;//amount of damge dealt with each hit
+	int dmgInterval;//interval at which zombie hits plant while colliding
+	int dmgTime = -1;//time at which zombie started eating plant
+
 
 	int health;//zombie's current hp
 	int row;//the row the zombie is located in
@@ -32,6 +37,7 @@ public:
 	bool killZombie(int time);//check if death animation is over and actually kill the zombie
 	void takeDamage(int dmg, int time);//change colour of sprite so it flashes when taking damage
 
+	void dealDamage(Plant* plant);
 	
 	bool endCollision();
 	bool shot();

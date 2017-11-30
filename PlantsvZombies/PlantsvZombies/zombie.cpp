@@ -118,6 +118,10 @@ void Zombie::takeDamage(int dmg, int time) {
 	damageTime = time;
 }
 
+void Zombie::dealDamage(Plant* plant) {
+
+}
+
 //deletes zombie if it hits the lefthand edge
 bool Zombie::endCollision()
 {

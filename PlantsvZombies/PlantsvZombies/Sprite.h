@@ -167,7 +167,7 @@ protected:
 
 	bool takingDamage = false;//keeps track of whether an object is taking damage or not
 	int damageTime = -1;//the time at which the object took damage last
-	int flashTime = 250;//the amount of time a sprite should flash a different colour, when taking damage
+	int flashTime = 175;//the amount of time a sprite should flash a different colour, when taking damage
 
 private:
 	COORD position;//the current position of a sprites Top Left corner

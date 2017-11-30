@@ -8,6 +8,8 @@ Bullet::Bullet()//don't use this one
 
 Bullet::Bullet(vector<vector<string>>* spriteData, int time)//use this constructor instead
 {
+	state = ALIVE;
+
 	defaultColour = 0x000a;//green_black;
 	defaultData = spriteData;
 	resetData();
@@ -43,6 +45,10 @@ Bullet::Bullet(vector<vector<string>>* spriteData, int time)//use this construct
 
 Bullet::~Bullet()
 {
+}
+
+void Bullet::hit() {
+	isAlive = false;
 }
 
 void Bullet::defaultAnimation() {
