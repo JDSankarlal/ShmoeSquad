@@ -21,7 +21,8 @@ public:
 	int shootInterval;//time in ms between shots
 	int previousShootTime;//stores last time the plant shot
 
-
+	int cooldown;
+	int cost;
 	int health;//plants current hp
 
 

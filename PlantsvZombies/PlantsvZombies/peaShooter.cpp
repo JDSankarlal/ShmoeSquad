@@ -8,6 +8,8 @@ Peashooter::Peashooter()
 
 Peashooter::Peashooter(vector<vector<string>>* spriteData, int time)
 {
+	cost = 100;
+	cooldown = 5000;
 	type = PEASHOOTER;
 	defaultColour = 0x000a;//green_black;
 	defaultData = spriteData;

@@ -9,6 +9,8 @@ Plant::~Plant()
 {
 }
 
+
+
 bool Plant::checkShoot(int time)//the number this returns tells the game which type of bullet to spawn
 {
 	if (time - previousShootTime >= shootInterval) {//shoot at set interval
@@ -46,3 +48,5 @@ bool Plant::shootBullet(int time) {
 		return false;
 	}
 }
+
+

@@ -8,6 +8,8 @@ Sunflower::Sunflower()
 
 Sunflower::Sunflower(vector<vector<string>>* spriteData, int time)
 {
+	cost = 50;
+	cooldown = 5000;
 	type = SUNFLOWER;
 	defaultColour = 0x000a;//green_black;
 	defaultData = spriteData;
