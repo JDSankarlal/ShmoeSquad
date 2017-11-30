@@ -33,13 +33,24 @@ void Mower::activate(int time) {
 
 		colour = 0x0004 + 0x0008;//red_black
 
-		moveInterval = 200;//move every 0.2s
+		moveInterval = 50;//move every 0.1s
 		moveVector = { 1, 0 };//vector sprite will move in
 		previousMoveTime = time;
 
-		frameSequence = new int[1]{ 0 };
-		totalNumFrames = 1;
-		frameTime = moveInterval;
+		frameSequence = new int[4]{ 0, 1, 2, 3 };
+		totalNumFrames = 4;
+		frameTime = moveInterval * 2;
 		previousFrameTime = time;
+	}
+}
+
+bool Mower::hitEdge()
+{
+	if (getPosition().X >= 135)
+	{
+		return true;
+	}
+	else {
+		return false;
 	}
 }

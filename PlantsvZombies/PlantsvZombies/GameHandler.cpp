@@ -85,6 +85,7 @@ void GameHandler::initialize(int time) {
 	for (int i = 0; i < 5; i++) {
 		lawnmower = new Mower(&lawnmowerSprite, time);
 		lawnmower->setPosition(pos);
+		//lawnmower->activate(time);//for testing
 		mowers.push_back(lawnmower);
 		pos.Y += 6;
 	}
@@ -224,29 +225,45 @@ void GameHandler::update(int time) {
 	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
 		(*it)->move(time);//zombies move a certain distance each frame
 		(*it)->updateAnimation(time);
-		//(*it)->health -= 1;
+		//(*it)->health -= 1;for testing
 		if ((*it)->health <= 250) {//check if zombie is hurt
 			(*it)->hurtAnimation(&zombie_hurtSprite);//change sprite
 		}
 	}
 
+	//update lawnmowers
+	for (std::vector<Mower*>::iterator it = mowers.begin(); it != mowers.end(); ++it) {
+		(*it)->move(time);
+		(*it)->updateAnimation(time);
+	}
+
 
 	//COLLISION DETECTION
-	for (int i = 0; i<bullets.size(); i++) {//deleting bullets
-		if (bullets[i]->hitEdge())
+	//deleting bullets
+	for (int i = 0; i<bullets.size(); i++) {
+		if (bullets[i]->hitEdge() == true)
 		{
 			delete bullets[i];//deallocating memory
 			bullets.erase(bullets.begin() + i);//removing it from the vector
 			i--;
 		}
 	}
-
+	//deleting lawnmowers
+	for (int i = 0; i < mowers.size(); i++) {
+		if (mowers[i]->hitEdge() == true)
+		{
+			delete mowers[i];//deallocating memory
+			mowers.erase(mowers.begin() + i);//removing it from the vector
+			i--;
+		}
+	}
+	//deleting zombies
 	for (int i = 0; i < zombies.size(); i++) {//*this is broken right now*
 		/*if (zombies[i]->getPosition().Y == bullets[i]->getPosition().Y)//*There may not be the same number of zombies and bullets, use another nested loop to go through all the bullets*
 		{
 			zombies[i]->health -= 20;
 		}*/
-		if (zombies[i]->endCollision() || zombies[i]->health <= 0)
+		if (zombies[i]->endCollision() == true || zombies[i]->health <= 0)
 		{
 			delete zombies[i];//deallocating memory
 			zombies.erase(zombies.begin() + i);//removing it from the vector

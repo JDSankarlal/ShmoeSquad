@@ -19,6 +19,8 @@ public:
 
 	void activate(int time);
 
+	bool hitEdge();
+
 private:
 	State state;
 };
