@@ -383,37 +383,45 @@ void GameHandler::checkPlantBuy(int time) {
 
 // The following fucntion makes the box move and not be able to go outside of the grid
 void GameHandler::placingPlant(int time) {
+	
 	if (isPlacingPlant == true)
 	{
-		if (Events::keyDown(Events::Up))
+		if (boxMoveTime > 0 && time - boxMoveTime >= boxMoveInterval || boxMoveTime < 0)
 		{
-			if (square.getPosition().Y > grid.getPosition().Y)
+			if (Events::keyDown(Events::Up))
 			{
-				square.setPosition({ square.getPosition().X,  square.getPosition().Y - 6 });
+				boxMoveTime = time;
+				if (square.getPosition().Y > grid.getPosition().Y)
+				{
+					square.setPosition({ square.getPosition().X,  square.getPosition().Y - 6 });
+				}
+			}
+			else if (Events::keyDown(Events::Down))
+			{
+				boxMoveTime = time;
+				if (square.getPosition().Y + square.getSize().Y < grid.getPosition().Y + grid.getSize().Y)
+				{
+					square.setPosition({ square.getPosition().X, square.getPosition().Y + 6 });
+				}
+			}
+			else if (Events::keyDown(Events::Left))
+			{
+				boxMoveTime = time;
+				if (square.getPosition().X > grid.getPosition().X)
+				{
+					square.setPosition({ square.getPosition().X - 12, square.getPosition().Y });
+				}
+			}
+			else if (Events::keyDown(Events::Right))
+			{
+				boxMoveTime = time;
+				if (square.getPosition().X + square.getSize().X < grid.getPosition().X + grid.getSize().X)
+				{
+					square.setPosition({ square.getPosition().X + 12, square.getPosition().Y });
+				}
 			}
 		}
-		else if (Events::keyDown(Events::Down))
-		{
-			if (square.getPosition().Y + square.getSize().Y < grid.getPosition().Y + grid.getSize().Y)
-			{
-				square.setPosition({ square.getPosition().X, square.getPosition().Y + 6 });
-			}
-		}
-		else if (Events::keyDown(Events::Left))
-		{
-			if (square.getPosition().X > grid.getPosition().X)
-			{
-				square.setPosition({ square.getPosition().X - 12, square.getPosition().Y });
-			}
-		}
-		else if (Events::keyDown(Events::Right))
-		{
-			if (square.getPosition().X + square.getSize().X < grid.getPosition().X + grid.getSize().X)
-			{
-				square.setPosition({ square.getPosition().X + 12, square.getPosition().Y });
-			}
-		}
-		else if (Events::keyDown(Events::Space))
+		if (Events::keyDown(Events::Space))
 		{
 			const COORD position = { square.getPosition().X + 2, square.getPosition().Y + 1 };
 			bool canPlacePlant;
@@ -430,7 +438,9 @@ void GameHandler::placingPlant(int time) {
 				placePlant(position, selectedPlant->getType(), time);
 				isPlacingPlant = false;
 			}
+			boxMoveTime = -1;
 		}
+		
 	}
 }
 
