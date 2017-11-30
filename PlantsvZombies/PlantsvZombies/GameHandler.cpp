@@ -224,7 +224,7 @@ void GameHandler::update(int time) {
 
 	grid.updateAnimation(time);
 	//bar.updateAnimation(time);
-
+	checkPlantBuy(time);
 	placingPlant(time);
 	//update plants
 	for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {
@@ -364,23 +364,26 @@ Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bul
 }*/
 
 void GameHandler::checkPlantBuy(int time) {
-	if (Events::keyDown(Events::One)) {
-		selectedPlant = new Sunflower(&sunflowerSprite, time);
-		isPlacingPlant = true;
-	}
-	else if (Events::keyDown(Events::Two)) {
-		selectedPlant = new Peashooter(&peashooterSprite, time);
-		isPlacingPlant = true;
-	}
-	else if (Events::keyDown(Events::Three)) {
-		selectedPlant = new Wallnut(&wallnutSprite, time);
-		isPlacingPlant = true;
+	if (isPlacingPlant == false)
+	{
+		if (Events::keyDown(Events::One)) {
+			selectedPlant = new Sunflower(&sunflowerSprite, time);
+			isPlacingPlant = true;
+		}
+		else if (Events::keyDown(Events::Two)) {
+			selectedPlant = new Peashooter(&peashooterSprite, time);
+			isPlacingPlant = true;
+		}
+		else if (Events::keyDown(Events::Three)) {
+			selectedPlant = new Wallnut(&wallnutSprite, time);
+			isPlacingPlant = true;
+		}
 	}
 }
 
 // The following fucntion makes the box move and not be able to go outside of the grid
 void GameHandler::placingPlant(int time) {
-	if (isPlacingPlant = true)
+	if (isPlacingPlant == true)
 	{
 		if (Events::keyDown(Events::Up))
 		{
@@ -408,6 +411,24 @@ void GameHandler::placingPlant(int time) {
 			if (square.getPosition().X + square.getSize().X < grid.getPosition().X + grid.getSize().X)
 			{
 				square.setPosition({ square.getPosition().X + 12, square.getPosition().Y });
+			}
+		}
+		else if (Events::keyDown(Events::Space))
+		{
+			const COORD position = { square.getPosition().X + 2, square.getPosition().Y + 1 };
+			bool canPlacePlant;
+			for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {
+				if ((*it)->getPosition().X == position.X && (*it)->getPosition().Y == position.Y)
+				{
+					canPlacePlant = false;
+					break;
+				}
+				else canPlacePlant = true;
+			}
+			if (canPlacePlant == true)
+			{
+				placePlant(position, selectedPlant->getType(), time);
+				isPlacingPlant = false;
 			}
 		}
 	}
