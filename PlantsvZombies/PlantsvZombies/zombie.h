@@ -13,6 +13,7 @@ public:
 		HURT,//when health is below half
 		DEAD//set to this when zombie health reaches 0
 	};
+	bool isEating = false;
 
 	int deathTime = -1;//used for delaying killing the zombie to after it's finished it's death animation
 	int deathDelay = 0;//the delay between when the zombie is detected to die and when it actually dies
@@ -22,7 +23,6 @@ public:
 	int row;//the row the zombie is located in
 
 
-	void setState(State);
 	State getState();
 
 	void defaultAnimation();

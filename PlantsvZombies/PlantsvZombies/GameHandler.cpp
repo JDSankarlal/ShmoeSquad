@@ -190,7 +190,8 @@ void GameHandler::update(int time) {
 	grid.updateAnimation(time);
 	//bar.updateAnimation(time);
 
-	for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {//update plants
+	//update plants
+	for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {
 		(*it)->updateAnimation(time);
 		if ((*it)->checkShoot(time) == true) {//check if each plant is shooting on the current frame
 			if ((*it)->getType() == Plant::PEASHOOTER) {//peashooters will shoot bullets
@@ -207,21 +208,28 @@ void GameHandler::update(int time) {
 		}
 		if ((*it)->getType() == Plant::WALLNUT) {//peashooters will shoot bullets
 			//(*it)->health -= 1;//for testing
-			if ((*it)->health <= 300) {
-				(*it)->hurtAnimation(&wallnut_hurtSprite);
+			if ((*it)->health <= 300) {//check if wallnut is hurt
+				(*it)->hurtAnimation(&wallnut_hurtSprite);//change sprite
 			}
 		}
 	}
 
-	for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it) {//update bullets
+	//update bullets
+	for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
 		(*it)->updateAnimation(time);
 		(*it)->move(time);//bullets move a certain distance each frame
 	}
 
-	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {//update zombies
+	//update zombies
+	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
 		(*it)->move(time);//zombies move a certain distance each frame
 		(*it)->updateAnimation(time);
+		//(*it)->health -= 1;
+		if ((*it)->health <= 250) {//check if zombie is hurt
+			(*it)->hurtAnimation(&zombie_hurtSprite);//change sprite
+		}
 	}
+
 
 	//COLLISION DETECTION
 	for (int i = 0; i<bullets.size(); i++) {//deleting bullets

@@ -33,13 +33,13 @@ void Mower::activate(int time) {
 
 		colour = 0x0004 + 0x0008;//red_black
 
-		moveInterval = 250;//move every 0.25s
+		moveInterval = 200;//move every 0.2s
 		moveVector = { 1, 0 };//vector sprite will move in
 		previousMoveTime = time;
 
 		frameSequence = new int[1]{ 0 };
 		totalNumFrames = 1;
-		frameTime = moveInterval;//change animation frame every 0.125s
+		frameTime = moveInterval;
 		previousFrameTime = time;
 	}
 }
