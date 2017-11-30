@@ -370,9 +370,6 @@ void GameHandler::checkPlantBuy(int time) {
 			{
 				isPlacingPlant = true;
 			}
-			else {
-				isPlacingPlant = false;
-			}
 		}
 		else if (Events::keyDown(Events::Two)) {
 			selectedPlant = new Peashooter(&peashooterSprite, time);
@@ -380,18 +377,12 @@ void GameHandler::checkPlantBuy(int time) {
 			{
 				isPlacingPlant = true;
 			}
-			else {
-				isPlacingPlant = false;
-			}
 		}
 		else if (Events::keyDown(Events::Three)) {
 			selectedPlant = new Wallnut(&wallnutSprite, time);
 			if (sunCount >= selectedPlant->cost)
 			{
 				isPlacingPlant = true;
-			}
-			else {
-				isPlacingPlant = false;
 			}
 		}
 }
