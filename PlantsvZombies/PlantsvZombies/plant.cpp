@@ -23,6 +23,9 @@ bool Plant::checkShoot(int time)//the number this returns tells the game which t
 void Plant::shootingAnimation(vector<vector<string>>* spriteData, int time) {
 }
 
+void Plant::hurtAnimation(vector<vector<string>>* spriteData) {
+}
+
 void Plant::takeDamage(int dmg, int time) {
 	if (health - dmg < 0) {
 		health = 0;

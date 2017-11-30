@@ -28,6 +28,7 @@ public:
 	virtual bool checkShoot(int time);//function used to check whether plant should shoot on the current frame
 
 	virtual void shootingAnimation(vector<vector<string>>* spriteData, int time);//starts plant's shooting animation
+	virtual void hurtAnimation(vector<vector<string>>* spriteData);//start plant's hurt animation
 	void takeDamage(int dmg, int time);//change colour of sprite so it flashes when taking damage
 	virtual bool shootBullet(int time);//spawn a bullet when plants shooting animation finishes
 

@@ -7,6 +7,14 @@ public:
 	Wallnut(vector<vector<string>>* spriteData, int time);
 	~Wallnut();
 
+	enum State {
+		ALIVE,
+		HURT
+	};
+
 	void defaultAnimation();
 	void hurtAnimation(vector<vector<string>>* spriteData);//set Wallnut's sprite and animation data when it's below 1/4 health
+
+private:
+	State state;
 };

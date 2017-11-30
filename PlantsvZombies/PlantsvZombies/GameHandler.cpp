@@ -205,6 +205,12 @@ void GameHandler::update(int time) {
 		if ((*it)->shootBullet(time) == true) {//check if each plant should spawn a bullet after it's shooting animation has finished
 			spawnBullet((*it), time);
 		}
+		if ((*it)->getType() == Plant::WALLNUT) {//peashooters will shoot bullets
+			//(*it)->health -= 1;//for testing
+			if ((*it)->health <= 300) {
+				(*it)->hurtAnimation(&wallnut_hurtSprite);
+			}
+		}
 	}
 
 	for (std::vector<Bullet*>::iterator it = bullets.begin(); it != bullets.end(); ++it) {//update bullets
