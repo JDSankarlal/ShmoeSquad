@@ -68,8 +68,8 @@ public:
 	}
 
 	bool checkCollision(Sprite* object) {
-		if ((position.X + size.X) >= object->position.X && (position.X + size.X) <= (object->position.X + object->size.X) || position.X <= (object->position.X + object->size.X)) {
-			if ((position.Y + size.Y) >= object->position.Y || position.Y <= (object->position.Y + object->size.Y)) {
+		if ((position.X + size.X) >= object->position.X && position.X <= (object->position.X + object->size.X)) {
+			if ((position.Y + size.Y) >= object->position.Y && position.Y <= (object->position.Y + object->size.Y)) {
 				return true;
 			}
 			else {
