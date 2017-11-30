@@ -11,6 +11,7 @@
 #include "Wallnut.h"
 #include "Bullet.h"
 #include "Mower.h"
+#include "Events.h"
 //#include "Sun.h"
 
 using std::vector;
@@ -41,7 +42,10 @@ public:
 
 	void update(int time);//updates the state of plants, zombies, bullets, and suns
 	//void collisions();
-	void checkPlantBuy();
+	void checkPlantBuy(int time);
+	void placingPlant(int time);
+
+	bool isPlacingPlant = false;
 
 	void placePlant(COORD pos, Plant::plantType type, int time);//places a plant at given coordinates
 	void spawnBullet(Plant*, int time);//creates a bullet for the passed in plant
@@ -65,6 +69,7 @@ public:
 	//VARIABLES
 	int numChosenPlants = 0;
 	Plant** chosenPlants = 0;//the list of plants that the player can buy
+	Plant* selectedPlant;
 
 	vector<Zombie*> zombies;//list of all current zombies
 	vector<Plant*> plants;//list of all current sprites
@@ -73,6 +78,7 @@ public:
 	//vector<Sun*> suns;//list of all current suns, unused for now
 
 	Sprite grid;
+	Sprite square;
 	Sprite bar;//sprites for the grid and plant bar
 
 	int sunCount;//amount of sun player has

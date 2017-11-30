@@ -127,6 +127,7 @@ void GameHandler::printDisplay(HANDLE buffer)
 {
 	printBar(buffer);
 	grid.draw(buffer);
+	square.draw(buffer);
 	//displays the player's sun count
 	COORD pos = grid.getPosition();
 	pos.Y -= 2;
@@ -350,10 +351,27 @@ if (zombie.endCollision()) {
 Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bullet.cpp
 }*/
 
-void GameHandler::checkPlantBuy() {
+void GameHandler::checkPlantBuy(int time) {
+	if (Events::keyDown(Events::One)) {
+		selectedPlant = new Sunflower(&sunflowerSprite, time);
+		isPlacingPlant = true;
+	}
+	else if (Events::keyDown(Events::Two)) {
+		selectedPlant = new Peashooter(&peashooterSprite, time);
+		isPlacingPlant = true;
+	}
+	else if (Events::keyDown(Events::Three)) {
+		selectedPlant = new Wallnut(&wallnutSprite, time);
+		isPlacingPlant = true;
+	}
 }
 
-
+void GameHandler::placingPlant(int time) {
+	/*if (isPlacingPlant = true)
+	{
+		placePlant ()
+	}*/
+}
 
 //SPAWING OBJECTS
 void GameHandler::placePlant(COORD pos, Plant::plantType type, int time) {
