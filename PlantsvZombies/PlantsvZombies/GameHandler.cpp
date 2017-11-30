@@ -378,6 +378,7 @@ void GameHandler::checkPlantBuy(int time) {
 	}
 }
 
+// The following fucntion makes the box move and not be able to go outside of the grid
 void GameHandler::placingPlant(int time) {
 	if (isPlacingPlant = true)
 	{
@@ -387,7 +388,6 @@ void GameHandler::placingPlant(int time) {
 			{
 				square.setPosition({ square.getPosition().X,  square.getPosition().Y - 6 });
 			}
-			//else square.setPosition({ 0,  square.getPosition().Y - 6 });
 		}
 		else if (Events::keyDown(Events::Down))
 		{
