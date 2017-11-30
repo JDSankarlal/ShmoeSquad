@@ -225,6 +225,7 @@ void GameHandler::update(int time) {
 	grid.updateAnimation(time);
 	//bar.updateAnimation(time);
 
+	placingPlant(time);
 	//update plants
 	for (std::vector<Plant*>::iterator it = plants.begin(); it != plants.end(); ++it) {
 		(*it)->updateAnimation(time);
@@ -378,10 +379,38 @@ void GameHandler::checkPlantBuy(int time) {
 }
 
 void GameHandler::placingPlant(int time) {
-	/*if (isPlacingPlant = true)
+	if (isPlacingPlant = true)
 	{
-		placePlant ()
-	}*/
+		if (Events::keyDown(Events::Up))
+		{
+			if (square.getPosition().Y > grid.getPosition().Y)
+			{
+				square.setPosition({ square.getPosition().X,  square.getPosition().Y - 6 });
+			}
+			//else square.setPosition({ 0,  square.getPosition().Y - 6 });
+		}
+		else if (Events::keyDown(Events::Down))
+		{
+			if (square.getPosition().Y + square.getSize().Y < grid.getPosition().Y + grid.getSize().Y)
+			{
+				square.setPosition({ square.getPosition().X, square.getPosition().Y + 6 });
+			}
+		}
+		else if (Events::keyDown(Events::Left))
+		{
+			if (square.getPosition().X > grid.getPosition().X)
+			{
+				square.setPosition({ square.getPosition().X - 12, square.getPosition().Y });
+			}
+		}
+		else if (Events::keyDown(Events::Right))
+		{
+			if (square.getPosition().X + square.getSize().X < grid.getPosition().X + grid.getSize().X)
+			{
+				square.setPosition({ square.getPosition().X + 12, square.getPosition().Y });
+			}
+		}
+	}
 }
 
 //SPAWING OBJECTS
