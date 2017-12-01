@@ -36,7 +36,7 @@ public:
 
 	void mainMenu(HANDLE buffer);
 	void howToPlay(HANDLE buffer);
-	void gameFinished(HANDLE buffer);
+	void gameFinished();
 
 	void deletePlants();//deletes all plants
 	void deleteBullets();//deletes all bullets

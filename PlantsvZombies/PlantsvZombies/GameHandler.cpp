@@ -308,7 +308,7 @@ void GameHandler::update(int time) {
 	//Zombie collisions
 	for (int i = 0; i < zombies.size(); i++) {
 		if (zombies[i]->endCollision() == true) {
-			//lose = true;
+			gameFinished();
 		}
 		//collisions with bullets
 		for (int j = 0; j < bullets.size(); j++)
@@ -733,14 +733,15 @@ void GameHandler::mainMenu(HANDLE buffer)
 	}
 }
 
-void GameHandler::gameFinished(HANDLE buffer)
+void GameHandler::gameFinished()
 {
+	lose = true;
+	cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
 	gameOver.setData(&game_Over);
 	gameOver.setPosition({ 13,3 });
-
-	if (lose == true) {
-		gameOver.draw(buffer);
-	}
+	gameOver.draw(GetStdHandle(STD_OUTPUT_HANDLE));
+	std::cin.ignore(1000, '\n');
+	std::cin.get();
 }
 
 void GameHandler::howToPlay(HANDLE buffer)

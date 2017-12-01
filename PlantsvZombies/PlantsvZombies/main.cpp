@@ -51,35 +51,41 @@ void main()
 	previousTime = currentTime();//initializing previousTime
 
 	game.loadSprites();//must be called before initialize, loads sprite data into memory
-	
-	//game.mainMenu(wHnd);
 
-	game.initialize(currentTime());//initialize the game state
+	//while (true) {
 
-	PlaySound("assets/04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);//start playing background music
+		//game.mainMenu(wHnd);
 
-	//main game loop
-	while (true) {
+		game.initialize(currentTime());//initialize the game state
 
-		//updating game state
-		game.update(currentTime());//passing in currently elapsed time in ms
+		PlaySound("assets/04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);//start playing background music
 
-		//rendering graphics
-		if (currentTime() - previousTime >= FRAME_TIME) {//draws to the screen on each frame of the game
+		//main game loop
+		while (true) {
+			//if (game.lose == true) {
+			//	break;
+			//}
+			//updating game state
+			game.update(currentTime());//passing in currently elapsed time in ms
 
-			game.render(buffer1);
+			//rendering graphics
+			if (currentTime() - previousTime >= FRAME_TIME) {//draws to the screen on each frame of the game
 
-			ReadConsoleOutput(buffer1, charBuffer, bufferSize, { 0,0 }, &windowSize);
-			WriteConsoleOutput(wHnd, charBuffer, bufferSize, { 0,0 }, &windowSize);
+				game.render(buffer1);
 
-			previousTime = currentTime();//set previousTime to the time the previous frame (relative to the next frame) ran
-		}
-		else {
-			sleepTime = FRAME_TIME - (currentTime() - previousTime);
-			Sleep(sleepTime);//sleep for remainder of time until next frame
-		}
+				ReadConsoleOutput(buffer1, charBuffer, bufferSize, { 0,0 }, &windowSize);
+				WriteConsoleOutput(wHnd, charBuffer, bufferSize, { 0,0 }, &windowSize);
 
-	}//main game loop
+				previousTime = currentTime();//set previousTime to the time the previous frame (relative to the next frame) ran
+			}
+			else {
+				sleepTime = FRAME_TIME - (currentTime() - previousTime);
+				Sleep(sleepTime);//sleep for remainder of time until next frame
+			}
+
+		}//main game loop
+
+	//}//main menu loop
 	
 }//void main
 
