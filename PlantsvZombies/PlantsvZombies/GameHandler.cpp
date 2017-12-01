@@ -696,6 +696,12 @@ void GameHandler::gameFinished(HANDLE buffer)
 	}
 }
 
+void GameHandler::howToPlay(HANDLE buffer)
+{
+	howPlay.setData(&how_Play);
+	howPlay.setPosition({ 13,3 });
+}
+
 void GameHandler::loadSprites() {
 	defaultSprite = getSprite("assets/default.txt");
 	barSprite = getSprite("assets/bar.txt");
@@ -717,4 +723,5 @@ void GameHandler::loadSprites() {
 	zombie_hurt_eatingSprite = getSprite("assets/zombie_hurt_eating.txt");
 	menu_Main = getSprite("assets/Main_Menu.txt");
 	game_Over = getSprite("assets/Game_Over.txt");
+	how_Play = getSprite("assets/howToPlay.txt");
 }

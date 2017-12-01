@@ -35,6 +35,7 @@ public:
 	//void printSuns(HANDLE buffer);//prints all suns, unused for now
 
 	void mainMenu(HANDLE buffer);
+	void howToPlay(HANDLE buffer);
 	void gameFinished(HANDLE buffer);
 
 	void deletePlants();//deletes all plants
@@ -85,9 +86,11 @@ public:
 	Sprite bar;//sprites for the grid and plant bar
 	Sprite menuMain;
 	Sprite gameOver;
+	Sprite howPlay;
 
 	bool play = false;
 	bool lose = false;
+	bool options = false;
 
 	int sunCount;//amount of sun player has
 	int sunAdded;//amount of sun obtained this frame
@@ -129,5 +132,6 @@ public:
 	vector<vector<string>> zombie_hurt_eatingSprite;
 	vector<vector<string>> menu_Main;
 	vector<vector<string>> game_Over;
+	vector<vector<string>> how_Play;
 
 };
