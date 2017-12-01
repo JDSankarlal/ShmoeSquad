@@ -38,10 +38,11 @@ void GameHandler::initialize(int time) {
 
 	//initializing variables for spawn timers
 	sunCount = 50;
-	zombieInterval = 10000;//spawn a zombie every 10s
+	zombieInterval = 18000;//spawn a zombie every 18s
 	sunInterval = 10000;//spawn a sun every 10s
 	previousZombieTime = time;
 	previousSunTime = time;
+	previousZombieTime = time - zombieInterval + 15000;//will spawn 15 seconds after start
 
 	//setting ascii data for grid/lawn
 	grid.setData(&gridSprite);
@@ -619,6 +620,11 @@ void GameHandler::checkZombieSpawn(int time) {
 	if (time - previousZombieTime >= zombieInterval) {
 		spawnZombie(time);
 		previousZombieTime = time;
+	}
+	//increase zombie spawn rate
+	if (time - previousIncreaseTime >= zombieIncreaseInterval || previousIncreaseTime < 0) {
+		zombieInterval -= zombieIncreaseAmount;
+		previousIncreaseTime = time;
 	}
 }
 

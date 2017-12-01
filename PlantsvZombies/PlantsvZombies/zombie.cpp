@@ -30,7 +30,7 @@ Zombie::State Zombie::getState() {
 }
 
 void Zombie::defaultAnimation() {
-	moveInterval = 5;
+	moveInterval = 500;
 	moveVector = { -1, 0 };
 
 	colour = defaultColour;
