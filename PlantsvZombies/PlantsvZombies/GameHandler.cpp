@@ -713,7 +713,10 @@ void GameHandler::mainMenu(HANDLE buffer)
 	menuMain.draw(buffer);
 
 	while (play == false) {
-		
+		if (Events::keyDown(Events::One))
+			play = true;
+		else if (Events::keyDown(Events::Two))
+			options = true;
 	}
 }
 
@@ -731,6 +734,7 @@ void GameHandler::howToPlay(HANDLE buffer)
 {
 	howPlay.setData(&how_Play);
 	howPlay.setPosition({ 13,3 });
+	howPlay.draw(buffer);
 }
 
 void GameHandler::loadSprites() {

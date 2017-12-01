@@ -52,7 +52,7 @@ void main()
 
 	game.loadSprites();//must be called before initialize, loads sprite data into memory
 	
-	//game.mainMenu(wHnd);
+	game.mainMenu(wHnd);
 
 	game.initialize(currentTime());//initialize the game state
 
