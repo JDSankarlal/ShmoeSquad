@@ -99,7 +99,7 @@ void GameHandler::initialize(int time) {
 	}
 
 	//placing plants for testing purposes
-	pos = grid.getPosition();
+	/*pos = grid.getPosition();
 	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::SUNFLOWER, time);
 	pos.X += 12;
 	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
@@ -117,7 +117,7 @@ void GameHandler::initialize(int time) {
 	pos.Y += 6;
 	//placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
 	pos.Y += 6;
-	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
+	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);*/
 }
 
 
@@ -316,8 +316,9 @@ void GameHandler::update(int time) {
 			for (int j = 0; j < mowers.size(); j++)
 			{
 				if (zombies[i]->checkCollision(mowers[j]) == true) {
-					mowers[i]->activate(time);//activate lawnmower if touched by zombie
+					mowers[j]->activate(time);//activate lawnmower if touched by zombie
 					zombies[i]->health = 0; //instantly kill zombie
+					break;
 				}
 			}
 			//collisions with plants
@@ -334,6 +335,16 @@ void GameHandler::update(int time) {
 			if (isTouchingPlant == false && zombies[i]->isEating == true) {
 				zombies[i]->isEating = false;
 				zombies[i]->resetData();
+			}
+		}
+	}
+	for (int i = 0; i < plants.size(); i++)
+	{//kill plants if they collide with a lawnmower
+		for (int j = 0; j < mowers.size(); j++)
+		{
+			if (mowers[j]->checkCollision(plants[j]) == true) {
+				plants[1]->health = 0;
+				break;
 			}
 		}
 	}
@@ -366,12 +377,6 @@ void GameHandler::update(int time) {
 	}
 	//deleting lawnmowers
 	for (int i = 0; i < mowers.size(); i++) {
-		for (int j = 0; j < plants.size(); j++)
-		{//kill plants if they collide with a lawnmower
-			if (mowers[i]->checkCollision(plants[j]) == true) {
-				plants[j]->health = 0;
-			}
-		}
 		if (mowers[i]->hitEdge() == true)
 		{
 			delete mowers[i];//deallocating memory

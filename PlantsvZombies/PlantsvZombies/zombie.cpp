@@ -30,7 +30,7 @@ Zombie::State Zombie::getState() {
 }
 
 void Zombie::defaultAnimation() {
-	moveInterval = 500;
+	moveInterval = 5;
 	moveVector = { -1, 0 };
 
 	colour = defaultColour;
@@ -131,7 +131,7 @@ int Zombie::dealDamage(int time) {
 //deletes zombie if it hits the lefthand edge
 bool Zombie::endCollision()
 {
-	if (getPosition().X <= 10)
+	if (getPosition().X <= 0)
 	{
 		return true;
 	}
