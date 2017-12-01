@@ -85,7 +85,7 @@ void GameHandler::initialize(int time) {
 	for (int i = 0; i < 5; i++) {
 		lawnmower = new Mower(&lawnmowerSprite, time);
 		lawnmower->setPosition(pos);
-		lawnmower->activate(time);//for testing
+		//lawnmower->activate(time);//for testing
 		mowers.push_back(lawnmower);
 		pos.Y += 6;
 	}
@@ -105,9 +105,9 @@ void GameHandler::initialize(int time) {
 	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::WALLNUT, time);
 	pos.Y -= 6;
 	pos.X -= 48;
-	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
+	//placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
 	pos.Y += 6;
-	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
+	//placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
 	pos.Y += 6;
 	placePlant({ pos.X + 2, pos.Y + 1 }, Plant::PEASHOOTER, time);
 }
@@ -245,7 +245,7 @@ void GameHandler::update(int time) {
 			spawnBullet((*it), time);
 		}
 		if ((*it)->getType() == Plant::WALLNUT) {//peashooters will shoot bullets
-			if ((*it)->health <= 300) {//check if wallnut is hurt
+			if ((*it)->health <= 25) {//check if wallnut is below 1/2 health
 				(*it)->hurtAnimation(&wallnut_hurtSprite);//change sprite
 			}
 		}
@@ -261,7 +261,7 @@ void GameHandler::update(int time) {
 	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
 		(*it)->move(time);//zombies move a certain distance each frame
 		(*it)->updateAnimation(time);
-		if ((*it)->health <= (*it)->health / 2) {//check if zombie is below 1/2 health
+		if ((*it)->health <= 200) {//check if zombie is below 1/2 health
 			(*it)->hurtAnimation(&zombie_hurtSprite);//change sprite
 		}
 		if ((*it)->health <= 0) {
@@ -279,6 +279,9 @@ void GameHandler::update(int time) {
 	//COLLISION DETECTION
 	//Zombie collisions
 	for (int i = 0; i < zombies.size(); i++) {
+		if (zombies[i]->endCollision() == true) {
+			//lose = true;
+		}
 		//collisions with bullets
 		for (int j = 0; j < bullets.size(); j++)
 		{

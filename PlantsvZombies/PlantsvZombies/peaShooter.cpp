@@ -8,6 +8,7 @@ Peashooter::Peashooter()
 
 Peashooter::Peashooter(vector<vector<string>>* spriteData, int time)
 {
+	health = 5;
 	cost = 100;
 	cooldown = 5000;
 	type = PEASHOOTER;

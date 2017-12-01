@@ -8,6 +8,7 @@ Sunflower::Sunflower()
 
 Sunflower::Sunflower(vector<vector<string>>* spriteData, int time)
 {
+	health = 5;
 	cost = 50;
 	cooldown = 5000;
 	type = SUNFLOWER;

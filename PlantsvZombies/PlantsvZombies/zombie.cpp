@@ -131,9 +131,8 @@ int Zombie::dealDamage(int time) {
 //deletes zombie if it hits the lefthand edge
 bool Zombie::endCollision()
 {
-	if (getPosition().X <= 12)
+	if (getPosition().X <= 10)
 	{
-		
 		return true;
 	}
 	else return false;
