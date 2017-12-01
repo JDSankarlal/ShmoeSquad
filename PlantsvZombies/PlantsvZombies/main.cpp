@@ -27,17 +27,17 @@ void main()
 	SetConsoleTitle(TEXT("Plants VS Zombies!?"));
 
 	// Setting window size
-	SMALL_RECT windowSize = { 0, 0, 133, 44 };//{.Left, .Top, .Right, .Bottom}
+	SMALL_RECT windowSize = { 0, 0, 133, 48 };//{.Left, .Top, .Right, .Bottom}
 	// Change the console window size:
 	SetConsoleWindowInfo(wHnd, TRUE, &windowSize);
 
 	// Creating a COORD to hold the buffer size
-	COORD bufferSize = { 134, 45 };
+	COORD bufferSize = { 134, 49 };
 	// Change the internal buffer size:
 	SetConsoleScreenBufferSize(wHnd, bufferSize);
 	SetConsoleScreenBufferSize(buffer1, bufferSize);
 
-	CHAR_INFO charBuffer[134 * 45];//buffer for copying rendering buffer into active buffer
+	CHAR_INFO charBuffer[134 * 49];//buffer for copying rendering buffer into active buffer
 
 	srand(time(NULL));//set seed for random number generation
 

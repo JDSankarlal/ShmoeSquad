@@ -45,27 +45,27 @@ void GameHandler::initialize(int time) {
 
 	//setting ascii data for grid/lawn
 	grid.setData(&gridSprite);
-	grid.setPosition({ 13,10 });
+	grid.setPosition({ 13,12 });
 	int* sequence = new int[4]{ 0,1,2,1 };
 	grid.setAnimation(sequence, 4, 1000, time);
 
 	//setting ascii data for selection square
 	square.setData(&selectionsquareSprite);
 	square.setDefaultColour(blue_black);
-	square.setPosition({ 13,10 });
+	square.setPosition({ 13,12 });
 	//sequence = new int[1]{ 0 };
 	//square.setAnimation(sequence, 1, 1000, time);
 
 	//square shown in bar
 	squareBar.setData(&selectionsquareSprite);
 	squareBar.setDefaultColour(blue_black);
-	squareBar.setPosition({ 13,0 });
+	squareBar.setPosition({ 13,2 });
 	//sequence = new int[1]{ 0 };
 	//squareBar.setAnimation(sequence, 1, 1000, time);
 
 	//setting acii data for bar
 	bar.setData(&barSprite);
-	bar.setPosition({ 13,0 });
+	bar.setPosition({ 13,2 });
 	//sequence = new int[2]{ 0, 1 };
 	//bar.setAnimation(sequence, 2, 1000, time);
 
@@ -139,6 +139,12 @@ void GameHandler::printBar(HANDLE buffer) {//will take in a list of Plants, draw
 
 void GameHandler::printDisplay(HANDLE buffer)
 {
+	COORD pos = bar.getPosition();
+	pos.X += 5;
+	pos.Y -= 1;
+	for (SHORT i = 0; i < numChosenPlants; i++) {//placing plants inside of the bar
+		printString(buffer, std::to_string(chosenPlants[i]->cost), { pos.X + i * 12, pos.Y }, white_black);
+	}
 	printBar(buffer);
 	grid.draw(buffer);
 	if (isPlacingPlant == true) {
@@ -154,7 +160,7 @@ void GameHandler::printDisplay(HANDLE buffer)
 		chosenPlants[i]->draw(buffer);
 	}
 	//displays the player's sun count
-	COORD pos = grid.getPosition();
+	pos = grid.getPosition();
 	pos.Y -= 2;
 
 	string numSun = "Sun: " + std::to_string(sunCount);
