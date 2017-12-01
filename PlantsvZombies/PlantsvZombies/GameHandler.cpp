@@ -292,7 +292,7 @@ void GameHandler::update(int time) {
 		for (int j = 0; j < bullets.size(); j++)
 		{
 			if (zombies[i]->checkCollision(bullets[j]) == true) {
-				zombies[i]->takeDamage(75, time); //reduce zombies health by 75
+				zombies[i]->takeDamage(40, time); //reduce zombies health by 75
 				bullets[j]->hit();//set bullet to be dead
 			}
 		}
