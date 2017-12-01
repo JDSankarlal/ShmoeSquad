@@ -51,6 +51,9 @@ void main()
 	previousTime = currentTime();//initializing previousTime
 
 	game.loadSprites();//must be called before initialize, loads sprite data into memory
+	
+	game.mainMenu(wHnd);
+
 	game.initialize(currentTime());//initialize the game state
 
 	PlaySound("assets/04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);//start playing background music
