@@ -28,6 +28,7 @@ GameHandler::~GameHandler()
 }
 //INITIALIZING OBJECTS
 void GameHandler::initialize(int time) {
+
 	//clearing object lists
 	deleteZombies();
 	deletePlants();
@@ -670,6 +671,28 @@ vector<vector<string>> GameHandler::getSprite(string fileName) {
 	return asciiData;
 }
 
+void GameHandler::mainMenu(HANDLE buffer)
+{
+	menuMain.setData(&menu_Main);
+	menuMain.setPosition({ 13,3 });
+
+	menuMain.draw(buffer);
+
+	while (play == false) {
+		
+	}
+}
+
+void GameHandler::gameFinished(HANDLE buffer)
+{
+	gameOver.setData(&game_Over);
+	gameOver.setPosition({ 13,3 });
+
+	if (lose == true) {
+		gameOver.draw(buffer);
+	}
+}
+
 void GameHandler::loadSprites() {
 	defaultSprite = getSprite("assets/default.txt");
 	barSprite = getSprite("assets/bar.txt");
@@ -689,4 +712,6 @@ void GameHandler::loadSprites() {
 	zombie_eatingSprite = getSprite("assets/zombie_eating.txt");
 	zombie_hurtSprite = getSprite("assets/zombie_hurt.txt");
 	zombie_hurt_eatingSprite = getSprite("assets/zombie_hurt_eating.txt");
+	menu_Main = getSprite("assets/Main_Menu.txt");
+	game_Over = getSprite("assets/Game_Over.txt");
 }

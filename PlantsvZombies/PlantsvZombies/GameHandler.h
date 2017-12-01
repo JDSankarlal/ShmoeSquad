@@ -34,6 +34,9 @@ public:
 	void printMowers(HANDLE buffer);//prints all lawnmowers
 	//void printSuns(HANDLE buffer);//prints all suns, unused for now
 
+	void mainMenu(HANDLE buffer);
+	void gameFinished(HANDLE buffer);
+
 	void deletePlants();//deletes all plants
 	void deleteBullets();//deletes all bullets
 	void deleteZombies();//deletes all zombies
@@ -80,6 +83,11 @@ public:
 	Sprite grid;
 	Sprite square;
 	Sprite bar;//sprites for the grid and plant bar
+	Sprite menuMain;
+	Sprite gameOver;
+
+	bool play = false;
+	bool lose = false;
 
 	int sunCount;//amount of sun player has
 	int sunAdded;//amount of sun obtained this frame
@@ -119,4 +127,7 @@ public:
 	vector<vector<string>> zombie_eatingSprite;
 	vector<vector<string>> zombie_hurtSprite;
 	vector<vector<string>> zombie_hurt_eatingSprite;
+	vector<vector<string>> menu_Main;
+	vector<vector<string>> game_Over;
+
 };
