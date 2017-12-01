@@ -89,6 +89,8 @@ public:
 	Sprite gameOver;
 	Sprite howPlay;
 
+	Sprite shovelDisplay;
+
 	bool play = false;
 	bool lose = false;
 	bool options = false;
@@ -134,5 +136,6 @@ public:
 	vector<vector<string>> menu_Main;
 	vector<vector<string>> game_Over;
 	vector<vector<string>> how_Play;
+	vector<vector<string>> shovelSprite;
 
 };

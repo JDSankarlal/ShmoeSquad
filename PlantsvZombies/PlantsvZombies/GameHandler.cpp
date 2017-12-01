@@ -63,6 +63,11 @@ void GameHandler::initialize(int time) {
 	//sequence = new int[1]{ 0 };
 	//squareBar.setAnimation(sequence, 1, 1000, time);
 
+	//shovel
+	shovelDisplay.setData(&shovelSprite);
+	shovelDisplay.setDefaultColour(white_black);
+	shovelDisplay.setPosition({ 51 ,3 });
+
 	//setting acii data for bar
 	bar.setData(&barSprite);
 	bar.setPosition({ 13,2 });
@@ -159,6 +164,7 @@ void GameHandler::printDisplay(HANDLE buffer)
 	for (SHORT i = 0; i < numChosenPlants; i++) {//drawing plants inside of the bar
 		chosenPlants[i]->draw(buffer);
 	}
+	shovelDisplay.draw(buffer);
 	//displays the player's sun count
 	pos = grid.getPosition();
 	pos.Y -= 2;
@@ -342,8 +348,8 @@ void GameHandler::update(int time) {
 	{//kill plants if they collide with a lawnmower
 		for (int j = 0; j < mowers.size(); j++)
 		{
-			if (mowers[j]->checkCollision(plants[j]) == true) {
-				plants[1]->health = 0;
+			if (mowers[j]->checkCollision(plants[i]) == true) {
+				plants[i]->health = 0;
 				break;
 			}
 		}
@@ -452,6 +458,7 @@ void GameHandler::checkPlantBuy(int time) {
 		}
 		else if (Events::keyDown(Events::Four))
 		{
+			squareBar.setPosition({ chosenPlants[2]->getPosition().X + 10, chosenPlants[2]->getPosition().Y - 1 });
 			shovel = true;
 			isPlacingPlant = true;
 		}
@@ -755,4 +762,5 @@ void GameHandler::loadSprites() {
 	menu_Main = getSprite("assets/Main_Menu.txt");
 	game_Over = getSprite("assets/Game_Over.txt");
 	how_Play = getSprite("assets/howToPlay.txt");
+	shovelSprite = getSprite("assets/shovel.txt");
 }
