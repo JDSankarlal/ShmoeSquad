@@ -1,0 +1,19 @@
+How to Play:
+
+Press (1) to select Sunflower
+Sunflowers will increase the rate at which sun is earned
+
+Press (2) to select Peashooter
+Peashooters will shoot at zombies and eventually kill them
+
+Press (3) to select Wall-nut
+Wall-nuts have a high amount of health and will tank zombies
+
+Press (4) to select the shovel
+The shovel will dig up plants incase you put them in the wrong spot
+
+Press (Space) to plant the selected plant
+Press (Arrow Keys) to change the square the plant will be placed in
+
+Grow your genetically enhanced plants and defend
+your house from the zombie apocalypse!
