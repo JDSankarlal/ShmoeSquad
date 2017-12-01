@@ -73,7 +73,7 @@ public:
 	//VARIABLES
 	int numChosenPlants = 0;
 	Plant** chosenPlants = 0;//the list of plants that the player can buy
-	Plant* selectedPlant;
+	Plant* selectedPlant = 0;
 
 	vector<Zombie*> zombies;//list of all current zombies
 	vector<Plant*> plants;//list of all current sprites

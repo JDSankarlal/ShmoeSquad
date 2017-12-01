@@ -138,6 +138,11 @@ void GameHandler::printDisplay(HANDLE buffer)
 	grid.draw(buffer);
 	if (isPlacingPlant == true) {
 		square.draw(buffer);
+		if (shovel == false) {
+			selectedPlant->setDefaultColour(blue_black);
+			selectedPlant->setPosition({ square.getPosition().X + 2, square.getPosition().Y + 1 });
+			selectedPlant->draw(buffer);
+		}
 	}
 	//displays the player's sun count
 	COORD pos = grid.getPosition();
@@ -391,6 +396,7 @@ void GameHandler::checkPlantBuy(int time) {
 			if (sunCount >= selectedPlant->cost && time >= sunflowerCooldown)
 			{
 				isPlacingPlant = true;
+				selectedPlant->setData(&sunflowerSprite);
 			}
 			else {
 				isPlacingPlant = false;
@@ -402,6 +408,7 @@ void GameHandler::checkPlantBuy(int time) {
 			if (sunCount >= selectedPlant->cost && time >= peashooterCooldown)
 			{
 				isPlacingPlant = true;
+				selectedPlant->setData(&peashooterSprite);
 			}
 			else {
 				isPlacingPlant = false;
@@ -413,6 +420,7 @@ void GameHandler::checkPlantBuy(int time) {
 			if (sunCount >= selectedPlant->cost && time >= wallnutCooldown)
 			{
 				isPlacingPlant = true;
+				selectedPlant->setData(&wallnutSprite);
 			}
 			else {
 				isPlacingPlant = false;
