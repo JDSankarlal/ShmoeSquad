@@ -53,8 +53,15 @@ void GameHandler::initialize(int time) {
 	square.setData(&selectionsquareSprite);
 	square.setDefaultColour(blue_black);
 	square.setPosition({ 13,10 });
-	sequence = new int[1]{ 0 };
-	square.setAnimation(sequence, 1, 1000, time);
+	//sequence = new int[1]{ 0 };
+	//square.setAnimation(sequence, 1, 1000, time);
+
+	//square shown in bar
+	squareBar.setData(&selectionsquareSprite);
+	squareBar.setDefaultColour(blue_black);
+	squareBar.setPosition({ 13,0 });
+	//sequence = new int[1]{ 0 };
+	//squareBar.setAnimation(sequence, 1, 1000, time);
 
 	//setting acii data for bar
 	bar.setData(&barSprite);
@@ -82,7 +89,7 @@ void GameHandler::initialize(int time) {
 	pos = grid.getPosition();
 	pos.X -= 12;
 	pos.Y += 2;
-	Mower* lawnmower;
+	Mower* lawnmower = 0;
 	for (int i = 0; i < 5; i++) {
 		lawnmower = new Mower(&lawnmowerSprite, time);
 		lawnmower->setPosition(pos);
@@ -127,9 +134,7 @@ void GameHandler::render(HANDLE buffer) {
 
 void GameHandler::printBar(HANDLE buffer) {//will take in a list of Plants, draw one of each in each square
 	bar.draw(buffer);//draw the actual bar
-	for (SHORT i = 0; i < numChosenPlants; i++) {//drawing plants inside of the bar
-		chosenPlants[i]->draw(buffer);
-	}
+	
 }
 
 void GameHandler::printDisplay(HANDLE buffer)
@@ -138,11 +143,15 @@ void GameHandler::printDisplay(HANDLE buffer)
 	grid.draw(buffer);
 	if (isPlacingPlant == true) {
 		square.draw(buffer);
+		squareBar.draw(buffer);
 		if (shovel == false) {
 			selectedPlant->setDefaultColour(blue_black);
 			selectedPlant->setPosition({ square.getPosition().X + 2, square.getPosition().Y + 1 });
 			selectedPlant->draw(buffer);
 		}
+	}
+	for (SHORT i = 0; i < numChosenPlants; i++) {//drawing plants inside of the bar
+		chosenPlants[i]->draw(buffer);
 	}
 	//displays the player's sun count
 	COORD pos = grid.getPosition();
@@ -393,6 +402,7 @@ Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bul
 void GameHandler::checkPlantBuy(int time) {
 		if (Events::keyDown(Events::One)) {
 			selectedPlant = new Sunflower(&sunflowerSprite, time);
+			squareBar.setPosition({ chosenPlants[0]->getPosition().X - 2, chosenPlants[0]->getPosition().Y - 1 });
 			if (sunCount >= selectedPlant->cost && time >= sunflowerCooldown)
 			{
 				isPlacingPlant = true;
@@ -405,6 +415,7 @@ void GameHandler::checkPlantBuy(int time) {
 		}
 		else if (Events::keyDown(Events::Two)) {
 			selectedPlant = new Peashooter(&peashooterSprite, time);
+			squareBar.setPosition({ chosenPlants[1]->getPosition().X - 2, chosenPlants[1]->getPosition().Y - 1 });
 			if (sunCount >= selectedPlant->cost && time >= peashooterCooldown)
 			{
 				isPlacingPlant = true;
@@ -417,6 +428,7 @@ void GameHandler::checkPlantBuy(int time) {
 		}
 		else if (Events::keyDown(Events::Three)) {
 			selectedPlant = new Wallnut(&wallnutSprite, time);
+			squareBar.setPosition({ chosenPlants[2]->getPosition().X - 2, chosenPlants[2]->getPosition().Y - 1 });
 			if (sunCount >= selectedPlant->cost && time >= wallnutCooldown)
 			{
 				isPlacingPlant = true;

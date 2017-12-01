@@ -83,6 +83,7 @@ public:
 
 	Sprite grid;
 	Sprite square;
+	Sprite squareBar;
 	Sprite bar;//sprites for the grid and plant bar
 	Sprite menuMain;
 	Sprite gameOver;
