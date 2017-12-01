@@ -261,7 +261,7 @@ void GameHandler::update(int time) {
 	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
 		(*it)->move(time);//zombies move a certain distance each frame
 		(*it)->updateAnimation(time);
-		if ((*it)->health <= 200) {//check if zombie is hurt
+		if ((*it)->health <= (*it)->health / 2) {//check if zombie is below 1/2 health
 			(*it)->hurtAnimation(&zombie_hurtSprite);//change sprite
 		}
 		if ((*it)->health <= 0) {
@@ -283,32 +283,34 @@ void GameHandler::update(int time) {
 		for (int j = 0; j < bullets.size(); j++)
 		{
 			if (zombies[i]->checkCollision(bullets[j]) == true) {
-				zombies[i]->takeDamage(75, time); //reduce zombies health by 75
+				zombies[i]->takeDamage(40, time); //reduce zombies health by 75
 				bullets[j]->hit();//set bullet to be dead
 			}
 		}
-		//collisions with lawnmowers
-		for (int j = 0; j < mowers.size(); j++)
-		{
-			if (zombies[i]->checkCollision(mowers[j]) == true) {
-				mowers[i]->activate(time);//activate lawnmower if touched by zombie
-				zombies[i]->health = 0; //instantly kill zombie
+		if (zombies[i]->getState() != Zombie::DEAD) {//zombies don't collide with this if they're dead, except bullets
+			//collisions with lawnmowers
+			for (int j = 0; j < mowers.size(); j++)
+			{
+				if (zombies[i]->checkCollision(mowers[j]) == true) {
+					mowers[i]->activate(time);//activate lawnmower if touched by zombie
+					zombies[i]->health = 0; //instantly kill zombie
+				}
 			}
-		}
-		//collisions with plants
-		bool isTouchingPlant = false;
-		for (int j = 0; j < plants.size(); j++)
-		{
-			if (zombies[i]->checkCollision(plants[j]) == true) {
-				zombies[i]->eatingAnimation(&zombie_eatingSprite, &zombie_hurt_eatingSprite, time);
-				plants[j]->takeDamage(zombies[i]->dealDamage(time), time);
-				isTouchingPlant = true;
-				break;
+			//collisions with plants
+			bool isTouchingPlant = false;
+			for (int j = 0; j < plants.size(); j++)
+			{
+				if (zombies[i]->checkCollision(plants[j]) == true) {
+					zombies[i]->eatingAnimation(&zombie_eatingSprite, &zombie_hurt_eatingSprite, time);
+					plants[j]->takeDamage(zombies[i]->dealDamage(time), time);
+					isTouchingPlant = true;
+					break;
+				}
 			}
-		}
-		if (isTouchingPlant == false && zombies[i]->isEating == true) {
-			zombies[i]->isEating = false;
-			zombies[i]->resetData();
+			if (isTouchingPlant == false && zombies[i]->isEating == true) {
+				zombies[i]->isEating = false;
+				zombies[i]->resetData();
+			}
 		}
 	}
 	//deleting zombies
@@ -479,9 +481,16 @@ void GameHandler::placingPlant(int time) {
 					canPlacePlant = false;
 					break;
 				}
-				else canPlacePlant = true;
+				else {
+					if (shovel == false) {
+						canPlacePlant = true;
+					}
+					else {
+						canPlacePlant = false;
+					}
+				}
 			}
-			if (canPlacePlant == true)
+			if (canPlacePlant == true && shovel == false )
 			{
 				placePlant(position, selectedPlant->getType(), time);
 				isPlacingPlant = false;
