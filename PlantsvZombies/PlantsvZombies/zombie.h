@@ -13,12 +13,12 @@ public:
 		HURT,//when health is below half
 		DEAD//set to this when zombie health reaches 0
 	};
-	bool isEating = false;
+	bool isEating;
 
 	int deathTime = -1;//used for delaying killing the zombie to after it's finished it's death animation
 	int deathDelay = 0;//the delay between when the zombie is detected to die and when it actually dies
 
-	int dmg = 100;//amount of damge dealt with each hit
+	int dmg = 50;//amount of damge dealt with each hit
 	int dmgInterval = 500;//interval at which zombie hits plant while colliding
 	int dmgTime = -1;//time at which zombie started eating plant
 

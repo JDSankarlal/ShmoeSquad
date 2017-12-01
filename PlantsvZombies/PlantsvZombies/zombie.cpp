@@ -7,7 +7,7 @@ Zombie::Zombie()
 Zombie::Zombie(vector<vector<string>>* spriteData, int time)
 {
 	state = ALIVE;
-
+	isEating = false;
 	previousMoveTime = time;
 	moveInterval = 500;//move every 1.0s
 	moveVector = { -1, 0 };//vector sprite will move in
@@ -31,8 +31,8 @@ Zombie::State Zombie::getState() {
 
 void Zombie::defaultAnimation() {
 	moveInterval = 500;
+	moveVector = { -1, 0 };
 
-	isEating = false;
 	colour = defaultColour;
 	frameSequence = new int[4]{ 0, 1, 0, 2 };
 	totalNumFrames = 4;
@@ -46,14 +46,12 @@ void Zombie::defaultAnimation() {
 
 void Zombie::hurtAnimation(vector<vector<string>>* spriteData) {
 	if (state != HURT && state != DEAD) {
-		state = HURT;
-		if (isEating == false) {
-			setData(spriteData);//gives it new ASCII data for animation
-			defaultData = spriteData;//change default sprite data so it goes back to it after a special animation
-		}
-		else {
+		if (isEating == true) {
 			isEating = false;
 		}
+		state = HURT;
+		setData(spriteData);//gives it new ASCII data for animation
+		defaultData = spriteData;//change default sprite data so it goes back to it after a special animation
 	}
 }
 
@@ -61,12 +59,14 @@ void Zombie::eatingAnimation(vector<vector<string>>* spriteData, vector<vector<s
 	if (isEating == false && state != DEAD) {
 		isEating = true;
 		moveInterval = -1;//don't move
+		moveVector = { 0,0 };
 		if (state == ALIVE) {
 			setData(spriteData);//set to normal eating
 		}
 		else if (state == HURT) {
 			setData(spriteData2);//set to hurt eating animation
 		}
+
 		frameSequence = new int[3]{ 0, 1, 2 };//both have the same frame sequence
 		totalNumFrames = 3;
 		frameTime = 250;
@@ -119,8 +119,13 @@ void Zombie::takeDamage(int dmg, int time) {
 }
 
 int Zombie::dealDamage(int time) {
-	dmgTime = time;
-	return dmg;
+	if (time - dmgTime >= dmgInterval || dmgTime < 0) {
+		dmgTime = time;
+		return dmg;
+	}
+	else {
+		return 0;
+	}
 }
 
 //deletes zombie if it hits the lefthand edge

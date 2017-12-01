@@ -37,8 +37,8 @@ void GameHandler::initialize(int time) {
 
 	//initializing variables for spawn timers
 	sunCount = 50;
-	zombieInterval = 8000;//spawn a zombie every 8s
-	sunInterval = 30000;//spawn a sun every 30s
+	zombieInterval = 10000;//spawn a zombie every 10s
+	sunInterval = 10000;//spawn a sun every 10s
 	previousZombieTime = time;
 	previousSunTime = time;
 
@@ -85,7 +85,7 @@ void GameHandler::initialize(int time) {
 	for (int i = 0; i < 5; i++) {
 		lawnmower = new Mower(&lawnmowerSprite, time);
 		lawnmower->setPosition(pos);
-		//lawnmower->activate(time);//for testing
+		lawnmower->activate(time);//for testing
 		mowers.push_back(lawnmower);
 		pos.Y += 6;
 	}
@@ -245,7 +245,6 @@ void GameHandler::update(int time) {
 			spawnBullet((*it), time);
 		}
 		if ((*it)->getType() == Plant::WALLNUT) {//peashooters will shoot bullets
-			//(*it)->health -= 1;//for testing
 			if ((*it)->health <= 300) {//check if wallnut is hurt
 				(*it)->hurtAnimation(&wallnut_hurtSprite);//change sprite
 			}
@@ -262,17 +261,9 @@ void GameHandler::update(int time) {
 	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
 		(*it)->move(time);//zombies move a certain distance each frame
 		(*it)->updateAnimation(time);
-		//(*it)->health -= 1;//for testing
 		if ((*it)->health <= 200) {//check if zombie is hurt
 			(*it)->hurtAnimation(&zombie_hurtSprite);//change sprite
 		}
-		//for testing eating animation
-		/*if ((*it)->getPosition().X <= 25) {//this should be if it's colliding with a plant
-			(*it)->eatingAnimation(&zombie_eatingSprite, &zombie_hurt_eatingSprite, time);
-		}
-		else {
-			(*it)->resetData();
-		}*/
 		if ((*it)->health <= 0) {
 			(*it)->deathAnimation(&zombie_dyingSprite, time);
 		}
@@ -304,12 +295,20 @@ void GameHandler::update(int time) {
 				zombies[i]->health = 0; //instantly kill zombie
 			}
 		}
-		//collisions with lawnmowers
+		//collisions with plants
+		bool isTouchingPlant = false;
 		for (int j = 0; j < plants.size(); j++)
 		{
 			if (zombies[i]->checkCollision(plants[j]) == true) {
-				//plants[i]->
+				zombies[i]->eatingAnimation(&zombie_eatingSprite, &zombie_hurt_eatingSprite, time);
+				plants[j]->takeDamage(zombies[i]->dealDamage(time), time);
+				isTouchingPlant = true;
+				break;
 			}
+		}
+		if (isTouchingPlant == false && zombies[i]->isEating == true) {
+			zombies[i]->isEating = false;
+			zombies[i]->resetData();
 		}
 	}
 	//deleting zombies
@@ -318,6 +317,15 @@ void GameHandler::update(int time) {
 		{
 			delete zombies[i];//deallocating memory
 			zombies.erase(zombies.begin() + i);//removing it from the vector
+			i--;
+		}
+	}
+	//deleting plants
+	for (int i = 0; i < plants.size(); i++) {
+		if (plants[i]->health <= 0)
+		{
+			delete plants[i];//deallocating memory
+			plants.erase(plants.begin() + i);//removing it from the vector
 			i--;
 		}
 	}
@@ -332,6 +340,12 @@ void GameHandler::update(int time) {
 	}
 	//deleting lawnmowers
 	for (int i = 0; i < mowers.size(); i++) {
+		for (int j = 0; j < plants.size(); j++)
+		{//kill plants if they collide with a lawnmower
+			if (mowers[i]->checkCollision(plants[j]) == true) {
+				plants[j]->health = 0;
+			}
+		}
 		if (mowers[i]->hitEdge() == true)
 		{
 			delete mowers[i];//deallocating memory
@@ -372,6 +386,9 @@ void GameHandler::checkPlantBuy(int time) {
 			{
 				isPlacingPlant = true;
 			}
+			else {
+				isPlacingPlant = false;
+			}
 			shovel = false;
 		}
 		else if (Events::keyDown(Events::Two)) {
@@ -380,6 +397,9 @@ void GameHandler::checkPlantBuy(int time) {
 			{
 				isPlacingPlant = true;
 			}
+			else {
+				isPlacingPlant = false;
+			}
 			shovel = false;
 		}
 		else if (Events::keyDown(Events::Three)) {
@@ -387,6 +407,9 @@ void GameHandler::checkPlantBuy(int time) {
 			if (sunCount >= selectedPlant->cost && time >= wallnutCooldown)
 			{
 				isPlacingPlant = true;
+			}
+			else {
+				isPlacingPlant = false;
 			}
 			shovel = false;
 		}
