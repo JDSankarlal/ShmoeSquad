@@ -18,8 +18,6 @@ Peashooter::Peashooter(vector<vector<string>>* spriteData, int time)
 
 	shootDelay = 600;
 
-	health = 5;
-
 	previousShootTime = time;
 	shootInterval = 3000;//shoots every 3s
 }
