@@ -52,9 +52,9 @@ void main()
 
 	game.loadSprites();//must be called before initialize, loads sprite data into memory
 
-	//while (true) {
+	while (true) {
 
-		//game.mainMenu(wHnd);
+		game.mainMenu(wHnd);
 
 		game.initialize(currentTime());//initialize the game state
 
@@ -62,9 +62,9 @@ void main()
 
 		//main game loop
 		while (true) {
-			//if (game.lose == true) {
-			//	break;
-			//}
+			if (game.lose == true) {
+				break;
+			}
 			//updating game state
 			game.update(currentTime());//passing in currently elapsed time in ms
 
@@ -85,7 +85,7 @@ void main()
 
 		}//main game loop
 
-	//}//main menu loop
+	}//main menu loop
 	
 }//void main
 

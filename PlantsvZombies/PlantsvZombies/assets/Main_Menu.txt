@@ -20,5 +20,5 @@ o888o        o888o `Y888""8o o888o o888o   "888" 8""888P'
                       d888'    .P 888   888  888   888   888   888   888  888  888    .o o.  )88b 
                     .8888888888P  `Y8bod8P' o888o o888o o888o  `Y8bod8P' o888o `Y8bod8P' 8""888P' 
                                                                                                   
-1. Play Game           2. How to Play                                                             
+1. Play Game                                                                                      
 new_frame
