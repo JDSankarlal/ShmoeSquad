@@ -148,6 +148,8 @@ public:
 			}
 				WriteConsoleOutput(buffer, spriteData, size, { 0 , 0 }, &spritePosition);
 		}
+
+		delete[] spriteData;
 	}
 
 protected:
