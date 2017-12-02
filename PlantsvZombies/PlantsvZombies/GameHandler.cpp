@@ -168,6 +168,7 @@ void GameHandler::printDisplay(HANDLE buffer)
 		//printing costs
 		printString(buffer, std::to_string(chosenPlants[i]->cost), { pos.X + i * 12, pos.Y }, yellow_black);
 	}
+	printString(buffer, "[4]", { pos.X - 7 + 3 * 12, pos.Y }, white_black);
 	//print plant cooldowns
 	pos.X -= 5;
 	if (currentSunflowerCooldown >= 0) {
