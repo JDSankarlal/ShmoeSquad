@@ -54,7 +54,7 @@ void main()
 
 	while (true) {
 
-		game.mainMenu(wHnd);
+		game.mainMenu();
 
 		game.initialize(currentTime());//initialize the game state
 
@@ -62,7 +62,7 @@ void main()
 
 		//main game loop
 		while (true) {
-			if (game.lose == true) {
+			if (game.lose == true) {//exit game loop
 				break;
 			}
 			//updating game state
@@ -84,6 +84,10 @@ void main()
 			}
 
 		}//main game loop
+
+		if (game.runProgram == false) {//exit program
+			break;
+		}
 
 	}//main menu loop
 	

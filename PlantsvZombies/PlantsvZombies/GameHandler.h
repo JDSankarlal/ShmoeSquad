@@ -34,10 +34,6 @@ public:
 	void printMowers(HANDLE buffer);//prints all lawnmowers
 	//void printSuns(HANDLE buffer);//prints all suns, unused for now
 
-	void mainMenu(HANDLE buffer);
-	void howToPlay(HANDLE buffer);
-	void gameFinished();
-
 	void deletePlants();//deletes all plants
 	void deleteBullets();//deletes all bullets
 	void deleteZombies();//deletes all zombies
@@ -64,6 +60,12 @@ public:
 	void printString(HANDLE buffer, string string, COORD position, int colour);
 	void fullscreen();//puts program in fullscreen mode
 
+	void mainMenu();
+	void howToPlay();
+	void gameFinished();
+	void exitGame();
+	void checkPause();
+
 	int randNum(int min, int max);//genrates a random number in a range
 
 	vector<vector<string>> getSprite(string fileName);//reads in ascii data for a sprite and stores it in a vector, of vectors, of strings
@@ -72,8 +74,8 @@ public:
 
 	//VARIABLES
 	int numChosenPlants = 0;
-	Plant** chosenPlants = 0;//the list of plants that the player can buy
-	Plant* selectedPlant = 0;
+	Plant** chosenPlants = NULL;//the list of plants that the player can buy
+	Plant* selectedPlant = NULL;
 
 	vector<Zombie*> zombies;//list of all current zombies
 	vector<Plant*> plants;//list of all current sprites
@@ -88,27 +90,31 @@ public:
 	Sprite menuMain;
 	Sprite gameOver;
 	Sprite howPlay;
+	Sprite pauseScreen;
 
 	Sprite shovelDisplay;
 
-	bool play = false;
 	bool lose = false;
-	bool options = false;
+	bool runProgram = true;
 
 	int sunCount;//amount of sun player has
 	int sunAdded;//amount of sun obtained this frame
 	int displaySunAdded = 0;//used to print to the screen only
 	int displaySunAddedTime;//time at which sun added started displaying
 	int displaySunAddedLength = 3000;//amount of time added sun is displayed for
-	int zombieInterval;//the interval in ms that zombies spawn
+
+	int zombieInterval = 25000;//the interval in ms that zombies spawn, every 25s
 	int zombieIncreaseInterval = 30000;//The interval that the zombie spawn rate increases at
-	int zombieIncreaseAmount = 500;//the degree to which the zombie spawn rate increases at each interval
+	//int zombieIncreaseAmount = 500;//the degree to which the zombie spawn rate increases at each interval
 	int previousIncreaseTime = -1;
-	int sunInterval;//interval suns spawn at
 	int previousZombieTime;//stores last time a zombie was spawned
+
+	int sunInterval = 11000;//interval suns spawn at, spawn a sun every 11s
 	int previousSunTime;//last time a sun spawned
+
 	int boxMoveTime = -1; //Time since box last moved
 	int boxMoveInterval = 150; //The time in which the box can move
+
 	int sunflowerCooldown = 0;
 	int peashooterCooldown = 0;
 	int wallnutCooldown = 0;
@@ -138,5 +144,5 @@ public:
 	vector<vector<string>> game_Over;
 	vector<vector<string>> how_Play;
 	vector<vector<string>> shovelSprite;
-
+	vector<vector<string>> pauseSprite;
 };

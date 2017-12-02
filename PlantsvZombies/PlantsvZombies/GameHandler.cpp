@@ -38,11 +38,9 @@ void GameHandler::initialize(int time) {
 
 	//initializing variables for spawn timers
 	sunCount = 50;
-	zombieInterval = 16000;//spawn a zombie every 18s
-	sunInterval = 10000;//spawn a sun every 10s
 	previousZombieTime = time;
 	previousSunTime = time;
-	previousZombieTime = time - zombieInterval + 14000;//will spawn 15 seconds after start
+	previousZombieTime = time - zombieInterval + 15000;//will spawn one zombie 15 seconds after start
 
 	//setting ascii data for grid/lawn
 	grid.setData(&gridSprite);
@@ -50,19 +48,17 @@ void GameHandler::initialize(int time) {
 	int* sequence = new int[4]{ 0,1,2,1 };
 	grid.setAnimation(sequence, 4, 1000, time);
 
+	sequence = NULL;//remove dangling pointer
+
 	//setting ascii data for selection square
 	square.setData(&selectionsquareSprite);
 	square.setDefaultColour(blue_black);
 	square.setPosition({ 13,12 });
-	//sequence = new int[1]{ 0 };
-	//square.setAnimation(sequence, 1, 1000, time);
 
 	//square shown in bar
 	squareBar.setData(&selectionsquareSprite);
 	squareBar.setDefaultColour(blue_black);
 	squareBar.setPosition({ 13,2 });
-	//sequence = new int[1]{ 0 };
-	//squareBar.setAnimation(sequence, 1, 1000, time);
 
 	//shovel
 	shovelDisplay.setData(&shovelSprite);
@@ -95,13 +91,13 @@ void GameHandler::initialize(int time) {
 	pos = grid.getPosition();
 	pos.X -= 12;
 	pos.Y += 2;
-	Mower* lawnmower = 0;
 	for (int i = 0; i < 5; i++) {
-		lawnmower = new Mower(&lawnmowerSprite, time);
+		Mower* lawnmower = new Mower(&lawnmowerSprite, time);
 		lawnmower->setPosition(pos);
 		//lawnmower->activate(time);//for testing
 		mowers.push_back(lawnmower);
 		pos.Y += 6;
+		lawnmower = NULL;
 	}
 
 	//placing plants for testing purposes
@@ -289,7 +285,7 @@ void GameHandler::update(int time) {
 	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
 		(*it)->move(time);//zombies move a certain distance each frame
 		(*it)->updateAnimation(time);
-		if ((*it)->health <= 200) {//check if zombie is below 1/2 health
+		if ((*it)->health <= 5) {//check if zombie is below 1/2 health
 			(*it)->hurtAnimation(&zombie_hurtSprite);//change sprite
 		}
 		if ((*it)->health <= 0) {
@@ -314,7 +310,7 @@ void GameHandler::update(int time) {
 		for (int j = 0; j < bullets.size(); j++)
 		{
 			if (zombies[i]->checkCollision(bullets[j]) == true) {
-				zombies[i]->takeDamage(40, time); //reduce zombies health by 75
+				zombies[i]->takeDamage(2, time); //reduce zombies health by 2
 				bullets[j]->hit();//set bullet to be dead
 			}
 		}
@@ -359,7 +355,8 @@ void GameHandler::update(int time) {
 	for (int i = 0; i < zombies.size(); i++) {
 		if (zombies[i]->endCollision() == true || zombies[i]->killZombie(time) == true)
 		{
-			delete zombies[i];//deallocating memory
+			delete zombies[i];//deallocating memory4
+			zombies[i] = NULL;
 			zombies.erase(zombies.begin() + i);//removing it from the vector
 			i--;
 		}
@@ -369,6 +366,7 @@ void GameHandler::update(int time) {
 		if (plants[i]->health <= 0)
 		{
 			delete plants[i];//deallocating memory
+			plants[i] = NULL;
 			plants.erase(plants.begin() + i);//removing it from the vector
 			i--;
 		}
@@ -378,6 +376,7 @@ void GameHandler::update(int time) {
 		if (bullets[i]->hitEdge() == true || bullets[i]->isAlive == false)
 		{
 			delete bullets[i];//deallocating memory
+			bullets[i] = NULL;
 			bullets.erase(bullets.begin() + i);//removing it from the vector
 			i--;
 		}
@@ -387,6 +386,7 @@ void GameHandler::update(int time) {
 		if (mowers[i]->hitEdge() == true)
 		{
 			delete mowers[i];//deallocating memory
+			mowers[i] = NULL;
 			mowers.erase(mowers.begin() + i);//removing it from the vector
 			i--;
 		}
@@ -406,6 +406,8 @@ void GameHandler::update(int time) {
 		displaySunAddedTime = time;
 		displaySunAdded += sunAdded;
 	}
+
+	checkPause();
 }
 
 /*void GameHandler::collisions(Zombie zombie) {//**make this a function member of Sprite, a general checkCollision function: sprite1.checkCollision(sprite2);**
@@ -419,6 +421,10 @@ Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bul
 
 void GameHandler::checkPlantBuy(int time) {
 		if (Events::keyDown(Events::One)) {
+			if (selectedPlant != NULL) {
+				delete selectedPlant;
+				selectedPlant = NULL;
+			}
 			selectedPlant = new Sunflower(&sunflowerSprite, time);
 			squareBar.setPosition({ chosenPlants[0]->getPosition().X - 2, chosenPlants[0]->getPosition().Y - 1 });
 			if (sunCount >= selectedPlant->cost && time >= sunflowerCooldown)
@@ -432,6 +438,10 @@ void GameHandler::checkPlantBuy(int time) {
 			shovel = false;
 		}
 		else if (Events::keyDown(Events::Two)) {
+			if (selectedPlant != NULL) {
+				delete selectedPlant;
+				selectedPlant = NULL;
+			}
 			selectedPlant = new Peashooter(&peashooterSprite, time);
 			squareBar.setPosition({ chosenPlants[1]->getPosition().X - 2, chosenPlants[1]->getPosition().Y - 1 });
 			if (sunCount >= selectedPlant->cost && time >= peashooterCooldown)
@@ -445,6 +455,10 @@ void GameHandler::checkPlantBuy(int time) {
 			shovel = false;
 		}
 		else if (Events::keyDown(Events::Three)) {
+			if (selectedPlant != NULL) {
+				delete selectedPlant;
+				selectedPlant = NULL;
+			}
 			selectedPlant = new Wallnut(&wallnutSprite, time);
 			squareBar.setPosition({ chosenPlants[2]->getPosition().X - 2, chosenPlants[2]->getPosition().Y - 1 });
 			if (sunCount >= selectedPlant->cost && time >= wallnutCooldown)
@@ -459,6 +473,10 @@ void GameHandler::checkPlantBuy(int time) {
 		}
 		else if (Events::keyDown(Events::Four))
 		{
+			if (selectedPlant != NULL) {
+				delete selectedPlant;
+				selectedPlant = NULL;
+			}
 			squareBar.setPosition({ chosenPlants[2]->getPosition().X + 10, chosenPlants[2]->getPosition().Y - 1 });
 			shovel = true;
 			isPlacingPlant = true;
@@ -550,6 +568,10 @@ void GameHandler::placingPlant(int time) {
 				{
 					wallnutCooldown = time + selectedPlant->cooldown;
 				}
+				if (selectedPlant != NULL) {
+					delete selectedPlant;
+					selectedPlant = NULL;
+				}
 			}
 			boxMoveTime = -1;
 		}
@@ -623,7 +645,7 @@ void GameHandler::checkZombieSpawn(int time) {
 	}
 	//increase zombie spawn rate
 	if (time - previousIncreaseTime >= zombieIncreaseInterval || previousIncreaseTime < 0) {
-		zombieInterval -= zombieIncreaseAmount;
+		zombieInterval *= 0.9;//spawn interval decreased by 10% every 30 seconds
 		previousIncreaseTime = time;
 	}
 }
@@ -718,37 +740,99 @@ vector<vector<string>> GameHandler::getSprite(string fileName) {
 	return asciiData;
 }
 
-void GameHandler::mainMenu(HANDLE buffer)
+void GameHandler::mainMenu()
 {
+	lose = false;
+	runProgram = true;
 	menuMain.setData(&menu_Main);
 	menuMain.setPosition({ 13,3 });
-
-	menuMain.draw(buffer);
-
-	while (play == false) {
-		if (Events::keyDown(Events::One))
-			play = true;
-		//else if (Events::keyDown(Events::Two))
-			//options = true;
+	cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
+	menuMain.draw(GetStdHandle(STD_OUTPUT_HANDLE));
+	while (true) {
+		if (Events::keyDown(Events::P)) {
+			break;
+		}
+		else if (Events::keyDown(Events::H)) {
+			howToPlay();
+			cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
+			menuMain.draw(GetStdHandle(STD_OUTPUT_HANDLE));
+		}
+		else if (Events::keyDown(Events::Q)) {
+			lose = true;
+			exitGame();
+			break;
+		}
 	}
 }
 
 void GameHandler::gameFinished()
 {
 	lose = true;
-	cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
 	gameOver.setData(&game_Over);
 	gameOver.setPosition({ 13,3 });
+	cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
 	gameOver.draw(GetStdHandle(STD_OUTPUT_HANDLE));
-	std::cin.ignore(1000, '\n');
-	std::cin.get();
+	while (true) {
+		if (Events::keyDown(Events::R)) {
+			break;
+		}
+		else if (Events::keyDown(Events::Q)) {
+			exitGame();
+			break;
+		}
+	}
 }
 
-void GameHandler::howToPlay(HANDLE buffer)
+void GameHandler::howToPlay()
 {
 	howPlay.setData(&how_Play);
 	howPlay.setPosition({ 13,3 });
-	howPlay.draw(buffer);
+	cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
+	howPlay.draw(GetStdHandle(STD_OUTPUT_HANDLE));
+	while (true) {
+		if (Events::keyDown(Events::B)) {
+			break;
+		}
+	}
+}
+
+void GameHandler::exitGame() {
+	for (int i = 0; i < numChosenPlants; i++) {
+		if (chosenPlants[i] != NULL) {
+			delete chosenPlants[i];
+			chosenPlants[i] = NULL;
+		}
+	}
+	if (chosenPlants != NULL) {
+		delete[] chosenPlants;
+		chosenPlants = NULL;
+	}
+	if (selectedPlant != NULL) {
+		delete selectedPlant;
+		selectedPlant = NULL;
+	}
+	deleteZombies();
+	deletePlants();
+	deleteBullets();
+	deleteMowers();
+	runProgram = false;
+}
+
+void GameHandler::checkPause() {
+	if (Events::keyDown(Events::Escape)) {
+		pauseScreen.setData(&pauseSprite);
+		pauseScreen.setPosition({ 67 - pauseScreen.getSize().X / 2, 25 - pauseScreen.getSize().Y / 2 });
+		pauseScreen.draw(GetStdHandle(STD_OUTPUT_HANDLE));
+		while (true) {
+			if (Events::keyDown(Events::R)) {
+				break;
+			}
+			else if (Events::keyDown(Events::M)) {
+				lose = true;
+				break;
+			}
+		}
+	}
 }
 
 void GameHandler::loadSprites() {
@@ -774,4 +858,5 @@ void GameHandler::loadSprites() {
 	game_Over = getSprite("assets/Game_Over.txt");
 	how_Play = getSprite("assets/howToPlay.txt");
 	shovelSprite = getSprite("assets/shovel.txt");
+	pauseSprite = getSprite("assets/pause.txt");
 }

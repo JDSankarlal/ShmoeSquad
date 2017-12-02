@@ -16,9 +16,6 @@ Zombie::Zombie(vector<vector<string>>* spriteData, int time)
 	defaultData = spriteData;
 	resetData();
 	previousFrameTime = time;
-
-	health = 400;
-	row;
 }
 
 Zombie::~Zombie()
@@ -136,35 +133,4 @@ bool Zombie::endCollision()
 		return true;
 	}
 	else return false;
-}
-
-bool Zombie::shot()
-{
-	health -= 50;
-	return true;
-}
-
-int Zombie::position()
-{
-	if (getPosition().Y == 11)
-	{
-		row = 1;
-	}
-	else if (getPosition().Y == 17)
-	{
-		row = 1;
-	}
-	else if (getPosition().Y == 23)
-	{
-		row = 1;
-	}
-	else if (getPosition().Y == 29)
-	{
-		row = 1;
-	}
-	else if (getPosition().Y == 35)
-	{
-		row = 1;
-	}
-	return row;
 }

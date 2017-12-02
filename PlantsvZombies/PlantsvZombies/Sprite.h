@@ -26,6 +26,10 @@ public:
 		//moveInterval = 1000;//move every 1s
 	}
 	~Sprite() {
+		if (frameSequence != NULL) {
+			delete[] frameSequence;
+			frameSequence = NULL;
+		}
 	}
 
 	void setAnimation(int*& sequence, int numFrames, int animationTime, int time) {//set values for animating the sprite
@@ -147,14 +151,14 @@ public:
 	}
 
 protected:
-	vector<vector<string>>* defaultData = 0;//the default ascii data for a sprite
+	vector<vector<string>>* defaultData = NULL;//the default ascii data for a sprite
 	bool inAnimation = false;//keeps track of wether the sprite is in a special animation or not
 	int numLoops = 1;//number of times to loop through an animation
 	int loopNum = 1;//keeps track of the number of loops of animation that have occured
 	int colour = 0x0007;//the sprites current colour (set to dull white on black here)
 	int defaultColour = colour;//the sprites default colour
 
-	int* frameSequence;//array of the order the animation frames display in
+	int* frameSequence = NULL;//array of the order the animation frames display in
 	int totalNumFrames;//the number of frames of animation the sprite has
 	int frameTime = -1;//time each frame of animation is drawn for
 	int previousFrameTime;//time at which the last frame of animation was changed

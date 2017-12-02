@@ -19,12 +19,11 @@ public:
 	int deathDelay = 0;//the delay between when the zombie is detected to die and when it actually dies
 
 	int dmg = 1;//amount of damge dealt with each hit
-	int dmgInterval = 1000;//interval at which zombie hits plant while colliding
+	int dmgInterval = 1000;//interval at which zombie hits plant while colliding, 1s
 	int dmgTime = -1;//time at which zombie started eating plant
 
 
-	int health;//zombie's current hp
-	int row;//the row the zombie is located in
+	int health = 10;//zombie's current hp
 
 
 	State getState();
@@ -39,8 +38,6 @@ public:
 	int dealDamage(int time);
 	
 	bool endCollision();
-	bool shot();
-	int position();
 
 private:
 	State state;

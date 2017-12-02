@@ -17,7 +17,7 @@ Wallnut::Wallnut(vector<vector<string>>* spriteData, int time)
 	resetData();
 	previousFrameTime = time;
 
-	health = 50;//x10 more than peashooters
+	health = 45;
 }
 
 
