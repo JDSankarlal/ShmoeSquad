@@ -9,7 +9,7 @@ Wallnut::Wallnut()
 Wallnut::Wallnut(vector<vector<string>>* spriteData, int time)
 {
 	cost = 50;
-	cooldown = 21000;
+	cooldown = 20000;
 	type = WALLNUT;
 	state = ALIVE;
 	defaultColour = 0x000a;//green_black;
@@ -17,7 +17,7 @@ Wallnut::Wallnut(vector<vector<string>>* spriteData, int time)
 	resetData();
 	previousFrameTime = time;
 
-	health = 45;
+	health = 48;
 }
 
 

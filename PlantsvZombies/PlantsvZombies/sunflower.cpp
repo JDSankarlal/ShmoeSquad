@@ -10,7 +10,7 @@ Sunflower::Sunflower(vector<vector<string>>* spriteData, int time)
 {
 	health = 5;
 	cost = 50;
-	cooldown = 6000;
+	cooldown = 5000;
 	type = SUNFLOWER;
 	defaultColour = 0x000a;//green_black;
 	defaultData = spriteData;

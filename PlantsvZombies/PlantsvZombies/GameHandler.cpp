@@ -37,13 +37,14 @@ void GameHandler::initialize(int time) {
 	//deleteSuns();
 
 	//initializing variables for spawn timers
-	zombieInterval = 25000;
+	zombieInterval = 28000;
 	numSpawn = 1;
 	sunCount = 50;
 	previousZombieTime = time;
 	previousSunTime = time;
-	previousZombieTime = time - zombieInterval + 15000;//will spawn one zombie 15 seconds after start
+	previousZombieTime = time - zombieInterval + 13500;//will spawn one zombie 13.5 seconds after start
 	previousIncreaseTime = -1;
+	previousNumSpawnIncrease = -1;
 
 	//setting ascii data for grid/lawn
 	grid.setData(&gridSprite);
@@ -192,7 +193,7 @@ void GameHandler::printDisplay(HANDLE buffer)
 
 	if (displaySunAdded > 0) {
 		string sunObtained = " + " + std::to_string(displaySunAdded);
-		printString(buffer, sunObtained, { pos.X + static_cast<SHORT>(numSun.size()), pos.Y }, yellow_black);
+		printString(buffer, sunObtained, { pos.X + static_cast<SHORT>(numSun.size()), pos.Y }, white_black);
 	}
 }
 
@@ -681,15 +682,22 @@ void GameHandler::checkZombieSpawn(int time) {
 	}
 	//increase zombie spawn rate
 	if (previousIncreaseTime < 0) {
-		previousIncreaseTime = time;
+		previousIncreaseTime = time + 1000;
 	}
 	if (time - previousIncreaseTime >= zombieIncreaseInterval) {
 		zombieInterval *= zombieIncreaseAmount;//spawn interval decreased by 20% every 35 seconds
 		previousIncreaseTime = time;
-		numSpawnIncreaseTracker++;
+		/*numSpawnIncreaseTracker++;
 		if (numSpawnIncreaseTracker % 2 == 0) {//every 2 increase intervals, increase number of zombies spawned
 			numSpawn++;
-		}
+		}*/
+	}
+	if (previousNumSpawnIncrease < 0) {
+		previousNumSpawnIncrease = time - numSpawnIncreaseInterval + 50000;//increase to two zombies after 50 seconds
+	}
+	if (time - previousNumSpawnIncrease >= numSpawnIncreaseInterval) {
+		previousNumSpawnIncrease = time;
+		numSpawn++;
 	}
 }
 
