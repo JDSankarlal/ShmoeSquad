@@ -126,6 +126,9 @@ public:
 	int currentPeashooterCooldown = 0;
 	int currentWallnutCooldown = 0;
 
+	int startTime = 0;
+	int surviveTime = 0;
+
 
 	//SPRITE DATA
 	vector<vector<string>> defaultSprite;

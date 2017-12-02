@@ -28,7 +28,7 @@ GameHandler::~GameHandler()
 }
 //INITIALIZING OBJECTS
 void GameHandler::initialize(int time) {
-
+	int startTime = time;
 	//clearing object lists
 	deleteZombies();
 	deletePlants();
@@ -333,6 +333,7 @@ void GameHandler::update(int time) {
 	//Zombie collisions
 	for (int i = 0; i < zombies.size(); i++) {
 		if (zombies[i]->endCollision() == true) {
+			surviveTime = (time - startTime) / 1000;
 			gameFinished();
 		}
 		//collisions with bullets
@@ -810,6 +811,7 @@ void GameHandler::gameFinished()
 	gameOver.setPosition({ 13,3 });
 	cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
 	gameOver.draw(GetStdHandle(STD_OUTPUT_HANDLE));
+	printString(GetStdHandle(STD_OUTPUT_HANDLE), "You Survived For: " + std::to_string(surviveTime) + "s", { 0,0 }, yellow_black);
 	while (true) {
 		if (Events::keyDown(Events::R)) {
 			break;
