@@ -37,11 +37,12 @@ void GameHandler::initialize(int time) {
 	//deleteSuns();
 
 	//initializing variables for spawn timers
+	zombieInterval = 25000;
+	numSpawn = 1;
 	sunCount = 50;
 	previousZombieTime = time;
 	previousSunTime = time;
 	previousZombieTime = time - zombieInterval + 15000;//will spawn one zombie 15 seconds after start
-	numSpawn = 1;
 
 	//setting ascii data for grid/lawn
 	grid.setData(&gridSprite);
@@ -169,14 +170,14 @@ void GameHandler::printDisplay(HANDLE buffer)
 	}
 	//print plant cooldowns
 	pos.X -= 5;
-	if (currentSunflowerCooldown > 0) {
-		printString(buffer, "WAIT: " + std::to_string(currentSunflowerCooldown) + "s", { pos.X , pos.Y + 7 }, purple_black);
+	if (currentSunflowerCooldown >= 0) {
+		printString(buffer, "WAIT: " + std::to_string(currentSunflowerCooldown / 1000 + 1) + "s", { pos.X , pos.Y + 7 }, purple_black);
 	}
-	if (currentPeashooterCooldown > 0) {
-		printString(buffer, "WAIT: " + std::to_string(currentPeashooterCooldown) + "s", { pos.X + 12, pos.Y + 7 }, purple_black);
+	if (currentPeashooterCooldown >= 0) {
+		printString(buffer, "WAIT: " + std::to_string(currentPeashooterCooldown / 1000 + 1) + "s", { pos.X + 12, pos.Y + 7 }, purple_black);
 	}
-	if (currentWallnutCooldown > 0) {
-		printString(buffer, "WAIT: " + std::to_string(currentWallnutCooldown) + "s", { pos.X + 24, pos.Y + 7 }, purple_black);
+	if (currentWallnutCooldown >= 0) {
+		printString(buffer, "WAIT: " + std::to_string(currentWallnutCooldown / 1000 + 1) + "s", { pos.X + 24, pos.Y + 7 }, purple_black);
 	}
 
 	//displays the player's sun count
@@ -260,17 +261,17 @@ void GameHandler::update(int time) {
 	}
 	sunAdded = 0;
 	//calculating plant cooldowns
-	currentSunflowerCooldown = (sunflowerCooldown - time) / 1000;
+	currentSunflowerCooldown = (sunflowerCooldown - time);
 	if (currentSunflowerCooldown < 0) {
-		currentSunflowerCooldown = 0;
+		currentSunflowerCooldown = -1;
 	}
-	currentPeashooterCooldown = (peashooterCooldown - time) / 1000;
+	currentPeashooterCooldown = (peashooterCooldown - time);
 	if (currentPeashooterCooldown < 0) {
-		currentPeashooterCooldown = 0;
+		currentPeashooterCooldown = -1;
 	}
-	currentWallnutCooldown = (wallnutCooldown - time) / 1000;
+	currentWallnutCooldown = (wallnutCooldown - time);
 	if (currentWallnutCooldown < 0) {
-		currentWallnutCooldown = 0;
+		currentWallnutCooldown = -1;
 	}
 
 	checkZombieSpawn(time);
