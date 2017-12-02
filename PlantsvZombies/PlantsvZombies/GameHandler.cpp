@@ -41,6 +41,7 @@ void GameHandler::initialize(int time) {
 	previousZombieTime = time;
 	previousSunTime = time;
 	previousZombieTime = time - zombieInterval + 15000;//will spawn one zombie 15 seconds after start
+	numSpawn = 1;
 
 	//setting ascii data for grid/lawn
 	grid.setData(&gridSprite);
@@ -808,7 +809,7 @@ void GameHandler::gameFinished()
 {
 	lose = true;
 	gameOver.setData(&game_Over);
-	gameOver.setPosition({ 13,3 });
+	gameOver.setPosition({ 0,3 });
 	cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
 	gameOver.draw(GetStdHandle(STD_OUTPUT_HANDLE));
 	printString(GetStdHandle(STD_OUTPUT_HANDLE), "You Survived For: " + std::to_string(surviveTime) + "s", { 0,0 }, yellow_black);
