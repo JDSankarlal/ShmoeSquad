@@ -684,7 +684,7 @@ void GameHandler::checkZombieSpawn(int time) {
 		previousIncreaseTime = time;
 	}
 	if (time - previousIncreaseTime >= zombieIncreaseInterval) {
-		zombieInterval *= 0.75;//spawn interval decreased by 25% every 35 seconds
+		zombieInterval *= zombieIncreaseAmount;//spawn interval decreased by 20% every 35 seconds
 		previousIncreaseTime = time;
 		numSpawnIncreaseTracker++;
 		if (numSpawnIncreaseTracker % 2 == 0) {//every 2 increase intervals, increase number of zombies spawned

@@ -105,7 +105,7 @@ public:
 
 	int zombieInterval = 25000;//the interval in ms that zombies spawn, every 25s
 	int zombieIncreaseInterval = 35000;//The interval that the zombie spawn rate increases at
-	//int zombieIncreaseAmount = 500;//the degree to which the zombie spawn rate increases at each interval
+	float zombieIncreaseAmount = 0.8;//the degree to which the zombie spawn rate increases at each interval
 	int previousIncreaseTime = -1;
 	int previousZombieTime;//stores last time a zombie was spawned
 	int numSpawn = 1;//number of zombies to spawn at each interval
