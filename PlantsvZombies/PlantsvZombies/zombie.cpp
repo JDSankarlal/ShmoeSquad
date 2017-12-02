@@ -27,7 +27,12 @@ Zombie::State Zombie::getState() {
 }
 
 void Zombie::defaultAnimation() {
-	moveInterval = 500;
+	if (state == HURT) {
+		moveInterval = 400;
+	}
+	else if (state == ALIVE) {
+		moveInterval = 500;
+	}
 	moveVector = { -1, 0 };
 
 	colour = defaultColour;

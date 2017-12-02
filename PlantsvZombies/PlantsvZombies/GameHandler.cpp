@@ -44,7 +44,7 @@ void GameHandler::initialize(int time) {
 
 	//setting ascii data for grid/lawn
 	grid.setData(&gridSprite);
-	grid.setPosition({ 13,12 });
+	grid.setPosition({ 13,13 });
 	int* sequence = new int[4]{ 0,1,2,1 };
 	grid.setAnimation(sequence, 4, 1000, time);
 
@@ -53,10 +53,10 @@ void GameHandler::initialize(int time) {
 	//setting ascii data for selection square
 	square.setData(&selectionsquareSprite);
 	square.setDefaultColour(blue_black);
-	square.setPosition({ 13,12 });
+	square.setPosition({ 13,13 });
 
 	//square shown in bar
-	squareBar.setData(&selectionsquareSprite);
+	squareBar.setData(&selectionsquarebarSprite);
 	squareBar.setDefaultColour(blue_black);
 	squareBar.setPosition({ 13,2 });
 
@@ -144,9 +144,11 @@ void GameHandler::printDisplay(HANDLE buffer)
 	COORD pos = bar.getPosition();
 	pos.X += 5;
 	pos.Y -= 1;
-	for (SHORT i = 0; i < numChosenPlants; i++) {//placing plants inside of the bar
-		printString(buffer, std::to_string(chosenPlants[i]->cost), { pos.X + i * 12, pos.Y }, white_black);
+	for (SHORT i = 0; i < numChosenPlants; i++) {
+		//printing costs
+		printString(buffer, std::to_string(chosenPlants[i]->cost), { pos.X + i * 12, pos.Y }, yellow_black);
 	}
+
 	printBar(buffer);
 	grid.draw(buffer);
 	if (isPlacingPlant == true) {
@@ -162,6 +164,18 @@ void GameHandler::printDisplay(HANDLE buffer)
 		chosenPlants[i]->draw(buffer);
 	}
 	shovelDisplay.draw(buffer);
+	//print plant cooldowns
+	pos.X -= 3;
+	if (currentSunflowerCooldown > 0) {
+		printString(buffer, "WAIT: " + std::to_string(currentSunflowerCooldown) + "s", { pos.X , pos.Y + 7 }, red_black);
+	}
+	if (currentPeashooterCooldown > 0) {
+		printString(buffer, "WAIT: " + std::to_string(currentPeashooterCooldown) + "s", { pos.X + 12, pos.Y + 7 }, red_black);
+	}
+	if (currentWallnutCooldown > 0) {
+		printString(buffer, "WAIT: " + std::to_string(currentWallnutCooldown) + "s", { pos.X + 24, pos.Y + 7 }, red_black);
+	}
+
 	//displays the player's sun count
 	pos = grid.getPosition();
 	pos.Y -= 2;
@@ -242,6 +256,19 @@ void GameHandler::update(int time) {
 		displaySunAdded = 0;
 	}
 	sunAdded = 0;
+	//calculating plant cooldowns
+	currentSunflowerCooldown = (sunflowerCooldown - time) / 1000;
+	if (currentSunflowerCooldown < 0) {
+		currentSunflowerCooldown = 0;
+	}
+	currentPeashooterCooldown = (peashooterCooldown - time) / 1000;
+	if (currentPeashooterCooldown < 0) {
+		currentPeashooterCooldown = 0;
+	}
+	currentWallnutCooldown = (wallnutCooldown - time) / 1000;
+	if (currentWallnutCooldown < 0) {
+		currentWallnutCooldown = 0;
+	}
 
 	checkZombieSpawn(time);
 	checkSunSpawn(time);
@@ -640,13 +667,22 @@ void GameHandler::createSun(int num) {//adds sun to the player's sun count
 //CHECKING SPAWN TIMERS
 void GameHandler::checkZombieSpawn(int time) {
 	if (time - previousZombieTime >= zombieInterval) {
-		spawnZombie(time);
+		for (int i = 0; i < numSpawn; i++) {
+			spawnZombie(time);
+		}
 		previousZombieTime = time;
 	}
 	//increase zombie spawn rate
-	if (time - previousIncreaseTime >= zombieIncreaseInterval || previousIncreaseTime < 0) {
-		zombieInterval *= 0.9;//spawn interval decreased by 10% every 30 seconds
+	if (previousIncreaseTime < 0) {
 		previousIncreaseTime = time;
+	}
+	if (time - previousIncreaseTime >= zombieIncreaseInterval) {
+		zombieInterval *= 0.75;//spawn interval decreased by 25% every 35 seconds
+		previousIncreaseTime = time;
+		numSpawnIncreaseTracker++;
+		if (numSpawnIncreaseTracker % 2 == 0) {//every 2 increase intervals, increase number of zombies spawned
+			numSpawn++;
+		}
 	}
 }
 
@@ -844,6 +880,7 @@ void GameHandler::loadSprites() {
 	peashooterSprite = getSprite("assets/peashooter.txt");
 	peashooter_shootingSprite = getSprite("assets/peashooter_shooting.txt");
 	selectionsquareSprite = getSprite("assets/selectionsquare.txt");
+	selectionsquarebarSprite = getSprite("assets/selectionsquarebar.txt");
 	sunflowerSprite = getSprite("assets/sunflower.txt");
 	sunflower_shineSprite = getSprite("assets/sunflower_shine.txt");
 	//sunSprite = getSprite("assets/sun.txt");

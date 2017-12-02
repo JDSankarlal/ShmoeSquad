@@ -103,11 +103,13 @@ public:
 	int displaySunAddedTime;//time at which sun added started displaying
 	int displaySunAddedLength = 3000;//amount of time added sun is displayed for
 
-	int zombieInterval = 25000;//the interval in ms that zombies spawn, every 25s
-	int zombieIncreaseInterval = 30000;//The interval that the zombie spawn rate increases at
+	int zombieInterval = 24000;//the interval in ms that zombies spawn, every 25s
+	int zombieIncreaseInterval = 35000;//The interval that the zombie spawn rate increases at
 	//int zombieIncreaseAmount = 500;//the degree to which the zombie spawn rate increases at each interval
 	int previousIncreaseTime = -1;
 	int previousZombieTime;//stores last time a zombie was spawned
+	int numSpawn = 1;//number of zombies to spawn at each interval
+	int numSpawnIncreaseTracker = 0;//used to determine when to increase number of zombies to spawn
 
 	int sunInterval = 11000;//interval suns spawn at, spawn a sun every 11s
 	int previousSunTime;//last time a sun spawned
@@ -120,6 +122,10 @@ public:
 	int wallnutCooldown = 0;
 	bool shovel = false;
 
+	int currentSunflowerCooldown = 0;
+	int currentPeashooterCooldown = 0;
+	int currentWallnutCooldown = 0;
+
 
 	//SPRITE DATA
 	vector<vector<string>> defaultSprite;
@@ -130,6 +136,7 @@ public:
 	vector<vector<string>> peashooterSprite;
 	vector<vector<string>> peashooter_shootingSprite;
 	vector<vector<string>> selectionsquareSprite;
+	vector<vector<string>> selectionsquarebarSprite;
 	vector<vector<string>> sunflowerSprite;
 	vector<vector<string>> sunflower_shineSprite;
 	//vector<vector<string>> sunSprite;//unused for now

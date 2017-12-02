@@ -1,27 +1,29 @@
-How to Play:                                                       
-                                                                   
-Use the [Number Keys] to Select a Plant to Place                   
-                                                                   
-Press [1] to select Sunflower                                      
-Sunflowers will increase the rate at which sun is earned           
-                                                                   
-Press [2] to select Peashooter                                     
-Peashooters will shoot at zombies and eventually kill them         
-                                                                   
-Press [3] to select Wallnut                                        
-Wall-nuts have a high amount of health and will tank zombies       
-                                                                   
-Press [4] to select the shovel                                     
-The shovel will dig up plants incase you put them in the wrong spot
-                                                                   
-Press [Space Bar] to plant the selected plant                      
-                                                                   
-Press [Arrow Keys] to change the square the plant will be placed in
-                                                                   
-Grow your Genetically Enhanced Plants and Defend                   
-your House from the Zombie Apocalypse!                             
-                                                                   
-Press a Key:                                                       
-                                                                   
-[B]ack to Main Menu                                                
+How to Play:                                                        
+                                                                    
+Use the [Number Keys] to Select a Plant to Place.                   
+                                                                    
+Press [1] to select Sunflower                                       
+Sunflowers will increase the rate at which sun is earned.           
+                                                                    
+Press [2] to select Peashooter                                      
+Peashooters will shoot at zombies and eventually kill them.         
+                                                                    
+Press [3] to select Wallnut                                         
+Wall-nuts have a high amount of health and will tank zombies.       
+                                                                    
+Press [4] to select the shovel                                      
+The shovel will dig up plants incase you put them in the wrong spot.
+                                                                    
+Press [Space Bar] to plant the selected plant                       
+                                                                    
+Press [Arrow Keys] to change the square the plant will be placed in.
+                                                                    
+Press [Esc] to pause the game.                                      
+                                                                    
+Grow your Genetically Enhanced Plants and Defend                    
+your House from the Zombie Apocalypse!                              
+                                                                    
+Press a Key:                                                        
+                                                                    
+[B]ack to Main Menu                                                 
 new_frame

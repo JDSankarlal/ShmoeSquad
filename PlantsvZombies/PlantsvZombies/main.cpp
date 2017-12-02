@@ -27,12 +27,12 @@ void main()
 	SetConsoleTitle(TEXT("Plants VS Zombies!?"));
 
 	// Setting window size
-	SMALL_RECT windowSize = { 0, 0, 133, 48 };//{.Left, .Top, .Right, .Bottom}
+	SMALL_RECT windowSize = { 0, 0, 133, 49 };//{.Left, .Top, .Right, .Bottom}
 	// Change the console window size:
 	SetConsoleWindowInfo(wHnd, TRUE, &windowSize);
 
 	// Creating a COORD to hold the buffer size
-	COORD bufferSize = { 134, 49 };
+	COORD bufferSize = { 134, 50 };
 	// Change the internal buffer size:
 	SetConsoleScreenBufferSize(wHnd, bufferSize);
 	SetConsoleScreenBufferSize(buffer1, bufferSize);

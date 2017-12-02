@@ -10,7 +10,7 @@ Peashooter::Peashooter(vector<vector<string>>* spriteData, int time)
 {
 	health = 5;
 	cost = 100;
-	cooldown = 5000;
+	cooldown = 6000;
 	type = PEASHOOTER;
 	defaultColour = 0x000a;//green_black;
 	defaultData = spriteData;
@@ -18,8 +18,8 @@ Peashooter::Peashooter(vector<vector<string>>* spriteData, int time)
 	previousFrameTime = time;
 
 	shootDelay = 600;
-	health = 5;
-	previousShootTime = time;
+	health = 4;
+	previousShootTime = time - 600;
 	shootInterval = 3000;//shoots every 3s
 }
 

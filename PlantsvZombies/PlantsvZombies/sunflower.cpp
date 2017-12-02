@@ -10,16 +10,16 @@ Sunflower::Sunflower(vector<vector<string>>* spriteData, int time)
 {
 	health = 5;
 	cost = 50;
-	cooldown = 5000;
+	cooldown = 6000;
 	type = SUNFLOWER;
 	defaultColour = 0x000a;//green_black;
 	defaultData = spriteData;
 	resetData();
 	previousFrameTime = time;
-	health = 5;
+	health = 6;
 
-	shootInterval = 24000;//shines every 24s
-	previousShootTime = time - shootInterval + 7000;//will shine once 7 seconds after being planted
+	shootInterval = 25000;//shines every 25s
+	previousShootTime = time - shootInterval + 8000;//will shine once 8 seconds after being planted
 	
 }
 
