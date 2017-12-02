@@ -37,7 +37,7 @@ void main()
 	SetConsoleScreenBufferSize(wHnd, bufferSize);
 	SetConsoleScreenBufferSize(buffer1, bufferSize);
 
-	CHAR_INFO charBuffer[134 * 49];//buffer for copying rendering buffer into active buffer
+	CHAR_INFO charBuffer[134 * 50];//buffer for copying rendering buffer into active buffer
 
 	srand(time(NULL));//set seed for random number generation
 

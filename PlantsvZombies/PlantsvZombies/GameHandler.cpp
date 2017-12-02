@@ -58,7 +58,7 @@ void GameHandler::initialize(int time) {
 	//square shown in bar
 	squareBar.setData(&selectionsquarebarSprite);
 	squareBar.setDefaultColour(blue_black);
-	squareBar.setPosition({ 13,2 });
+	squareBar.setPosition({ 13, 0 });
 
 	//shovel
 	shovelDisplay.setData(&shovelSprite);
@@ -67,7 +67,7 @@ void GameHandler::initialize(int time) {
 
 	//setting acii data for bar
 	bar.setData(&barSprite);
-	bar.setPosition({ 13,2 });
+	bar.setPosition({ 13,0 });
 	//sequence = new int[2]{ 0, 1 };
 	//bar.setAnimation(sequence, 2, 1000, time);
 
@@ -81,7 +81,7 @@ void GameHandler::initialize(int time) {
 	//placing plants in the plant buy bar
 	COORD pos = bar.getPosition();
 	pos.X += 2;
-	pos.Y += 1;
+	pos.Y += 3;
 	for (SHORT i = 0; i < numChosenPlants; i++) {//placing plants inside of the bar
 		chosenPlants[i]->setPosition({ pos.X + i * 12, pos.Y });
 		chosenPlants[i]->setDefaultColour(white_black);
@@ -141,14 +141,6 @@ void GameHandler::printBar(HANDLE buffer) {//will take in a list of Plants, draw
 
 void GameHandler::printDisplay(HANDLE buffer)
 {
-	COORD pos = bar.getPosition();
-	pos.X += 5;
-	pos.Y -= 1;
-	for (SHORT i = 0; i < numChosenPlants; i++) {
-		//printing costs
-		printString(buffer, std::to_string(chosenPlants[i]->cost), { pos.X + i * 12, pos.Y }, yellow_black);
-	}
-
 	printBar(buffer);
 	grid.draw(buffer);
 	if (isPlacingPlant == true) {
@@ -164,16 +156,26 @@ void GameHandler::printDisplay(HANDLE buffer)
 		chosenPlants[i]->draw(buffer);
 	}
 	shovelDisplay.draw(buffer);
+	//printing plant bar info
+	COORD pos = bar.getPosition();
+	pos.X += 8;
+	pos.Y += 1;
+	for (SHORT i = 0; i < numChosenPlants; i++) {
+		//printing number
+		printString(buffer, "[" + std::to_string(i + 1) + "]", { pos.X - 7 + i * 12, pos.Y }, white_black);
+		//printing costs
+		printString(buffer, std::to_string(chosenPlants[i]->cost), { pos.X + i * 12, pos.Y }, yellow_black);
+	}
 	//print plant cooldowns
-	pos.X -= 3;
+	pos.X -= 5;
 	if (currentSunflowerCooldown > 0) {
-		printString(buffer, "WAIT: " + std::to_string(currentSunflowerCooldown) + "s", { pos.X , pos.Y + 7 }, red_black);
+		printString(buffer, "WAIT: " + std::to_string(currentSunflowerCooldown) + "s", { pos.X , pos.Y + 7 }, purple_black);
 	}
 	if (currentPeashooterCooldown > 0) {
-		printString(buffer, "WAIT: " + std::to_string(currentPeashooterCooldown) + "s", { pos.X + 12, pos.Y + 7 }, red_black);
+		printString(buffer, "WAIT: " + std::to_string(currentPeashooterCooldown) + "s", { pos.X + 12, pos.Y + 7 }, purple_black);
 	}
 	if (currentWallnutCooldown > 0) {
-		printString(buffer, "WAIT: " + std::to_string(currentWallnutCooldown) + "s", { pos.X + 24, pos.Y + 7 }, red_black);
+		printString(buffer, "WAIT: " + std::to_string(currentWallnutCooldown) + "s", { pos.X + 24, pos.Y + 7 }, purple_black);
 	}
 
 	//displays the player's sun count
@@ -182,7 +184,7 @@ void GameHandler::printDisplay(HANDLE buffer)
 
 	string numSun = "Sun: " + std::to_string(sunCount);
 
-	printString(buffer, numSun, pos, white_black);
+	printString(buffer, numSun, pos, yellow_black);
 
 	if (displaySunAdded > 0) {
 		string sunObtained = " + " + std::to_string(displaySunAdded);
@@ -453,7 +455,7 @@ void GameHandler::checkPlantBuy(int time) {
 				selectedPlant = NULL;
 			}
 			selectedPlant = new Sunflower(&sunflowerSprite, time);
-			squareBar.setPosition({ chosenPlants[0]->getPosition().X - 2, chosenPlants[0]->getPosition().Y - 1 });
+			squareBar.setPosition({ chosenPlants[0]->getPosition().X - 2, chosenPlants[0]->getPosition().Y - 3 });
 			if (sunCount >= selectedPlant->cost && time >= sunflowerCooldown)
 			{
 				isPlacingPlant = true;
@@ -470,7 +472,7 @@ void GameHandler::checkPlantBuy(int time) {
 				selectedPlant = NULL;
 			}
 			selectedPlant = new Peashooter(&peashooterSprite, time);
-			squareBar.setPosition({ chosenPlants[1]->getPosition().X - 2, chosenPlants[1]->getPosition().Y - 1 });
+			squareBar.setPosition({ chosenPlants[1]->getPosition().X - 2, chosenPlants[1]->getPosition().Y - 3 });
 			if (sunCount >= selectedPlant->cost && time >= peashooterCooldown)
 			{
 				isPlacingPlant = true;
@@ -487,7 +489,7 @@ void GameHandler::checkPlantBuy(int time) {
 				selectedPlant = NULL;
 			}
 			selectedPlant = new Wallnut(&wallnutSprite, time);
-			squareBar.setPosition({ chosenPlants[2]->getPosition().X - 2, chosenPlants[2]->getPosition().Y - 1 });
+			squareBar.setPosition({ chosenPlants[2]->getPosition().X - 2, chosenPlants[2]->getPosition().Y - 3 });
 			if (sunCount >= selectedPlant->cost && time >= wallnutCooldown)
 			{
 				isPlacingPlant = true;
@@ -504,7 +506,7 @@ void GameHandler::checkPlantBuy(int time) {
 				delete selectedPlant;
 				selectedPlant = NULL;
 			}
-			squareBar.setPosition({ chosenPlants[2]->getPosition().X + 10, chosenPlants[2]->getPosition().Y - 1 });
+			squareBar.setPosition({ chosenPlants[2]->getPosition().X + 10, chosenPlants[2]->getPosition().Y - 3 });
 			shovel = true;
 			isPlacingPlant = true;
 		}
