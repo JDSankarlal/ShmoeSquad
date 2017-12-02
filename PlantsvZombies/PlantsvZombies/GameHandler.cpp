@@ -43,6 +43,7 @@ void GameHandler::initialize(int time) {
 	previousZombieTime = time;
 	previousSunTime = time;
 	previousZombieTime = time - zombieInterval + 15000;//will spawn one zombie 15 seconds after start
+	previousIncreaseTime = -1;
 
 	//setting ascii data for grid/lawn
 	grid.setData(&gridSprite);

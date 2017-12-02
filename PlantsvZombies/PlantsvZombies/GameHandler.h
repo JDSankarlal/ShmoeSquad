@@ -103,7 +103,7 @@ public:
 	int displaySunAddedTime;//time at which sun added started displaying
 	int displaySunAddedLength = 3000;//amount of time added sun is displayed for
 
-	int zombieInterval = 24000;//the interval in ms that zombies spawn, every 25s
+	int zombieInterval = 25000;//the interval in ms that zombies spawn, every 25s
 	int zombieIncreaseInterval = 35000;//The interval that the zombie spawn rate increases at
 	//int zombieIncreaseAmount = 500;//the degree to which the zombie spawn rate increases at each interval
 	int previousIncreaseTime = -1;
