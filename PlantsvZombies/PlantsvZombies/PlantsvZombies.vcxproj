@@ -118,6 +118,7 @@
     <ClCompile Include="Mower.cpp" />
     <ClCompile Include="Peashooter.cpp" />
     <ClCompile Include="Plant.cpp" />
+    <ClCompile Include="PylonZombie.cpp" />
     <ClCompile Include="Sun.cpp" />
     <ClCompile Include="Sunflower.cpp" />
     <ClCompile Include="Wallnut.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="Mower.h" />
     <ClInclude Include="Peashooter.h" />
     <ClInclude Include="Plant.h" />
+    <ClInclude Include="PylonZombie.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Sun.h" />
     <ClInclude Include="Sunflower.h" />

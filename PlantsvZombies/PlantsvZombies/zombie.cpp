@@ -6,10 +6,13 @@ Zombie::Zombie()
 
 Zombie::Zombie(vector<vector<string>>* spriteData, int time)
 {
+	type = NORMAL;
+	health = 10;
+	halfHP = health / 2;
 	state = ALIVE;
 	isEating = false;
 	previousMoveTime = time;
-	moveInterval = 500;//move every 1.0s
+	moveInterval = 490;//move every 1.0s
 	moveVector = { -1, 0 };//vector sprite will move in
 
 	defaultColour = 0x000b;//turqoise_black
@@ -25,13 +28,16 @@ Zombie::~Zombie()
 Zombie::State Zombie::getState() {
 	return state;
 }
+Zombie::Type Zombie::getType() {
+	return type;
+}
 
 void Zombie::defaultAnimation() {
 	if (state == HURT) {
-		moveInterval = 400;
+		moveInterval = 290;
 	}
 	else if (state == ALIVE) {
-		moveInterval = 500;
+		moveInterval = 490;
 	}
 	moveVector = { -1, 0 };
 
@@ -48,6 +54,7 @@ void Zombie::defaultAnimation() {
 
 void Zombie::hurtAnimation(vector<vector<string>>* spriteData) {
 	if (state != HURT && state != DEAD) {
+		moveInterval = 300;
 		if (isEating == true) {
 			isEating = false;
 		}

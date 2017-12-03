@@ -17,7 +17,7 @@ Wallnut::Wallnut(vector<vector<string>>* spriteData, int time)
 	resetData();
 	previousFrameTime = time;
 
-	health = 48;
+	health = 50;
 }
 
 

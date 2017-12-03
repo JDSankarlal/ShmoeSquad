@@ -29,7 +29,7 @@ GameHandler::~GameHandler()
 //INITIALIZING OBJECTS
 void GameHandler::initialize(int time) {
 	pauseTime = 0;//reseting pause time
-	int startTime = time;
+	startTime = time;
 
 	//clearing object lists
 	deleteZombies();
@@ -39,14 +39,30 @@ void GameHandler::initialize(int time) {
 	//deleteSuns();
 
 	//initializing variables for spawn timers
-	zombieInterval = 29000;
+	zombieInterval = 27200;
 	numSpawn = 1;
 	sunCount = 50;
 	previousZombieTime = time;
 	previousSunTime = time;
-	previousZombieTime = time - zombieInterval + 14500;//will spawn one zombie 14 seconds after start
+	previousZombieTime = time - zombieInterval + 14000;//will spawn one zombie 14 seconds after start
 	previousIncreaseTime = -1;
 	previousNumSpawnIncrease = -1;
+
+	pylonSpawnRate = 5;
+	pylonSpawnIncrementor = pylonSpawnRate;
+	spawnFirstPylon = false;
+	startSpawningPylons = time + 50000;
+
+	sunflowerCooldown = 0;
+	peashooterCooldown = 0;
+	wallnutCooldown = 0;
+	shovel = false;
+
+	currentSunflowerCooldown = 0;
+	currentPeashooterCooldown = 0;
+	currentWallnutCooldown = 0;
+
+	boxMoveTime = -1;
 
 	//setting ascii data for grid/lawn
 	grid.setData(&gridSprite);
@@ -323,11 +339,23 @@ void GameHandler::update(int time) {
 	for (std::vector<Zombie*>::iterator it = zombies.begin(); it != zombies.end(); ++it) {
 		(*it)->move(time);//zombies move a certain distance each frame
 		(*it)->updateAnimation(time);
-		if ((*it)->health <= 5) {//check if zombie is below 1/2 health
-			(*it)->hurtAnimation(&zombie_hurtSprite);//change sprite
+		if ((*it)->getType() == Zombie::NORMAL) {
+			if ((*it)->health <= (*it)->halfHP) {//check if zombie is below 1/2 health
+					(*it)->hurtAnimation(&zombie_hurtSprite);//change sprite
+			}
+		}
+		else if ((*it)->getType() == Zombie::PYLON) {
+			if ((*it)->health <= (*it)->halfHP) {//check if zombie is below 1/2 health
+					(*it)->hurtAnimation(&zombiepylon_hurtSprite);//change sprite
+			}
 		}
 		if ((*it)->health <= 0) {
-			(*it)->deathAnimation(&zombie_dyingSprite, time);
+			if ((*it)->getType() == Zombie::NORMAL) {
+				(*it)->deathAnimation(&zombie_dyingSprite, time);
+			}
+			else if ((*it)->getType() == Zombie::PYLON) {
+				(*it)->deathAnimation(&zombiepylon_dyingSprite, time);
+			}
 		}
 	}
 
@@ -342,7 +370,7 @@ void GameHandler::update(int time) {
 	//Zombie collisions
 	for (int i = 0; i < zombies.size(); i++) {
 		if (zombies[i]->endCollision() == true) {
-			surviveTime = (time - startTime) / 1000;
+			surviveTime = (static_cast<float>(time) - static_cast<float>(startTime)) / 1000.0f;
 			gameFinished();
 		}
 		//collisions with bullets
@@ -368,7 +396,12 @@ void GameHandler::update(int time) {
 			for (int j = 0; j < plants.size(); j++)
 			{
 				if (zombies[i]->checkCollision(plants[j]) == true) {
-					zombies[i]->eatingAnimation(&zombie_eatingSprite, &zombie_hurt_eatingSprite, time);
+					if (zombies[i]->getType() == Zombie::NORMAL) {
+						zombies[i]->eatingAnimation(&zombie_eatingSprite, &zombie_hurt_eatingSprite, time);
+					}
+					else if (zombies[i]->getType() == Zombie::PYLON) {
+						zombies[i]->eatingAnimation(&zombiepylon_eatingSprite, &zombiepylon_hurt_eatingSprite, time);
+					}
 					plants[j]->takeDamage(zombies[i]->dealDamage(time), time);
 					isTouchingPlant = true;
 					break;
@@ -674,10 +707,26 @@ void GameHandler::spawnZombie(int time) {
 	spawnPos.X = gridPos.X + grid.getSize().X + 13;
 	spawnPos.Y = gridPos.Y + rowNum * 6;
 
-	Zombie* zombie = new Zombie(&zombieSprite, time);//creates a new zombie
+	Zombie* zombie;
+	if (time >= startSpawningPylons) {
+		if (pylonSpawnIncrementor % pylonSpawnRate == 0) {
+			zombie = new PylonZombie(&zombiepylonSprite, time);//creates a new pylon zombie
+			spawnFirstPylon = true;
+		}
+		else {
+			zombie = new Zombie(&zombieSprite, time);//creates a new zombie
+		}
+	}
+	else {
+		zombie = new Zombie(&zombieSprite, time);//creates a new zombie
+	}
 	zombie->setPosition(spawnPos);
 
 	zombies.push_back(zombie);//adds newly created zombie to the list
+
+	if (spawnFirstPylon == true) {
+		pylonSpawnIncrementor++;
+	}
 }
 
 /*void GameHandler::spawnSun(Plant* flower, int time) {
@@ -708,7 +757,7 @@ void GameHandler::checkZombieSpawn(int time) {
 	}
 	//increase zombie spawn rate
 	if (previousIncreaseTime < 0) {
-		previousIncreaseTime = time + 2000;
+		previousIncreaseTime = time;
 	}
 	if (time - previousIncreaseTime >= zombieIncreaseInterval) {
 		zombieInterval *= zombieIncreaseAmount;//spawn interval decreased by 20% every 35 seconds
@@ -719,11 +768,20 @@ void GameHandler::checkZombieSpawn(int time) {
 		}*/
 	}
 	if (previousNumSpawnIncrease < 0) {
-		previousNumSpawnIncrease = time + 15000;// -numSpawnIncreaseInterval + 60000;//increase to two zombies after 60 seconds
+		previousNumSpawnIncrease = time + 5000;// -numSpawnIncreaseInterval + 60000;//increase to two zombies after 60 seconds
 	}
 	if (time - previousNumSpawnIncrease >= numSpawnIncreaseInterval) {
 		previousNumSpawnIncrease = time;
 		numSpawn++;
+		if (numSpawn >= 5) {
+			numSpawn = 5;
+		}
+		if (spawnFirstPylon == true) {
+			pylonSpawnRate -= 1;
+			if (pylonSpawnRate <= 3) {
+				pylonSpawnRate = 3;
+			}
+		}
 	}
 }
 
@@ -855,7 +913,10 @@ void GameHandler::gameFinished()
 	gameOver.setPosition({ 0,3 });
 	cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
 	gameOver.draw(GetStdHandle(STD_OUTPUT_HANDLE));
-	printString(GetStdHandle(STD_OUTPUT_HANDLE), "You Survived For: " + std::to_string(surviveTime) + "s", { 0,0 }, yellow_black);
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(3) << surviveTime;
+	std::string string = stream.str();
+	printString(GetStdHandle(STD_OUTPUT_HANDLE), "You Survived For: " + string + "s", { 0,0 }, yellow_black);
 	while (true) {
 		if (Events::keyDown(Events::R)) {
 			break;
@@ -960,6 +1021,11 @@ void GameHandler::loadSprites() {
 	zombie_eatingSprite = getSprite("assets/zombie_eating.txt");
 	zombie_hurtSprite = getSprite("assets/zombie_hurt.txt");
 	zombie_hurt_eatingSprite = getSprite("assets/zombie_hurt_eating.txt");
+	zombiepylonSprite = getSprite("assets/zombiepylon.txt");
+	zombiepylon_dyingSprite = getSprite("assets/zombiepylon_dying.txt");
+	zombiepylon_eatingSprite = getSprite("assets/zombiepylon_eating.txt");
+	zombiepylon_hurtSprite = getSprite("assets/zombiepylon_hurt.txt");
+	zombiepylon_hurt_eatingSprite = getSprite("assets/zombiepylon_hurt_eating.txt");
 	menu_Main = getSprite("assets/Main_Menu.txt");
 	game_Over = getSprite("assets/Game_Over.txt");
 	how_Play = getSprite("assets/howToPlay.txt");

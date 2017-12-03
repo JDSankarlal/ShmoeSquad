@@ -13,6 +13,11 @@ public:
 		HURT,//when health is below half
 		DEAD//set to this when zombie health reaches 0
 	};
+
+	enum Type {
+		NORMAL,
+		PYLON
+	};
 	bool isEating;
 
 	int deathTime = -1;//used for delaying killing the zombie to after it's finished it's death animation
@@ -23,10 +28,13 @@ public:
 	int dmgTime = -1;//time at which zombie started eating plant
 
 
-	int health = 10;//zombie's current hp
+	int health;//zombie's current hp
+	int halfHP;
 
 
 	State getState();
+
+	Type getType();
 
 	void defaultAnimation();
 	void hurtAnimation(vector<vector<string>>* spriteData);
@@ -39,6 +47,7 @@ public:
 	
 	bool endCollision();
 
-private:
+protected:
 	State state;
+	Type type;
 };

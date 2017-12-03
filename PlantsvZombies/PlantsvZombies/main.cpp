@@ -52,21 +52,25 @@ void main()
 
 	game.loadSprites();//must be called before initialize, loads sprite data into memory
 
-	while (true) {
-
+	while (game.runProgram == true) {
 		game.mainMenu();
+
+		if (game.runProgram == false) {//exit program
+		break;
+		}
 
 		game.initialize(currentTime());//initialize the game state
 
 		PlaySound("assets/04-grasswalk.wav", NULL, SND_LOOP | SND_ASYNC);//start playing background music
 
 		//main game loop
-		while (true) {
+		while (game.lose == false) {
+			//updating game state
+			game.update(currentTime());//passing in currently elapsed time in ms
+
 			if (game.lose == true) {//exit game loop
 				break;
 			}
-			//updating game state
-			game.update(currentTime());//passing in currently elapsed time in ms
 
 			//rendering graphics
 			if (currentTime() - previousTime >= FRAME_TIME) {//draws to the screen on each frame of the game
@@ -84,10 +88,6 @@ void main()
 			}
 
 		}//main game loop
-
-		if (game.runProgram == false) {//exit program
-			break;
-		}
 
 	}//main menu loop
 	

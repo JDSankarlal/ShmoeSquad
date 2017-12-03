@@ -1,4 +1,6 @@
 #pragma once
+#include <sstream>
+#include <iomanip>
 #include <cstdio>
 #include <ctime>
 #include <vector>
@@ -6,6 +8,7 @@
 #include <Windows.h>
 #include <iostream>
 #include "Zombie.h"
+#include "PylonZombie.h"
 #include "Sunflower.h"
 #include "Peashooter.h"
 #include "Wallnut.h"
@@ -107,15 +110,19 @@ public:
 	int displaySunAddedTime;//time at which sun added started displaying
 	int displaySunAddedLength = 3000;//amount of time added sun is displayed for
 
-	int zombieInterval = 29000;//the interval in ms that zombies spawn, every 25s
-	int zombieIncreaseInterval = 38000;//The interval that the zombie spawn rate increases at
-	float zombieIncreaseAmount = 0.775;//the degree to which the zombie spawn rate increases at each interval
+	int zombieInterval;//the interval in ms that zombies spawn, every 27s
+	int zombieIncreaseInterval = 22055;//The interval that the zombie spawn rate increases at
+	float zombieIncreaseAmount = 0.925;//the degree to which the zombie spawn rate increases at each interval
 	int previousIncreaseTime = -1;
 	int previousZombieTime;//stores last time a zombie was spawned
 	int numSpawn = 1;//number of zombies to spawn at each interval
-	int numSpawnIncreaseInterval = 65000;//interval that number of zombies increases at
+	int numSpawnIncreaseInterval = 85100;//interval that number of zombies increases at
 	int previousNumSpawnIncrease = -1;//last time number of zombies increased
 	//int numSpawnIncreaseTracker = 0;//used to determine when to increase number of zombies to spawn
+	int startSpawningPylons;//time to start spawning pylon Zombies
+	int pylonSpawnRate = 5;//every x zombies, spawn a pylon zombie
+	int pylonSpawnIncrementor = pylonSpawnRate;//
+	bool spawnFirstPylon = false;
 
 	int previousRows[4] = { -1 };//previous 5 rows zombies have spawned in
 	int incrementor = 0;//used for adding randomly generated numbers to next location in previousRows array
@@ -124,7 +131,7 @@ public:
 	int previousSunTime;//last time a sun spawned
 
 	int boxMoveTime = -1; //Time since box last moved
-	int boxMoveInterval = 150; //The time in which the box can move
+	int boxMoveInterval = 140; //The time in which the box can move
 
 	int sunflowerCooldown = 0;
 	int peashooterCooldown = 0;
@@ -136,7 +143,7 @@ public:
 	int currentWallnutCooldown = 0;
 
 	int startTime = 0;
-	int surviveTime = 0;
+	float surviveTime = 0.0f;
 
 
 	//SPRITE DATA
@@ -159,6 +166,11 @@ public:
 	vector<vector<string>> zombie_eatingSprite;
 	vector<vector<string>> zombie_hurtSprite;
 	vector<vector<string>> zombie_hurt_eatingSprite;
+	vector<vector<string>> zombiepylonSprite;
+	vector<vector<string>> zombiepylon_dyingSprite;
+	vector<vector<string>> zombiepylon_eatingSprite;
+	vector<vector<string>> zombiepylon_hurtSprite;
+	vector<vector<string>> zombiepylon_hurt_eatingSprite;
 	vector<vector<string>> menu_Main;
 	vector<vector<string>> game_Over;
 	vector<vector<string>> how_Play;
