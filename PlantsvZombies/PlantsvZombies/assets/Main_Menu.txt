@@ -22,5 +22,5 @@ o888o        o888o `Y888""8o o888o o888o   "888" 8""888P'
                                                                                                   
 Press a Key:                                                                                      
                                                                                                   
-[P]lay Game      [H]ow To Play      [Q]uit Game                                                   
+[P]lay Game      [H]ow To Play      [C]redits      [Q]uit Game                                    
 new_frame

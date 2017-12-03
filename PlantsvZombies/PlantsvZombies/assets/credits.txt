@@ -1,0 +1,30 @@
+CREDITS:                                                                                
+                                                                                        
+Created by 1st Year Students in the University of Ontario Institue of Technology's      
+Game Development and Entrepreneurship program, as part of its Game Development Workshop.
+                                                                                        
+Created By:                                                                             
+                                                                                        
+SHMOE SQUAD 2017                                                                        
+                                                                                        
+Lead Programmer, Artist:                                                                
+       Devon Poon Woo                                                                   
+                                                                                        
+                                                                                        
+                                                                                        
+Assistant Programmer:                                                                   
+       Robert Andersen                                                                  
+                                                                                        
+                                                                                        
+Production Co-Managers:                                                                 
+       Joshua Sankarlal                                                                 
+       Kaylyn McCune                                                                    
+                                                                                        
+Additional Support:                                                                     
+       Rowan Luckhurst                                                                  
+       Matthew Dadoun                                                                   
+                                                                                        
+Press a Key:                                                                            
+                                                                                        
+[B]ack to Main Menu                                                                     
+new_frame

@@ -28,7 +28,9 @@ GameHandler::~GameHandler()
 }
 //INITIALIZING OBJECTS
 void GameHandler::initialize(int time) {
+	pauseTime = 0;//reseting pause time
 	int startTime = time;
+
 	//clearing object lists
 	deleteZombies();
 	deletePlants();
@@ -37,12 +39,12 @@ void GameHandler::initialize(int time) {
 	//deleteSuns();
 
 	//initializing variables for spawn timers
-	zombieInterval = 28000;
+	zombieInterval = 29000;
 	numSpawn = 1;
 	sunCount = 50;
 	previousZombieTime = time;
 	previousSunTime = time;
-	previousZombieTime = time - zombieInterval + 13500;//will spawn one zombie 13.5 seconds after start
+	previousZombieTime = time - zombieInterval + 14500;//will spawn one zombie 14 seconds after start
 	previousIncreaseTime = -1;
 	previousNumSpawnIncrease = -1;
 
@@ -259,6 +261,8 @@ void GameHandler::deleteMowers() {
 
 //UPDATING OBJECTS
 void GameHandler::update(int time) {
+	time -= pauseTime;//compenssatng for time game was paused on the last frame
+
 	if (time - displaySunAddedTime >= displaySunAddedLength) {
 		displaySunAdded = 0;
 	}
@@ -642,11 +646,33 @@ void GameHandler::spawnBullet(Plant* shooter, int time) {
 }
 
 void GameHandler::spawnZombie(int time) {
+	int rowNum;
+	bool match;
+	while (true) {
+		rowNum = randNum(0, 5);
+		for (int i = 0; i < 4; i++) {
+			if (rowNum == previousRows[i]) {//match found
+				match = true;
+				break;//stop as soon as 1 match is found, generate a new number
+			}
+			else {//no match
+				match = false;
+			}
+		}
+		if (match == false) {//if random number doesn't match any of the last 4 generated
+			previousRows[incrementor] = rowNum;
+			incrementor++;
+			if (incrementor >= 4) {//reset incrementor to 0
+				incrementor = 0;
+			}
+			break;
+		}
+	}
 	COORD gridPos = grid.getPosition();
 	gridPos.Y += 1;
 	COORD spawnPos;
 	spawnPos.X = gridPos.X + grid.getSize().X + 13;
-	spawnPos.Y = gridPos.Y + randNum(0, 5) * 6;
+	spawnPos.Y = gridPos.Y + rowNum * 6;
 
 	Zombie* zombie = new Zombie(&zombieSprite, time);//creates a new zombie
 	zombie->setPosition(spawnPos);
@@ -682,7 +708,7 @@ void GameHandler::checkZombieSpawn(int time) {
 	}
 	//increase zombie spawn rate
 	if (previousIncreaseTime < 0) {
-		previousIncreaseTime = time + 1000;
+		previousIncreaseTime = time + 2000;
 	}
 	if (time - previousIncreaseTime >= zombieIncreaseInterval) {
 		zombieInterval *= zombieIncreaseAmount;//spawn interval decreased by 20% every 35 seconds
@@ -693,7 +719,7 @@ void GameHandler::checkZombieSpawn(int time) {
 		}*/
 	}
 	if (previousNumSpawnIncrease < 0) {
-		previousNumSpawnIncrease = time - numSpawnIncreaseInterval + 50000;//increase to two zombies after 50 seconds
+		previousNumSpawnIncrease = time + 15000;// -numSpawnIncreaseInterval + 60000;//increase to two zombies after 60 seconds
 	}
 	if (time - previousNumSpawnIncrease >= numSpawnIncreaseInterval) {
 		previousNumSpawnIncrease = time;
@@ -808,11 +834,17 @@ void GameHandler::mainMenu()
 			cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
 			menuMain.draw(GetStdHandle(STD_OUTPUT_HANDLE));
 		}
+		else if (Events::keyDown(Events::C)) {
+			creditsDisplay();
+			cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
+			menuMain.draw(GetStdHandle(STD_OUTPUT_HANDLE));
+		}
 		else if (Events::keyDown(Events::Q)) {
 			lose = true;
 			exitGame();
 			break;
 		}
+		Sleep(10);
 	}
 }
 
@@ -832,6 +864,7 @@ void GameHandler::gameFinished()
 			exitGame();
 			break;
 		}
+		Sleep(10);
 	}
 }
 
@@ -845,6 +878,21 @@ void GameHandler::howToPlay()
 		if (Events::keyDown(Events::B)) {
 			break;
 		}
+		Sleep(10);
+	}
+}
+
+void GameHandler::creditsDisplay()
+{
+	credits.setData(&creditsSprite);
+	credits.setPosition({ 0,0 });
+	cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
+	credits.draw(GetStdHandle(STD_OUTPUT_HANDLE));
+	while (true) {
+		if (Events::keyDown(Events::B)) {
+			break;
+		}
+		Sleep(10);
 	}
 }
 
@@ -871,18 +919,23 @@ void GameHandler::exitGame() {
 }
 
 void GameHandler::checkPause() {
+	int startPauseTime = clock() / (double)CLOCKS_PER_SEC * 1000;//getting current time;
+	int endPauseTime = 0;
 	if (Events::keyDown(Events::Escape)) {
 		pauseScreen.setData(&pauseSprite);
 		pauseScreen.setPosition({ 67 - pauseScreen.getSize().X / 2, 25 - pauseScreen.getSize().Y / 2 });
 		pauseScreen.draw(GetStdHandle(STD_OUTPUT_HANDLE));
 		while (true) {
 			if (Events::keyDown(Events::R)) {
+				endPauseTime = clock() / (double)CLOCKS_PER_SEC * 1000;//getting current time
+				pauseTime += (endPauseTime - startPauseTime);//time game was paused for
 				break;
 			}
 			else if (Events::keyDown(Events::M)) {
 				lose = true;
 				break;
 			}
+			Sleep(10);
 		}
 	}
 }
@@ -912,4 +965,5 @@ void GameHandler::loadSprites() {
 	how_Play = getSprite("assets/howToPlay.txt");
 	shovelSprite = getSprite("assets/shovel.txt");
 	pauseSprite = getSprite("assets/pause.txt");
+	creditsSprite = getSprite("assets/credits.txt");
 }

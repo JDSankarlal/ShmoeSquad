@@ -65,6 +65,7 @@ public:
 	void gameFinished();
 	void exitGame();
 	void checkPause();
+	void creditsDisplay();
 
 	int randNum(int min, int max);//genrates a random number in a range
 
@@ -91,11 +92,14 @@ public:
 	Sprite gameOver;
 	Sprite howPlay;
 	Sprite pauseScreen;
+	Sprite credits;
 
 	Sprite shovelDisplay;
 
 	bool lose = false;
 	bool runProgram = true;
+
+	int pauseTime = 0;//total pause time for game since start
 
 	int sunCount;//amount of sun player has
 	int sunAdded;//amount of sun obtained this frame
@@ -103,15 +107,18 @@ public:
 	int displaySunAddedTime;//time at which sun added started displaying
 	int displaySunAddedLength = 3000;//amount of time added sun is displayed for
 
-	int zombieInterval = 26000;//the interval in ms that zombies spawn, every 25s
-	int zombieIncreaseInterval = 35555;//The interval that the zombie spawn rate increases at
+	int zombieInterval = 29000;//the interval in ms that zombies spawn, every 25s
+	int zombieIncreaseInterval = 38000;//The interval that the zombie spawn rate increases at
 	float zombieIncreaseAmount = 0.775;//the degree to which the zombie spawn rate increases at each interval
 	int previousIncreaseTime = -1;
 	int previousZombieTime;//stores last time a zombie was spawned
 	int numSpawn = 1;//number of zombies to spawn at each interval
-	int numSpawnIncreaseInterval = 60000;//interval that number of zombies increases at
+	int numSpawnIncreaseInterval = 65000;//interval that number of zombies increases at
 	int previousNumSpawnIncrease = -1;//last time number of zombies increased
 	//int numSpawnIncreaseTracker = 0;//used to determine when to increase number of zombies to spawn
+
+	int previousRows[4] = { -1 };//previous 5 rows zombies have spawned in
+	int incrementor = 0;//used for adding randomly generated numbers to next location in previousRows array
 
 	int sunInterval = 11000;//interval suns spawn at, spawn a sun every 11s
 	int previousSunTime;//last time a sun spawned
@@ -157,4 +164,5 @@ public:
 	vector<vector<string>> how_Play;
 	vector<vector<string>> shovelSprite;
 	vector<vector<string>> pauseSprite;
+	vector<vector<string>> creditsSprite;
 };
