@@ -683,7 +683,7 @@ void GameHandler::spawnZombie(int time) {
 	bool match;
 	while (true) {
 		rowNum = randNum(0, 5);
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			if (rowNum == previousRows[i]) {//match found
 				match = true;
 				break;//stop as soon as 1 match is found, generate a new number
@@ -695,7 +695,7 @@ void GameHandler::spawnZombie(int time) {
 		if (match == false) {//if random number doesn't match any of the last 4 generated
 			previousRows[incrementor] = rowNum;
 			incrementor++;
-			if (incrementor >= 4) {//reset incrementor to 0
+			if (incrementor >= 3) {//reset incrementor to 0
 				incrementor = 0;
 			}
 			break;

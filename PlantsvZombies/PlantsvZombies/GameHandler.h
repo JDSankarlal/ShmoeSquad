@@ -124,7 +124,7 @@ public:
 	int pylonSpawnIncrementor = pylonSpawnRate;//
 	bool spawnFirstPylon = false;
 
-	int previousRows[4] = { -1 };//previous 5 rows zombies have spawned in
+	int previousRows[3] = { -1 };//previous 5 rows zombies have spawned in
 	int incrementor = 0;//used for adding randomly generated numbers to next location in previousRows array
 
 	int sunInterval = 11000;//interval suns spawn at, spawn a sun every 11s
