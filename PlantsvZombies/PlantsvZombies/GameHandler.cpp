@@ -50,7 +50,7 @@ void GameHandler::initialize(int time) {
 		
 		previousZombieTime = time;
 		previousSunTime = time;
-		previousZombieTime = time - zombieInterval + 17000;//will spawn one zombie 14 seconds after start
+		previousZombieTime = time - zombieInterval + 18000;//will spawn one zombie 18 seconds after start
 		previousIncreaseTime = -1;
 		previousNumSpawnIncrease = -1;
 
@@ -951,7 +951,12 @@ void GameHandler::gameFinished()
 	std::stringstream stream;
 	stream << std::fixed << std::setprecision(3) << surviveTime;
 	std::string string = stream.str();
-	printString(GetStdHandle(STD_OUTPUT_HANDLE), "You Survived For: " + string + "s", { 0,0 }, yellow_black);
+	if (mode == EASY) {
+		printString(GetStdHandle(STD_OUTPUT_HANDLE), "You Survived For: " + string + "s in Easy Mode", { 0,0 }, yellow_black);
+	}
+	else if (mode == INTENSE) {
+		printString(GetStdHandle(STD_OUTPUT_HANDLE), "You Survived For: " + string + "s in Intense Mode", { 0,0 }, yellow_black);
+	}
 	while (true) {
 		if (Events::keyDown(Events::R)) {
 			break;
