@@ -30,6 +30,7 @@ GameHandler::~GameHandler()
 void GameHandler::initialize(int time) {
 	pauseTime = 0;//reseting pause time
 	startTime = time;
+	surviveTime = 0.0f;
 
 	//clearing object lists
 	deleteZombies();
@@ -38,20 +39,49 @@ void GameHandler::initialize(int time) {
 	deleteMowers();
 	//deleteSuns();
 
-	//initializing variables for spawn timers
-	zombieInterval = 36000;
-	numSpawn = 1;
-	sunCount = 50;
-	previousZombieTime = time;
-	previousSunTime = time;
-	previousZombieTime = time - zombieInterval + 17000;//will spawn one zombie 14 seconds after start
-	previousIncreaseTime = -1;
-	previousNumSpawnIncrease = -1;
+	if (mode == EASY) {
+		//initializing variables for spawn timers
+		zombieInterval = 36000;
+		zombieIncreaseInterval = 23000;
+		zombieIncreaseAmount = 0.925;
+		numSpawnIncreaseInterval = 90000;
+		numSpawn = 1;
+		numIncreaseDelay = 40000;
+		
+		previousZombieTime = time;
+		previousSunTime = time;
+		previousZombieTime = time - zombieInterval + 17000;//will spawn one zombie 14 seconds after start
+		previousIncreaseTime = -1;
+		previousNumSpawnIncrease = -1;
 
-	pylonSpawnRate = 6;
-	pylonSpawnIncrementor = pylonSpawnRate;
-	spawnFirstPylon = false;
-	startSpawningPylons = time + 80000;
+		pylonSpawnRate = 6;
+		pylonSpawnIncrementor = pylonSpawnRate;
+		spawnFirstPylon = false;
+		startSpawningPylons = time + 80000;
+	}
+	else if (mode == INTENSE) {
+		//initializing variables for spawn timers
+		zombieInterval = 27000;
+		zombieIncreaseInterval = 22000;
+		zombieIncreaseAmount = 0.925;
+		numSpawnIncreaseInterval = 85000;
+		numSpawn = 1;
+		numIncreaseDelay = 0;
+
+		previousZombieTime = time;
+		previousSunTime = time;
+		previousZombieTime = time - zombieInterval + 14000;//will spawn one zombie 14 seconds after start
+		previousIncreaseTime = -1;
+		previousNumSpawnIncrease = -1;
+
+		pylonSpawnRate = 5;
+		pylonSpawnIncrementor = pylonSpawnRate;
+		spawnFirstPylon = false;
+		startSpawningPylons = time + 50000;
+	}
+
+	sunCount = 50;
+	displaySunAdded = 0;
 
 	sunflowerCooldown = 0;
 	peashooterCooldown = 0;
@@ -768,7 +798,7 @@ void GameHandler::checkZombieSpawn(int time) {
 		}*/
 	}
 	if (previousNumSpawnIncrease < 0) {
-		previousNumSpawnIncrease = time + 40000;// -numSpawnIncreaseInterval + 60000;//increase to two zombies after 60 seconds
+		previousNumSpawnIncrease = time + numIncreaseDelay;// -numSpawnIncreaseInterval + 60000;//increase to two zombies after 60 seconds
 	}
 	if (time - previousNumSpawnIncrease >= numSpawnIncreaseInterval) {
 		previousNumSpawnIncrease = time;
@@ -884,7 +914,12 @@ void GameHandler::mainMenu()
 	cls(GetStdHandle(STD_OUTPUT_HANDLE), white_black);
 	menuMain.draw(GetStdHandle(STD_OUTPUT_HANDLE));
 	while (true) {
-		if (Events::keyDown(Events::P)) {
+		if (Events::keyDown(Events::E)) {
+			mode = EASY;
+			break;
+		}
+		else if (Events::keyDown(Events::I)) {
+			mode = INTENSE;
 			break;
 		}
 		else if (Events::keyDown(Events::H)) {

@@ -104,6 +104,13 @@ public:
 
 	int pauseTime = 0;//total pause time for game since start
 
+	enum Mode {
+		EASY,
+		INTENSE
+	};
+
+	Mode mode = EASY;
+
 	int sunCount;//amount of sun player has
 	int sunAdded;//amount of sun obtained this frame
 	int displaySunAdded = 0;//used to print to the screen only
@@ -118,9 +125,10 @@ public:
 	int numSpawn = 1;//number of zombies to spawn at each interval
 	int numSpawnIncreaseInterval = 90000;//interval that number of zombies increases at
 	int previousNumSpawnIncrease = -1;//last time number of zombies increased
+	int numIncreaseDelay = 40000;
 	//int numSpawnIncreaseTracker = 0;//used to determine when to increase number of zombies to spawn
 	int startSpawningPylons;//time to start spawning pylon Zombies
-	int pylonSpawnRate = 5;//every x zombies, spawn a pylon zombie
+	int pylonSpawnRate = 6;//every x zombies, spawn a pylon zombie
 	int pylonSpawnIncrementor = pylonSpawnRate;//
 	bool spawnFirstPylon = false;
 
