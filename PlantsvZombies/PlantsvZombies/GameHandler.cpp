@@ -443,16 +443,6 @@ void GameHandler::update(int time) {
 			}
 		}
 	}
-	for (int i = 0; i < plants.size(); i++)
-	{//kill plants if they collide with a lawnmower
-		for (int j = 0; j < mowers.size(); j++)
-		{
-			if (mowers[j]->checkCollision(plants[i]) == true) {
-				plants[i]->health = 0;
-				break;
-			}
-		}
-	}
 	//deleting zombies
 	for (int i = 0; i < zombies.size(); i++) {
 		if (zombies[i]->endCollision() == true || zombies[i]->killZombie(time) == true)
@@ -461,6 +451,23 @@ void GameHandler::update(int time) {
 			zombies[i] = NULL;
 			zombies.erase(zombies.begin() + i);//removing it from the vector
 			i--;
+		}
+	}
+	//deleting lawnmowers
+	for (int i = 0; i < mowers.size(); i++) {
+		if (mowers[i]->hitEdge() == true)
+		{
+			delete mowers[i];//deallocating memory
+			mowers[i] = NULL;
+			mowers.erase(mowers.begin() + i);//removing it from the vector
+			i--;
+			continue;
+		}
+		for (int j = 0; j < plants.size(); j++)
+		{//kill plants if they collide with a lawnmower
+			if (mowers[i]->checkCollision(plants[j]) == true) {
+				plants[j]->health = 0;
+			}
 		}
 	}
 	//deleting plants
@@ -483,16 +490,6 @@ void GameHandler::update(int time) {
 			i--;
 		}
 	}
-	//deleting lawnmowers
-	for (int i = 0; i < mowers.size(); i++) {
-		if (mowers[i]->hitEdge() == true)
-		{
-			delete mowers[i];//deallocating memory
-			mowers[i] = NULL;
-			mowers.erase(mowers.begin() + i);//removing it from the vector
-			i--;
-		}
-	}
 
 	/*for (int i = 0; i < suns.size(); i++)//update suns, unused for now
 	{
@@ -511,15 +508,6 @@ void GameHandler::update(int time) {
 
 	checkPause();
 }
-
-/*void GameHandler::collisions(Zombie zombie) {//**make this a function member of Sprite, a general checkCollision function: sprite1.checkCollision(sprite2);**
-//if zombie collides with plant
-if (zombie.endCollision()) {
-
-}// If Zombie collides with end, found in Zombie.cpp and Zombie.h
-//if zombie collides with bullet
-Bullet hitEdge(); //if bullet collides with end of map found in Bullet.h and Bullet.cpp
-}*/
 
 void GameHandler::checkPlantBuy(int time) {
 		if (Events::keyDown(Events::One)) {
@@ -792,10 +780,6 @@ void GameHandler::checkZombieSpawn(int time) {
 	if (time - previousIncreaseTime >= zombieIncreaseInterval) {
 		zombieInterval *= zombieIncreaseAmount;//spawn interval decreased by 20% every 35 seconds
 		previousIncreaseTime = time;
-		/*numSpawnIncreaseTracker++;
-		if (numSpawnIncreaseTracker % 2 == 0) {//every 2 increase intervals, increase number of zombies spawned
-			numSpawn++;
-		}*/
 	}
 	if (previousNumSpawnIncrease < 0) {
 		previousNumSpawnIncrease = time + numIncreaseDelay;// -numSpawnIncreaseInterval + 60000;//increase to two zombies after 60 seconds

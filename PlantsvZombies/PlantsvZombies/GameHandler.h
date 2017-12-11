@@ -44,7 +44,6 @@ public:
 	//void clearSuns();//unused for now
 
 	void update(int time);//updates the state of plants, zombies, bullets, and suns
-	//void collisions();
 	void checkPlantBuy(int time);
 	void placingPlant(int time);
 
@@ -126,7 +125,6 @@ public:
 	int numSpawnIncreaseInterval = 90000;//interval that number of zombies increases at
 	int previousNumSpawnIncrease = -1;//last time number of zombies increased
 	int numIncreaseDelay = 40000;
-	//int numSpawnIncreaseTracker = 0;//used to determine when to increase number of zombies to spawn
 	int startSpawningPylons;//time to start spawning pylon Zombies
 	int pylonSpawnRate = 6;//every x zombies, spawn a pylon zombie
 	int pylonSpawnIncrementor = pylonSpawnRate;//
